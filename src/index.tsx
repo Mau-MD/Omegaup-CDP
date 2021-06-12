@@ -1,13 +1,16 @@
-import { ColorModeScript } from "@chakra-ui/react"
-import * as React from "react"
-import ReactDOM from "react-dom"
-import { App } from "./App"
+import { ColorModeScript } from "@chakra-ui/react";
+import * as React from "react";
+import ReactDOM from "react-dom";
+import { App } from "./App";
+import { StoreProvider } from "easy-peasy";
+import store from "./Redux/Store";
 
 ReactDOM.render(
   <React.StrictMode>
-    <ColorModeScript />
-    <App />
+    <StoreProvider store={store}>
+      <ColorModeScript />
+      <App />
+    </StoreProvider>
   </React.StrictMode>,
-  document.getElementById("root"),
-)
-
+  document.getElementById("root")
+);

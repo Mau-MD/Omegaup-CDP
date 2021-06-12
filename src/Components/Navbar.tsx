@@ -1,6 +1,7 @@
 import * as React from "react";
-import { Box, Spacer, Flex, Image, Container } from "@chakra-ui/react";
+import { Box, Spacer, Flex, Image, Container, Tooltip } from "@chakra-ui/react";
 import { AiFillGithub } from "react-icons/ai";
+import { ColorModeSwitcher } from "../ColorModeSwitcher";
 
 const Navbar = () => {
   return (
@@ -14,8 +15,18 @@ const Navbar = () => {
             />
           </Box>
           <Spacer />
+          <Box mr={5}>
+            <ColorModeSwitcher />
+          </Box>
           <Box>
-            <AiFillGithub size={30} />
+            <Tooltip
+              label={"Colabora con nosotros en Github!"}
+              aria-label={"Colabora"}
+            >
+              <span>
+                <AiFillGithub size={25} />
+              </span>
+            </Tooltip>
           </Box>
         </Flex>
       </Container>
