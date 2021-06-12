@@ -3,6 +3,7 @@ import { ChakraProvider, theme } from "@chakra-ui/react";
 import { useStoreRehydrated } from "easy-peasy";
 import Navbar from "./Components/Navbar";
 import Header from "./Components/Header";
+import MainWindow from "./Components/MainWindow";
 
 export const App = () => {
   const isRehydrated = useStoreRehydrated();
@@ -15,6 +16,7 @@ export const App = () => {
         <>
           <Navbar />
           <Header />
+          <MainWindow />
         </>
       )}
     </ChakraProvider>
