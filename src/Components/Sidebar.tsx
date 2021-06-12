@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Box, Flex, Tooltip } from "@chakra-ui/react";
+
 import { BiCodeBlock } from "react-icons/bi";
 import { BsPencil } from "react-icons/bs";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
-
 const Sidebar = () => {
   return (
     <Flex
@@ -16,7 +16,7 @@ const Sidebar = () => {
       justify={"center"}
     >
       <Box my={2} color={"gray.500"} _hover={{ color: "black" }}>
-        <Tooltip label={"Codigo Solución"} placement={"right"}>
+        <Tooltip label={"Código Solución"} placement={"right"}>
           <span>
             <BiCodeBlock size={20} />
           </span>
