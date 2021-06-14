@@ -4,12 +4,13 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { BiCodeBlock as CodeIcon } from "react-icons/bi";
 import { BsPencil as EditIcon } from "react-icons/bs";
 import { IoMdCheckmarkCircleOutline as CheckIcon } from "react-icons/io";
+import CasesSidebar from "./Cases/CasesSidebar";
 
 const MainWindow = () => {
   return (
     <>
       <Container maxW={"container.lg"} mt={3} h={"80vh"} padding={"0"}>
-        <Tabs variant={"enclosed"} size={"sm"}>
+        <Tabs variant={"enclosed"} size={"sm"} isLazy={true}>
           <TabList>
             <Tab>
               <HStack>
@@ -31,8 +32,11 @@ const MainWindow = () => {
             </Tab>
           </TabList>
           <TabPanels>
-            <TabPanel></TabPanel>
-            <TabPanel></TabPanel>
+            <TabPanel>1</TabPanel>
+            <TabPanel>
+              <CasesSidebar />
+            </TabPanel>
+            <TabPanel>3</TabPanel>
           </TabPanels>
         </Tabs>
         {/*<Sidebar />*/}

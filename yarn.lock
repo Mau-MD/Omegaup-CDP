@@ -5103,11 +5103,6 @@ duplexify@^3.4.2, duplexify@^3.6.0:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-easy-peasy-decorators@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/easy-peasy-decorators/-/easy-peasy-decorators-0.2.1.tgz#ddadf0c02b9a0d54ab5e63cfbac0c2850d2ccc02"
-  integrity sha512-aLyp/vGHth8mZIAMg6aq5PGE5rBBI8LSBZivmqQocV3/VvWywmk6NOQGvrMfZp/9XUrAuLRjzC5Ds7ilbjndVA==
-
 easy-peasy@^5.0.3:
   version "5.0.3"
   resolved "https://registry.yarnpkg.com/easy-peasy/-/easy-peasy-5.0.3.tgz#a084f630193c8084065bb9de08ee4cc8317e7d40"
@@ -10089,6 +10084,11 @@ react-icons@^3.0.0:
   integrity sha512-JRgiI/vdF6uyBgyZhVyYJUZAop95Sy4XDe/jmT3R/bKliFWpO/uZBwvSjWEdxwzec7SYbEPNPck0Kff2tUGM2Q==
   dependencies:
     camelcase "^5.0.0"
+
+react-id-generator@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/react-id-generator/-/react-id-generator-3.0.1.tgz#30ec683954b3c0a5aa0732c4b98ed0f88fd85d00"
+  integrity sha512-YxorMaYxB8ItXA3Cuadcl/8ZaquU9Tzrrr5ogFL8tNqevF96cmCtx3LZLXYqBEj3BxoV9aBIK5yJjIuX/XHQ1A==
 
 react-is@^16.12.0, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"
