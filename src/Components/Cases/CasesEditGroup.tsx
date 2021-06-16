@@ -19,6 +19,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
+import { useStoreActions, useStoreState } from "../../Redux/Store";
 
 interface PropTypes {
   isOpen: boolean;
@@ -26,18 +27,32 @@ interface PropTypes {
   groupName: string;
 }
 
-const CasesEditGroup = ({ isOpen, onClose, groupName }: PropTypes) => {
-  const {
-    isOpen: isOpenEdit,
-    onOpen: onOpenEdit,
-    onClose: onCloseEdit,
-  } = useDisclosure();
+interface IData {
+  name: string;
+  points: number;
+}
 
-  function editCase() {
-    console.log("edited");
+const CasesEditGroup = ({ isOpen, onClose, groupName }: PropTypes) => {
+  const caseState = useStoreState((state) => state.cases.cases);
+  const updateState = useStoreActions((actions) => actions.cases.updateCase);
+
+  function editCase(data: IData) {
+    // Primero buscar el grupo principal y cambiarle de nombre a ese
+    updateState({
+      oldName: groupName,
+      newName: data.name,
+      points: data.points,
+    });
+    console.log("here");
+    onClose();
   }
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      name: `${groupName}`,
+      points: `-1`,
+    },
+  });
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>

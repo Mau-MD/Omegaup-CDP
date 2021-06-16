@@ -45,14 +45,13 @@ const CasesItem = ({ name, points }: PropTypes) => {
           }
         >
           <Badge colorScheme={"green"} size={"sm"}>
-            {50 + " pts"}
+            {points + " pts"}
           </Badge>
         </Tooltip>
         <Menu isLazy>
           <MenuButton as={IconButton} icon={<Dots />} size={"sm"} />
           <MenuList>
             <MenuItem fontSize={"sm"} onClick={onOpen}>
-              {" "}
               Editar Grupo
             </MenuItem>
             <MenuItem fontSize={"sm"}>Eliminar Grupo</MenuItem>

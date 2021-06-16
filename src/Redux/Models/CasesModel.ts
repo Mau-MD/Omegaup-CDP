@@ -15,14 +15,18 @@ interface Group {
   cases: CaseElement[];
 }
 
+interface IUpdate {
+  oldName: string;
+  newName: string;
+  points: number | undefined;
+}
+
 export interface ICasesModel {
   cases: Group[];
   addCase: Action<ICasesModel, CaseElement>;
   // removeCase: Action<ICasesModel, string>;
-  // updateCase: Action<ICasesModel, CaseElement>;
+  updateCase: Action<ICasesModel, IUpdate>;
 }
-
-// TODO Checar si ya existe el mismo caso en el grupo o nombre de grupo
 
 const CasesModel = <ICasesModel>{
   cases: [
@@ -55,6 +59,21 @@ const CasesModel = <ICasesModel>{
         cases: [payload],
       });
     }
+  }),
+  updateCase: action((state, payload) => {
+    // Itero por todos los grupos y busco el que quiero cambiar
+    state.cases.map((element) => {
+      if (element.name === payload.oldName) {
+        element.name = payload.newName; // Cambio el nombre del grupo
+        element.points = payload.points; // Cambio el puntaje del grupo
+        element.cases = element.cases.map((individualCase) => {
+          // Cambio el nombre de grupo de los hijos
+          individualCase.group = payload.newName;
+          return individualCase;
+        });
+      }
+      return element;
+    });
   }),
 };
 
