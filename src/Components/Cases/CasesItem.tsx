@@ -16,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { HiOutlineDotsVertical as Dots } from "react-icons/hi";
 import CasesEditGroup from "./CasesEditGroup";
+import CasesDeleteGroup from "./CasesDeleteGroup";
 
 interface PropTypes {
   name: string;
@@ -23,7 +24,16 @@ interface PropTypes {
 }
 const CasesItem = ({ name, points }: PropTypes) => {
   const borderColor = useColorModeValue("gray.200", "gray.600");
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenEdit,
+    onOpen: onOpenEdit,
+    onClose: onCloseEdit,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenRemove,
+    onOpen: onOpenRemove,
+    onClose: onCloseRemove,
+  } = useDisclosure();
 
   return (
     <Box my={2}>
@@ -51,15 +61,26 @@ const CasesItem = ({ name, points }: PropTypes) => {
         <Menu isLazy>
           <MenuButton as={IconButton} icon={<Dots />} size={"sm"} />
           <MenuList>
-            <MenuItem fontSize={"sm"} onClick={onOpen}>
+            <MenuItem fontSize={"sm"} onClick={onOpenEdit}>
               Editar Grupo
             </MenuItem>
-            <MenuItem fontSize={"sm"}>Eliminar Grupo</MenuItem>
+            <MenuItem fontSize={"sm"} onClick={onOpenRemove}>
+              Eliminar Grupo
+            </MenuItem>
           </MenuList>
         </Menu>
       </HStack>
       <Divider />
-      <CasesEditGroup isOpen={isOpen} onClose={onClose} groupName={name} />
+      <CasesEditGroup
+        isOpen={isOpenEdit}
+        onClose={onCloseEdit}
+        groupName={name}
+      />
+      <CasesDeleteGroup
+        isOpen={isOpenRemove}
+        onClose={onCloseRemove}
+        groupName={name}
+      />
     </Box>
   );
 };

@@ -16,7 +16,9 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  toast,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useStoreActions, useStoreState } from "../../Redux/Store";
@@ -36,8 +38,28 @@ const CasesEditGroup = ({ isOpen, onClose, groupName }: PropTypes) => {
   const caseState = useStoreState((state) => state.cases.cases);
   const updateState = useStoreActions((actions) => actions.cases.updateCase);
 
+  const toast = useToast();
+
   function editCase(data: IData) {
-    // Primero buscar el grupo principal y cambiarle de nombre a ese
+    // TODO verificar que no se duplique el nombre del grupo
+
+    let isValid = true;
+    caseState.forEach((group) => {
+      if (group.name === data.name) {
+        isValid = false;
+        return;
+      }
+    });
+
+    if (!isValid) {
+      toast({
+        title: "Nombre repetido",
+        description: "No puedes tener dos grupos con el mismo nombre",
+        status: "error",
+      });
+      return;
+    }
+
     updateState({
       oldName: groupName,
       newName: data.name,

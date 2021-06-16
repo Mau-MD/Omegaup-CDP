@@ -24,8 +24,8 @@ interface IUpdate {
 export interface ICasesModel {
   cases: Group[];
   addCase: Action<ICasesModel, CaseElement>;
-  // removeCase: Action<ICasesModel, string>;
   updateCase: Action<ICasesModel, IUpdate>;
+  removeCase: Action<ICasesModel, string>;
 }
 
 const CasesModel = <ICasesModel>{
@@ -73,6 +73,12 @@ const CasesModel = <ICasesModel>{
         });
       }
       return element;
+    });
+  }),
+  removeCase: action((state, payload) => {
+    state.cases = state.cases.filter((element) => {
+      // console.log(element.name + " " + payload);
+      return element.name !== payload;
     });
   }),
 };

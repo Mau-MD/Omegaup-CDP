@@ -41,7 +41,13 @@ const CasesAdd = ({ isOpen, onClose, title }: PropTypes) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      name: "",
+      group: "",
+      points: undefined,
+    },
+  });
 
   const toast = useToast();
 
