@@ -43,22 +43,22 @@ const CasesEditGroup = ({ isOpen, onClose, groupName }: PropTypes) => {
   function editCase(data: IData) {
     // TODO verificar que no se duplique el nombre del grupo
 
-    let isValid = true;
-    caseState.forEach((group) => {
-      if (group.name === data.name) {
-        isValid = false;
-        return;
-      }
-    });
-
-    if (!isValid) {
-      toast({
-        title: "Nombre repetido",
-        description: "No puedes tener dos grupos con el mismo nombre",
-        status: "error",
-      });
-      return;
-    }
+    // let isValid = true;
+    // caseState.forEach((group) => {
+    //   if (group.name === data.name) {
+    //     isValid = false;
+    //     return;
+    //   }
+    // });
+    //
+    // if (!isValid) {
+    //   toast({
+    //     title: "Nombre repetido",
+    //     description: "No puedes tener dos grupos con el mismo nombre",
+    //     status: "error",
+    //   });
+    //   return;
+    // }
 
     updateState({
       oldName: groupName,

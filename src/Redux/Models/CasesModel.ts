@@ -1,15 +1,18 @@
 import { action, Action } from "easy-peasy";
 
+// TODO Check if another group is trying to rename it to an existing name
+// TODO Change color depending if the point is defined
+// TODO Add points to modal
 interface CaseElement {
   name: string;
   group: string;
   arePointsDefined: boolean;
-  points: number | undefined;
+  points: number;
 }
 
 interface Group {
   name: string;
-  points: number | undefined;
+  points: number;
   pointsDefined: boolean;
   isMain: boolean;
   cases: CaseElement[];
@@ -18,26 +21,50 @@ interface Group {
 interface IUpdate {
   oldName: string;
   newName: string;
-  points: number | undefined;
+  points: number;
 }
 
 export interface ICasesModel {
   cases: Group[];
+  availablePoints: number;
   addCase: Action<ICasesModel, CaseElement>;
   updateCase: Action<ICasesModel, IUpdate>;
   removeCase: Action<ICasesModel, string>;
+}
+
+function calculatePoints(cases: Group[]): Group[] {
+  let availablePoints = 100;
+
+  let groupsWithoutPointsDefined = 0;
+
+  cases.forEach((element) => {
+    if (element.pointsDefined) {
+      availablePoints -= element.points;
+    } else {
+      groupsWithoutPointsDefined += 1;
+    }
+  });
+
+  let fractionalPoints = availablePoints / groupsWithoutPointsDefined;
+  return cases.map((element) => {
+    if (!element.pointsDefined) {
+      element.points = fractionalPoints;
+    }
+    return element;
+  });
 }
 
 const CasesModel = <ICasesModel>{
   cases: [
     {
       name: "mainGroup",
-      points: undefined,
+      points: 0,
       isMain: true,
       pointsDefined: false,
       cases: [],
     },
   ],
+  availablePoints: 100,
   addCase: action((state, payload) => {
     const groupToSearch = payload.group;
     let groupFound = false;
@@ -53,19 +80,45 @@ const CasesModel = <ICasesModel>{
     if (!groupFound) {
       state.cases.push({
         name: groupToSearch,
-        points: undefined,
+        points: 0,
         isMain: false,
         pointsDefined: false,
         cases: [payload],
       });
     }
+
+    // Calculate Available Points
+
+    state.cases = calculatePoints(state.cases);
+    // state.availablePoints = 100;
+    //
+    // let groupsWithoutPointsDefined = 0;
+    // state.cases.forEach((element) => {
+    //   if (element.pointsDefined) {
+    //     state.availablePoints -= element.points;
+    //   } else {
+    //     groupsWithoutPointsDefined += 1;
+    //   }
+    // });
+    //
+    // let fractionalPoints = state.availablePoints / groupsWithoutPointsDefined;
+    // state.cases.map((element) => {
+    //   if (!element.pointsDefined) {
+    //     element.points = fractionalPoints;
+    //   }
+    //   return element;
+    // });
   }),
+
   updateCase: action((state, payload) => {
     // Itero por todos los grupos y busco el que quiero cambiar
     state.cases.map((element) => {
       if (element.name === payload.oldName) {
         element.name = payload.newName; // Cambio el nombre del grupo
-        element.points = payload.points; // Cambio el puntaje del grupo
+        if (payload.points !== 0) {
+          element.pointsDefined = true;
+          element.points = payload.points; // Cambio el puntaje del grupo
+        }
         element.cases = element.cases.map((individualCase) => {
           // Cambio el nombre de grupo de los hijos
           individualCase.group = payload.newName;
@@ -74,12 +127,14 @@ const CasesModel = <ICasesModel>{
       }
       return element;
     });
+    state.cases = calculatePoints(state.cases);
   }),
   removeCase: action((state, payload) => {
     state.cases = state.cases.filter((element) => {
       // console.log(element.name + " " + payload);
       return element.name !== payload;
     });
+    state.cases = calculatePoints(state.cases);
   }),
 };
 

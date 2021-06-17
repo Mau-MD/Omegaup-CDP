@@ -55,7 +55,7 @@ const CasesItem = ({ name, points }: PropTypes) => {
           }
         >
           <Badge colorScheme={"green"} size={"sm"}>
-            {points + " pts"}
+            {parseFloat("" + points).toFixed(2) + " pts"}
           </Badge>
         </Tooltip>
         <Menu isLazy>
