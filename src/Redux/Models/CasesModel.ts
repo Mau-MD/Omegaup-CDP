@@ -22,6 +22,7 @@ interface IUpdate {
   oldName: string;
   newName: string;
   points: number;
+  pointsDefined: boolean;
 }
 
 export interface ICasesModel {
@@ -115,10 +116,8 @@ const CasesModel = <ICasesModel>{
     state.cases.map((element) => {
       if (element.name === payload.oldName) {
         element.name = payload.newName; // Cambio el nombre del grupo
-        if (payload.points !== 0) {
-          element.pointsDefined = true;
-          element.points = payload.points; // Cambio el puntaje del grupo
-        }
+        element.points = payload.points; // Cambio el puntaje del grupo
+        element.pointsDefined = payload.pointsDefined;
         element.cases = element.cases.map((individualCase) => {
           // Cambio el nombre de grupo de los hijos
           individualCase.group = payload.newName;

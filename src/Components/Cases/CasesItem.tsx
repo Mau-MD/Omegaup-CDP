@@ -90,6 +90,8 @@ const CasesItem = ({ name, points, arePointsDefined }: PropTypes) => {
         isOpen={isOpenEdit}
         onClose={onCloseEdit}
         groupName={name}
+        groupPoints={points}
+        pointsDefined={arePointsDefined}
       />
       <CasesDeleteGroup
         isOpen={isOpenRemove}
