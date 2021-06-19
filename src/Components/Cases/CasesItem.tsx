@@ -17,23 +17,30 @@ import {
 import { HiOutlineDotsVertical as Dots } from "react-icons/hi";
 import CasesEditGroup from "./CasesEditGroup";
 import CasesDeleteGroup from "./CasesDeleteGroup";
+import { useMediaPredicate } from "react-media-hook";
+import styled from "styled-components";
 
 interface PropTypes {
   name: string;
-  points: number | undefined;
+  points: number;
+  arePointsDefined: boolean;
 }
-const CasesItem = ({ name, points }: PropTypes) => {
+const CasesItem = ({ name, points, arePointsDefined }: PropTypes) => {
   const borderColor = useColorModeValue("gray.200", "gray.600");
+
   const {
     isOpen: isOpenEdit,
     onOpen: onOpenEdit,
     onClose: onCloseEdit,
   } = useDisclosure();
+
   const {
     isOpen: isOpenRemove,
     onOpen: onOpenRemove,
     onClose: onCloseRemove,
   } = useDisclosure();
+
+  const isLargeScreen = useMediaPredicate("(min-width: 830px)");
 
   return (
     <Box my={2}>
@@ -54,12 +61,20 @@ const CasesItem = ({ name, points }: PropTypes) => {
             "Estos serán los puntos que obtendrá el usuario si resuelve correctamente el grupo"
           }
         >
-          <Badge colorScheme={"green"} size={"sm"}>
-            {parseFloat("" + points).toFixed(2) + " pts"}
+          <Badge colorScheme={arePointsDefined ? "green" : "blue"} size={"sm"}>
+            {isLargeScreen ? (
+              <span> {parseFloat("" + points).toFixed(2) + " pts"}</span>
+            ) : (
+              <span>{Math.round(points)} </span>
+            )}
           </Badge>
         </Tooltip>
         <Menu isLazy>
-          <MenuButton as={IconButton} icon={<Dots />} size={"sm"} />
+          {isLargeScreen ? (
+            <MenuButton as={IconButton} icon={<Dots />} size={"sm"} />
+          ) : (
+            <MenuButton as={MenuFullButton} size={"sm"} />
+          )}
           <MenuList>
             <MenuItem fontSize={"sm"} onClick={onOpenEdit}>
               Editar Grupo
@@ -84,5 +99,12 @@ const CasesItem = ({ name, points }: PropTypes) => {
     </Box>
   );
 };
+
+const MenuFullButton = styled.div`
+  //background-color: black;
+  position: absolute;
+  width: 20%;
+  height: 30px;
+`;
 
 export default CasesItem;

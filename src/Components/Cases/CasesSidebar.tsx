@@ -13,8 +13,7 @@ import {
 import { motion } from "framer-motion";
 import CasesAdd from "./CasesAdd";
 import CasesNavigation from "./CasesNavigation";
-import CasesEditGroup from "./CasesEditGroup";
-
+import { useMediaPredicate } from "react-media-hook";
 const CasesSidebar = () => {
   const divBorderColor = useColorModeValue("gray.200", "gray.600");
 
@@ -23,6 +22,8 @@ const CasesSidebar = () => {
     onOpen: onOpenAdd,
     onClose: onCloseAdd,
   } = useDisclosure();
+
+  const isLargeScreen = useMediaPredicate("(min-width: 830px)");
 
   return (
     <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }}>
@@ -38,20 +39,14 @@ const CasesSidebar = () => {
               Grupos
             </Text>
             <Spacer />
-            <Button
-              size={"sm"}
-              colorScheme={"green"}
-              // isFullWidth={true}
-              onClick={onOpenAdd}
-            >
-              Agregar Caso
+            <Button size={"sm"} colorScheme={"green"} onClick={onOpenAdd}>
+              {isLargeScreen ? <p> Agregar Caso</p> : <p> + </p>}
             </Button>
             <CasesAdd
               isOpen={isOpenAdd}
               onClose={onCloseAdd}
               title={"Agregar Problema"}
             />
-            <CasesEditGroup />
           </Flex>
           <Divider />
           <CasesNavigation />

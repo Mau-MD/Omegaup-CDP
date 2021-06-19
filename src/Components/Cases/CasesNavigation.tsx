@@ -9,7 +9,11 @@ const CasesNavigation = () => {
   return (
     <Box mt={2} overflow={"hidden" + ""}>
       {caseState.map((group) => (
-        <CasesItem name={group.name} points={group.points} />
+        <CasesItem
+          name={group.name}
+          points={group.points}
+          arePointsDefined={group.pointsDefined}
+        />
       ))}
     </Box>
   );
