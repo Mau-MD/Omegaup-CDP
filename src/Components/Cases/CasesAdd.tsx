@@ -31,7 +31,7 @@ interface PropTypes {
 interface ICase {
   name: string;
   group: string;
-  points: number | undefined;
+  points: number;
 }
 
 const CasesAdd = ({ isOpen, onClose, title }: PropTypes) => {
