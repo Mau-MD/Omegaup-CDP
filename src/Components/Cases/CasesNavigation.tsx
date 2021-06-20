@@ -13,6 +13,7 @@ const CasesNavigation = () => {
           name={group.name}
           points={group.points}
           arePointsDefined={group.pointsDefined}
+          key={group.name}
         />
       ))}
     </Box>

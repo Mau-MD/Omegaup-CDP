@@ -1,25 +1,25 @@
 import * as React from "react";
+import { useRef, useState } from "react";
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Button,
-  Input,
-  FormControl,
-  FormLabel,
   Alert,
+  AlertDescription,
   AlertIcon,
   AlertTitle,
-  AlertDescription,
+  Button,
+  FormControl,
   FormHelperText,
+  FormLabel,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   useToast,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
 import { useStoreActions, useStoreState } from "../../Redux/Store";
 
 interface PropTypes {
@@ -36,6 +36,7 @@ interface ICase {
 
 const CasesAdd = ({ isOpen, onClose, title }: PropTypes) => {
   const [isGroup, setIsGroup] = useState(false);
+  const groupRef = useRef<HTMLInputElement>(null);
 
   const {
     register,
@@ -55,8 +56,8 @@ const CasesAdd = ({ isOpen, onClose, title }: PropTypes) => {
   const caseState = useStoreState((state) => state.cases.cases);
 
   function createCase(data: ICase) {
-    console.log(data);
-
+    const { current } = groupRef;
+    data.group = current ? current.value : "";
     data.group = data.group === "" ? "mainGroup" : data.group;
 
     let invalid = false;
@@ -123,7 +124,11 @@ const CasesAdd = ({ isOpen, onClose, title }: PropTypes) => {
             </FormControl>
             <FormControl mt={4}>
               <FormLabel> Nombre del grupo</FormLabel>
-              <Input {...register("group")} onChange={checkIfGroup} />
+              <Input
+                {...register("group")}
+                onChange={checkIfGroup}
+                ref={groupRef}
+              />
             </FormControl>
             <FormControl mt={4} isDisabled={isGroup}>
               <FormLabel> Puntaje del caso (opcional)</FormLabel>

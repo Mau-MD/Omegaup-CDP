@@ -39,8 +39,6 @@ const CasesGroupItem = ({ name, points, arePointsDefined }: PropTypes) => {
     return state.cases.cases.find((value) => value.name === name);
   });
 
-  console.log(caseState);
-
   const {
     isOpen: isOpenEdit,
     onOpen: onOpenEdit,
@@ -125,13 +123,13 @@ const CasesGroupItem = ({ name, points, arePointsDefined }: PropTypes) => {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               style={{ display: "inline-block" }}
+              key={element.name + element.group}
             >
               <CasesCaseItem
                 caseName={element.name}
                 groupName={element.group}
                 pointsDefined={element.arePointsDefined}
                 points={element.points}
-                key={element.name + element.group}
               />
             </motion.div>
           ))}

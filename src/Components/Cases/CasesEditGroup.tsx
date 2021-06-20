@@ -23,7 +23,7 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useStoreActions, useStoreState } from "../../Redux/Store";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 interface PropTypes {
   isOpen: boolean;
@@ -47,6 +47,8 @@ const CasesEditGroup = ({
 }: PropTypes) => {
   const [automaticPoints, setAutomaticPoints] = useState(!pointsDefined);
 
+  const pointsRef = useRef<HTMLInputElement>(null);
+
   const caseState = useStoreState((state) => state.cases.cases);
   const updateState = useStoreActions((actions) => actions.cases.updateCase);
 
@@ -64,7 +66,9 @@ const CasesEditGroup = ({
   }
 
   function editCase(data: IData) {
-    // TODO verificar que no se duplique el nombre del grupo
+    const { current } = pointsRef;
+    data.points = current ? parseInt(current.value) : 0;
+
     let isValid = true;
 
     if (data.name !== groupName) {
@@ -113,6 +117,7 @@ const CasesEditGroup = ({
               <Input
                 type={"number"}
                 {...register("points", { min: 0, max: 100 })}
+                ref={pointsRef}
               />
               {automaticPoints && (
                 <FormHelperText>
