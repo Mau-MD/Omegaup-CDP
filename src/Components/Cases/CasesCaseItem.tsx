@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Box, Button } from "@chakra-ui/react";
+import { Badge, Box, Button, HStack } from "@chakra-ui/react";
 
 interface PropTypes {
   groupName: string;
@@ -15,7 +15,10 @@ const CasesCaseItem = ({
 }: PropTypes) => {
   return (
     <Button variant={"ghost"} size={"sm"}>
-      {caseName}
+      <HStack>
+        <span>{caseName}</span>
+        {pointsDefined && <Badge> {points}</Badge>}
+      </HStack>
     </Button>
   );
 };
