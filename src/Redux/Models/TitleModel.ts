@@ -6,7 +6,7 @@ export interface ITitleModel {
 }
 
 const TitleModel = <ITitleModel>{
-  titleName: "hola",
+  titleName: "Nuevo Problema",
   setTitleName: action((state, payload) => {
     state.titleName = payload;
   }),
