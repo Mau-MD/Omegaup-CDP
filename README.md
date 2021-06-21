@@ -4,7 +4,7 @@ El creador de problemas es una interfaz visual sencilla de utilizar, la cual eli
 permite al usuario centrarse en simplemente rellenar lo que necesita. Esto facilita el proceso de crear problemas dentro
 de Omegaup.
 
-Puedes ver el progreso [aquí](https://mau-md.github.io/Omegaup-Creador-de-Problemas/)
+Puedes ver el progreso [aquí](https://mau-md.github.io/Omegaup-CDP/)
 
 ### Features planeadas
 
