@@ -34,20 +34,41 @@ export interface ICasesModel {
 }
 
 function calculatePoints(cases: Group[]): Group[] {
-  let availablePoints = 100;
+  var availablePoints = 100;
 
-  let groupsWithoutPointsDefined = 0;
+  var groupsWithoutPointsDefined = 0;
 
   cases.forEach((element) => {
-    if (element.pointsDefined) {
-      availablePoints -= element.points;
+    if (element.name === "mainGroup") {
+      element.cases.forEach((groupCase) => {
+        // Los que esten en el grupo principal deben ser contados como individuales tambien!!data.points
+        console.log(groupCase);
+        if (groupCase.arePointsDefined) {
+          availablePoints -= groupCase.points;
+        } else {
+          groupsWithoutPointsDefined += 1;
+        }
+      });
     } else {
-      groupsWithoutPointsDefined += 1;
+      if (element.pointsDefined) {
+        availablePoints -= element.points;
+      } else {
+        groupsWithoutPointsDefined += 1;
+      }
     }
   });
 
+  console.log("group: " + groupsWithoutPointsDefined + " " + availablePoints);
   let fractionalPoints = availablePoints / groupsWithoutPointsDefined;
   return cases.map((element) => {
+    if (element.name === "mainGroup") {
+      element.cases = element.cases.map((groupCase) => {
+        if (!groupCase.arePointsDefined) {
+          groupCase.points = fractionalPoints;
+        }
+        return groupCase;
+      });
+    }
     if (!element.pointsDefined) {
       element.points = fractionalPoints;
     }

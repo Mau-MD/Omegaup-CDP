@@ -6,18 +6,24 @@ interface PropTypes {
   caseName: string;
   pointsDefined: boolean;
   points: number;
+  shouldShowPoints: boolean;
 }
 const CasesCaseItem = ({
   groupName,
   caseName,
   pointsDefined,
   points,
+  shouldShowPoints,
 }: PropTypes) => {
   return (
     <Button variant={"ghost"} size={"sm"}>
       <HStack>
         <span>{caseName}</span>
-        {pointsDefined && <Badge> {points}</Badge>}
+        {shouldShowPoints && (
+          <Badge colorScheme={pointsDefined ? "green" : "blue"}>
+            {points + " PTS"}
+          </Badge>
+        )}
       </HStack>
     </Button>
   );

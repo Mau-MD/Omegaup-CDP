@@ -82,11 +82,12 @@ const CasesAdd = ({ isOpen, onClose, title }: PropTypes) => {
       return;
     }
 
+    console.log("points " + data.points);
     addCase({
       name: data.name,
       group: data.group,
-      arePointsDefined: !!data.points,
-      points: data.points,
+      arePointsDefined: data.points ? true : false,
+      points: data.points ? data.points : 0,
     });
 
     toast({

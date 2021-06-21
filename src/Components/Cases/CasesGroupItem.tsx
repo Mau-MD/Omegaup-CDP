@@ -69,37 +69,42 @@ const CasesGroupItem = ({ name, points, arePointsDefined }: PropTypes) => {
         >
           <Box>{name}</Box>
           <Spacer />
-          <Tooltip
-            label={
-              "Estos serán los puntos que obtendrá el usuario si resuelve correctamente el grupo"
-            }
-          >
-            <Badge
-              colorScheme={arePointsDefined ? "green" : "blue"}
-              size={"sm"}
-            >
-              {isLargeScreen ? (
-                <span> {parseFloat("" + points).toFixed(2) + " pts"}</span>
-              ) : (
-                <span>{Math.round(points)} </span>
-              )}
-            </Badge>
-          </Tooltip>
-          <Menu isLazy>
-            {isLargeScreen ? (
-              <MenuButton as={IconButton} icon={<Dots />} size={"sm"} />
-            ) : (
-              <MenuButton as={MenuFullButton} size={"sm"} />
-            )}
-            <MenuList>
-              <MenuItem fontSize={"sm"} onClick={onOpenEdit}>
-                Editar Grupo
-              </MenuItem>
-              <MenuItem fontSize={"sm"} onClick={onOpenRemove}>
-                Eliminar Grupo
-              </MenuItem>
-            </MenuList>
-          </Menu>
+          {name !== "mainGroup" && (
+            <>
+              <Tooltip
+                label={
+                  "Estos serán los puntos que obtendrá el usuario si resuelve correctamente el grupo"
+                }
+              >
+                <Badge
+                  colorScheme={arePointsDefined ? "green" : "blue"}
+                  size={"sm"}
+                >
+                  {isLargeScreen ? (
+                    <span> {parseFloat("" + points).toFixed(2) + " pts"}</span>
+                  ) : (
+                    <span>{Math.round(points)} </span>
+                  )}
+                </Badge>
+              </Tooltip>
+
+              <Menu isLazy>
+                {isLargeScreen ? (
+                  <MenuButton as={IconButton} icon={<Dots />} size={"sm"} />
+                ) : (
+                  <MenuButton as={MenuFullButton} size={"sm"} />
+                )}
+                <MenuList>
+                  <MenuItem fontSize={"sm"} onClick={onOpenEdit}>
+                    Editar Grupo
+                  </MenuItem>
+                  <MenuItem fontSize={"sm"} onClick={onOpenRemove}>
+                    Eliminar Grupo
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            </>
+          )}
         </HStack>
         <Divider />
         <CasesEditGroup
@@ -130,6 +135,7 @@ const CasesGroupItem = ({ name, points, arePointsDefined }: PropTypes) => {
                 groupName={element.group}
                 pointsDefined={element.arePointsDefined}
                 points={element.points}
+                shouldShowPoints={name === "mainGroup"}
               />
             </motion.div>
           ))}
