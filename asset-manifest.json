@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.js": "/Omegaup-Creador-de-Problemas/static/js/main.f74d13f7.chunk.js",
-    "main.js.map": "/Omegaup-Creador-de-Problemas/static/js/main.f74d13f7.chunk.js.map",
-    "runtime-main.js": "/Omegaup-Creador-de-Problemas/static/js/runtime-main.4b4b02c2.js",
-    "runtime-main.js.map": "/Omegaup-Creador-de-Problemas/static/js/runtime-main.4b4b02c2.js.map",
-    "static/js/2.0f14d8e0.chunk.js": "/Omegaup-Creador-de-Problemas/static/js/2.0f14d8e0.chunk.js",
-    "static/js/2.0f14d8e0.chunk.js.map": "/Omegaup-Creador-de-Problemas/static/js/2.0f14d8e0.chunk.js.map",
-    "index.html": "/Omegaup-Creador-de-Problemas/index.html",
-    "static/js/2.0f14d8e0.chunk.js.LICENSE.txt": "/Omegaup-Creador-de-Problemas/static/js/2.0f14d8e0.chunk.js.LICENSE.txt"
+    "main.js": "/Omegaup-CDP/static/js/main.f74d13f7.chunk.js",
+    "main.js.map": "/Omegaup-CDP/static/js/main.f74d13f7.chunk.js.map",
+    "runtime-main.js": "/Omegaup-CDP/static/js/runtime-main.66fdfa16.js",
+    "runtime-main.js.map": "/Omegaup-CDP/static/js/runtime-main.66fdfa16.js.map",
+    "static/js/2.194d85bf.chunk.js": "/Omegaup-CDP/static/js/2.194d85bf.chunk.js",
+    "static/js/2.194d85bf.chunk.js.map": "/Omegaup-CDP/static/js/2.194d85bf.chunk.js.map",
+    "index.html": "/Omegaup-CDP/index.html",
+    "static/js/2.194d85bf.chunk.js.LICENSE.txt": "/Omegaup-CDP/static/js/2.194d85bf.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.4b4b02c2.js",
-    "static/js/2.0f14d8e0.chunk.js",
+    "static/js/runtime-main.66fdfa16.js",
+    "static/js/2.194d85bf.chunk.js",
     "static/js/main.f74d13f7.chunk.js"
   ]
 }
