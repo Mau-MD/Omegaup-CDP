@@ -67,7 +67,7 @@ const CasesGroupItem = ({ name, points, arePointsDefined }: PropTypes) => {
           }}
           onClick={() => setShowCases(!showCases)}
         >
-          <Box>{name}</Box>
+          <Box>{name === "mainGroup" ? "Sin Grupo" : name}</Box>
           <Spacer />
           {name !== "mainGroup" && (
             <>
