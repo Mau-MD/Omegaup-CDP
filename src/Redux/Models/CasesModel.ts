@@ -91,10 +91,16 @@ const CasesModel = <ICasesModel>{
     const groupToSearch = payload.group;
     let groupFound = false;
 
+    console.log("searching");
     state.cases.map((element) => {
       if (element.name === groupToSearch) {
         element.cases.push(payload);
         groupFound = true;
+        element.cases.sort((a, b) => {
+          if (a.name < b.name) return -1;
+          else if (a.name === b.name) return 0;
+          else return 1;
+        });
       }
       return element;
     });
@@ -112,24 +118,6 @@ const CasesModel = <ICasesModel>{
     // Calculate Available Points
 
     state.cases = calculatePoints(state.cases);
-    // state.availablePoints = 100;
-    //
-    // let groupsWithoutPointsDefined = 0;
-    // state.cases.forEach((element) => {
-    //   if (element.pointsDefined) {
-    //     state.availablePoints -= element.points;
-    //   } else {
-    //     groupsWithoutPointsDefined += 1;
-    //   }
-    // });
-    //
-    // let fractionalPoints = state.availablePoints / groupsWithoutPointsDefined;
-    // state.cases.map((element) => {
-    //   if (!element.pointsDefined) {
-    //     element.points = fractionalPoints;
-    //   }
-    //   return element;
-    // });
   }),
 
   updateCase: action((state, payload) => {
@@ -148,7 +136,9 @@ const CasesModel = <ICasesModel>{
       return element;
     });
     state.cases = calculatePoints(state.cases);
+    state.cases.sort();
   }),
+
   removeCase: action((state, payload) => {
     state.cases = state.cases.filter((element) => {
       // console.log(element.name + " " + payload);

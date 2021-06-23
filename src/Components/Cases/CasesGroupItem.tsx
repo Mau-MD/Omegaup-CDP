@@ -25,12 +25,14 @@ import CasesCaseItem from "./CasesCaseItem";
 import { useStoreState } from "../../Redux/Store";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 interface PropTypes {
   name: string;
   points: number;
   arePointsDefined: boolean;
 }
+
 const CasesGroupItem = ({ name, points, arePointsDefined }: PropTypes) => {
   const [showCases, setShowCases] = useState(false);
 
@@ -127,7 +129,6 @@ const CasesGroupItem = ({ name, points, arePointsDefined }: PropTypes) => {
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              style={{ display: "inline-block" }}
               key={element.name + element.group}
             >
               <CasesCaseItem
