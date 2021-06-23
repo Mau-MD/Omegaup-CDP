@@ -55,6 +55,13 @@ const CasesGroupItem = ({ name, points, arePointsDefined }: PropTypes) => {
 
   const isLargeScreen = useMediaPredicate("(min-width: 830px)");
 
+  function handleCasesToggleClick(event: React.MouseEvent<HTMLDivElement>) {
+    let percentage =
+      ((event.pageX - event.currentTarget.offsetLeft) * 100) /
+      event.currentTarget.clientWidth;
+    if (percentage < 80) setShowCases(!showCases);
+  }
+
   return (
     <Flex direction={"column"}>
       <Box my={2}>
@@ -67,7 +74,7 @@ const CasesGroupItem = ({ name, points, arePointsDefined }: PropTypes) => {
             borderColor: `${borderColor}`,
             paddingLeft: "5px",
           }}
-          onClick={() => setShowCases(!showCases)}
+          onClick={(event) => handleCasesToggleClick(event)}
         >
           <Box>{name === "mainGroup" ? "Sin Grupo" : name}</Box>
           <Spacer />
@@ -91,11 +98,12 @@ const CasesGroupItem = ({ name, points, arePointsDefined }: PropTypes) => {
               </Tooltip>
 
               <Menu isLazy>
-                {isLargeScreen ? (
-                  <MenuButton as={IconButton} icon={<Dots />} size={"sm"} />
-                ) : (
-                  <MenuButton as={MenuFullButton} size={"sm"} />
-                )}
+                <MenuButton
+                  as={IconButton}
+                  icon={<Dots />}
+                  size={"sm"}
+                  syle={{ zIndex: 99 }}
+                />
                 <MenuList>
                   <MenuItem fontSize={"sm"} onClick={onOpenEdit}>
                     Editar Grupo
@@ -129,6 +137,7 @@ const CasesGroupItem = ({ name, points, arePointsDefined }: PropTypes) => {
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
+              style={{ display: "inline-block" }}
               key={element.name + element.group}
             >
               <CasesCaseItem
