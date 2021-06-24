@@ -14,18 +14,15 @@ import {
   useColorModeValue,
   useDisclosure,
   Flex,
-  Button,
 } from "@chakra-ui/react";
 import { HiOutlineDotsVertical as Dots } from "react-icons/hi";
 import CasesEditGroup from "./CasesEditGroup";
 import CasesDeleteGroup from "./CasesDeleteGroup";
 import { useMediaPredicate } from "react-media-hook";
-import styled from "styled-components";
 import CasesCaseItem from "./CasesCaseItem";
 import { useStoreState } from "../../Redux/Store";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 interface PropTypes {
   name: string;
@@ -153,12 +150,5 @@ const CasesGroupItem = ({ name, points, arePointsDefined }: PropTypes) => {
     </Flex>
   );
 };
-
-const MenuFullButton = styled.div`
-  //background-color: black;
-  position: absolute;
-  width: 20%;
-  height: 30px;
-`;
 
 export default CasesGroupItem;

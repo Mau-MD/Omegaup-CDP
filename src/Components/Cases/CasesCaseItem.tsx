@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Badge, Box, Button, HStack } from "@chakra-ui/react";
+import { Badge, Button, HStack } from "@chakra-ui/react";
 
 interface PropTypes {
   groupName: string;

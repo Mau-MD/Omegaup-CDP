@@ -103,10 +103,6 @@ const CasesAdd = ({ isOpen, onClose, title }: PropTypes) => {
     event.target.value !== "" ? setIsGroup(true) : setIsGroup(false);
   }
 
-  function checkWhitespaces(inputToCheck: string): boolean {
-    return !inputToCheck.includes(" ");
-  }
-
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />

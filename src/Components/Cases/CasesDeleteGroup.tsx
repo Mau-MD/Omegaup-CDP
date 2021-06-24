@@ -1,14 +1,6 @@
 import * as React from "react";
 import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  AlertTitle,
   Button,
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -16,22 +8,14 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  toast,
-  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
-import { useStoreActions, useStoreState } from "../../Redux/Store";
+import { useStoreActions } from "../../Redux/Store";
 
 interface PropTypes {
   isOpen: boolean;
   onClose: () => void;
   groupName: string;
-}
-
-interface IData {
-  name: string;
-  points: number;
 }
 
 const CasesDeleteGroup = ({ isOpen, onClose, groupName }: PropTypes) => {
