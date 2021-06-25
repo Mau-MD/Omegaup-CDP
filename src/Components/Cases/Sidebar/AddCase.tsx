@@ -20,7 +20,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { useStoreActions, useStoreState } from "../../Redux/Store";
+import { useStoreActions, useStoreState } from "../../../Redux/Store";
 
 interface PropTypes {
   isOpen: boolean;
@@ -34,7 +34,7 @@ interface ICase {
   points: number;
 }
 
-const CasesAdd = ({ isOpen, onClose, title }: PropTypes) => {
+const AddCase = ({ isOpen, onClose, title }: PropTypes) => {
   const [isGroup, setIsGroup] = useState(false);
   const groupRef = useRef<HTMLInputElement>(null);
 
@@ -83,11 +83,12 @@ const CasesAdd = ({ isOpen, onClose, title }: PropTypes) => {
     }
 
     console.log("points " + data.points);
+    // @ts-ignore
     addCase({
       name: data.name,
       group: data.group,
       arePointsDefined: data.points ? true : false,
-      points: data.points ? data.points : 0,
+      points: data.points ? parseFloat(data.points) : 0,
     });
 
     toast({
@@ -164,4 +165,4 @@ const CasesAdd = ({ isOpen, onClose, title }: PropTypes) => {
   );
 };
 
-export default CasesAdd;
+export default AddCase;

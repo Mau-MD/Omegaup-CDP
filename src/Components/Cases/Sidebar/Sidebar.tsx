@@ -10,10 +10,10 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import CasesAdd from "./CasesAdd";
-import CasesNavigation from "./CasesNavigation";
+import AddCase from "./AddCase";
+import Navigation from "./Navigation";
 import { useMediaPredicate } from "react-media-hook";
-const CasesSidebar = () => {
+const Sidebar = () => {
   const divBorderColor = useColorModeValue("gray.200", "gray.600");
 
   const {
@@ -27,7 +27,7 @@ const CasesSidebar = () => {
   return (
     <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }}>
       <Box
-        w={"30%"}
+        w={"100%"}
         h={"75vh"}
         borderRight={"1px"}
         borderColor={divBorderColor}
@@ -41,18 +41,18 @@ const CasesSidebar = () => {
             <Button size={"sm"} colorScheme={"green"} onClick={onOpenAdd}>
               {isLargeScreen ? <p> Agregar Caso</p> : <p> + </p>}
             </Button>
-            <CasesAdd
+            <AddCase
               isOpen={isOpenAdd}
               onClose={onCloseAdd}
               title={"Agregar Problema"}
             />
           </Flex>
           <Divider />
-          <CasesNavigation />
+          <Navigation />
         </Box>
       </Box>
     </motion.div>
   );
 };
 
-export default CasesSidebar;
+export default Sidebar;

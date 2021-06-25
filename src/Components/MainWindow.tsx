@@ -4,7 +4,8 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { BiCodeBlock as CodeIcon } from "react-icons/bi";
 import { BsPencil as EditIcon } from "react-icons/bs";
 import { IoMdCheckmarkCircleOutline as CheckIcon } from "react-icons/io";
-import CasesSidebar from "./Cases/CasesSidebar";
+import Sidebar from "./Cases/Sidebar/Sidebar";
+import Main from "./Cases/Main";
 
 const MainWindow = () => {
   return (
@@ -34,7 +35,7 @@ const MainWindow = () => {
           <TabPanels>
             <TabPanel>1</TabPanel>
             <TabPanel>
-              <CasesSidebar />
+              <Main />
             </TabPanel>
             <TabPanel>3</TabPanel>
           </TabPanels>

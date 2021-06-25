@@ -1,15 +1,15 @@
 import * as React from "react";
-import { useStoreState } from "../../Redux/Store";
+import { useStoreState } from "../../../Redux/Store";
 import { Box } from "@chakra-ui/react";
-import CasesGroupItem from "./CasesGroupItem";
+import GroupItem from "./GroupItem";
 
-const CasesNavigation = () => {
+const Navigation = () => {
   const caseState = useStoreState((state) => state.cases.cases);
 
   return (
     <Box mt={2}>
       {caseState.map((group) => (
-        <CasesGroupItem
+        <GroupItem
           name={group.name}
           points={group.points}
           arePointsDefined={group.pointsDefined}
@@ -20,4 +20,4 @@ const CasesNavigation = () => {
   );
 };
 
-export default CasesNavigation;
+export default Navigation;

@@ -16,7 +16,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { useStoreActions, useStoreState } from "../../Redux/Store";
+import { useStoreActions, useStoreState } from "../../../Redux/Store";
 import { useRef, useState } from "react";
 
 interface PropTypes {
@@ -32,7 +32,7 @@ interface IData {
   points: number;
 }
 
-const CasesEditGroup = ({
+const EditGroup = ({
   isOpen,
   onClose,
   groupName,
@@ -142,4 +142,4 @@ const CasesEditGroup = ({
   );
 };
 
-export default CasesEditGroup;
+export default EditGroup;

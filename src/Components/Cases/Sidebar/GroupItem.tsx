@@ -16,11 +16,11 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { HiOutlineDotsVertical as Dots } from "react-icons/hi";
-import CasesEditGroup from "./CasesEditGroup";
-import CasesDeleteGroup from "./CasesDeleteGroup";
+import EditGroup from "./EditGroup";
+import DeleteGroup from "./DeleteGroup";
 import { useMediaPredicate } from "react-media-hook";
-import CasesCaseItem from "./CasesCaseItem";
-import { useStoreState } from "../../Redux/Store";
+import CaseItem from "./CaseItem";
+import { useStoreState } from "../../../Redux/Store";
 import { useState } from "react";
 import { motion } from "framer-motion";
 
@@ -30,7 +30,7 @@ interface PropTypes {
   arePointsDefined: boolean;
 }
 
-const CasesGroupItem = ({ name, points, arePointsDefined }: PropTypes) => {
+const GroupItem = ({ name, points, arePointsDefined }: PropTypes) => {
   const [showCases, setShowCases] = useState(false);
 
   const borderColor = useColorModeValue("gray.200", "gray.600");
@@ -114,14 +114,14 @@ const CasesGroupItem = ({ name, points, arePointsDefined }: PropTypes) => {
           )}
         </HStack>
         <Divider />
-        <CasesEditGroup
+        <EditGroup
           isOpen={isOpenEdit}
           onClose={onCloseEdit}
           groupName={name}
           groupPoints={points}
           pointsDefined={arePointsDefined}
         />
-        <CasesDeleteGroup
+        <DeleteGroup
           isOpen={isOpenRemove}
           onClose={onCloseRemove}
           groupName={name}
@@ -137,7 +137,7 @@ const CasesGroupItem = ({ name, points, arePointsDefined }: PropTypes) => {
               style={{ display: "inline-block" }}
               key={element.name + element.group}
             >
-              <CasesCaseItem
+              <CaseItem
                 caseName={element.name}
                 groupName={element.group}
                 pointsDefined={element.arePointsDefined}
@@ -151,4 +151,4 @@ const CasesGroupItem = ({ name, points, arePointsDefined }: PropTypes) => {
   );
 };
 
-export default CasesGroupItem;
+export default GroupItem;
