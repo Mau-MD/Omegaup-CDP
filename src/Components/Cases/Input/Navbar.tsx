@@ -4,8 +4,6 @@ import {
   Divider,
   HStack,
   Text,
-  VStack,
-  Flex,
   Spacer,
   Button,
   useDisclosure,
