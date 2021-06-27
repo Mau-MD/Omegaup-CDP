@@ -4,7 +4,7 @@ import { Box } from "@chakra-ui/react";
 import GroupItem from "./GroupItem";
 
 const Navigation = () => {
-  const caseState = useStoreState((state) => state.cases.cases);
+  const caseState = useStoreState((state) => state.cases.data);
 
   return (
     <Box mt={2}>

@@ -1,151 +1,83 @@
 import { action, Action } from "easy-peasy";
 
-// TODO Check if another group is trying to rename it to an existing name
-// TODO Change color depending if the point is defined
-// TODO Add points to modal
-interface CaseElement {
+interface IGroup {
+  name: string;
+  points: number | null;
+  defined: boolean;
+  cases: ICase[];
+}
+
+interface ICase {
   name: string;
   group: string;
-  arePointsDefined: boolean;
-  points: number;
-}
-
-interface Group {
-  name: string;
-  points: number;
-  pointsDefined: boolean;
-  isMain: boolean;
-  cases: CaseElement[];
-}
-
-interface IUpdate {
-  oldName: string;
-  newName: string;
-  points: number;
-  pointsDefined: boolean;
+  points: number | null;
+  defined: boolean;
+  ioData: object;
 }
 
 export interface ICasesModel {
-  cases: Group[];
-  availablePoints: number;
-  addCase: Action<ICasesModel, CaseElement>;
-  updateCase: Action<ICasesModel, IUpdate>;
-  removeCase: Action<ICasesModel, string>;
+  data: IGroup[];
+
+  addGroup: Action<ICasesModel, IGroup>;
+  editGroup: Action<ICasesModel, IGroup>;
+  removeGroup: Action<ICasesModel, string>;
+
+  addCase: Action<ICasesModel, ICase>;
+  editCase: Action<ICasesModel, ICase>;
+  removeCase: Action<ICasesModel, { name: string; group: string }>;
 }
 
-function calculatePoints(cases: Group[]): Group[] {
-  var availablePoints = 100;
-
-  var groupsWithoutPointsDefined = 0;
-
-  cases.forEach((element) => {
-    if (element.name === "mainGroup") {
-      element.cases.forEach((groupCase) => {
-        // Los que esten en el grupo principal deben ser contados como individuales tambien!!data.points
-        console.log(groupCase);
-        if (groupCase.arePointsDefined) {
-          availablePoints -= groupCase.points;
-        } else {
-          groupsWithoutPointsDefined += 1;
-        }
-      });
-    } else {
-      if (element.pointsDefined) {
-        availablePoints -= element.points;
-      } else {
-        groupsWithoutPointsDefined += 1;
-      }
-    }
-  });
-
-  console.log("group: " + groupsWithoutPointsDefined + " " + availablePoints);
-  let fractionalPoints = availablePoints / groupsWithoutPointsDefined;
-  return cases.map((element) => {
-    if (element.name === "mainGroup") {
-      element.cases = element.cases.map((groupCase) => {
-        if (!groupCase.arePointsDefined) {
-          groupCase.points = fractionalPoints;
-        }
-        return groupCase;
-      });
-    }
-    if (!element.pointsDefined) {
-      element.points = fractionalPoints;
-    }
-    return element;
-  });
-}
-
-const CasesModel = <ICasesModel>{
-  cases: [
-    {
-      name: "mainGroup",
-      points: 0,
-      isMain: true,
-      pointsDefined: false,
-      cases: [],
-    },
-  ],
-  availablePoints: 100,
-  addCase: action((state, payload) => {
-    const groupToSearch = payload.group;
-    let groupFound = false;
-
-    console.log("searching");
-    state.cases.map((element) => {
-      if (element.name === groupToSearch) {
-        element.cases.push(payload);
-        groupFound = true;
-        element.cases.sort((a, b) => {
-          if (a.name < b.name) return -1;
-          else if (a.name === b.name) return 0;
-          else return 1;
-        });
+const CasesModel = {
+  data: [],
+  addGroup: action((state, payload) => {
+    state.data.push(payload);
+  }),
+  editGroup: action((state, payload) => {
+    state.data.map((element) => {
+      if (element.name === payload.name) {
+        element = payload;
       }
       return element;
     });
-
-    if (!groupFound) {
-      state.cases.push({
-        name: groupToSearch,
-        points: 0,
-        isMain: false,
-        pointsDefined: false,
-        cases: [payload],
-      });
-    }
-
-    // Calculate Available Points
-
-    state.cases = calculatePoints(state.cases);
   }),
-
-  updateCase: action((state, payload) => {
-    // Itero por todos los grupos y busco el que quiero cambiar
-    state.cases.map((element) => {
-      if (element.name === payload.oldName) {
-        element.name = payload.newName; // Cambio el nombre del grupo
-        element.points = payload.points; // Cambio el puntaje del grupo
-        element.pointsDefined = payload.pointsDefined;
-        element.cases = element.cases.map((individualCase) => {
-          // Cambio el nombre de grupo de los hijos
-          individualCase.group = payload.newName;
-          return individualCase;
-        });
-      }
-      return element;
-    });
-    state.cases = calculatePoints(state.cases);
-    state.cases.sort();
-  }),
-
-  removeCase: action((state, payload) => {
-    state.cases = state.cases.filter((element) => {
-      // console.log(element.name + " " + payload);
+  removeGroup: action((state, payload) => {
+    state.data = state.data.filter((element) => {
       return element.name !== payload;
     });
-    state.cases = calculatePoints(state.cases);
   }),
-};
+  addCase: action((state, payload) => {
+    state.data.map((element) => {
+      if (element.name === payload.group) {
+        element.cases.push(payload);
+      }
+    });
+  }),
+  editCase: action((state, payload) => {
+    state.data.map((element) => {
+      if (element.name === payload.group) {
+        element.cases.map((caseElement) => {
+          if (caseElement.name === payload.name) {
+            caseElement = payload;
+          }
+          return caseElement;
+        });
+      }
+      return element;
+    });
+  }),
+  removeCase: action((state, payload) => {
+    state.data.map((element) => {
+      if (element.name === payload.group) {
+        element.cases = element.cases.filter((caseElement) => {
+          return (
+            caseElement.name !== payload.name &&
+            caseElement.group !== payload.group
+          );
+        });
+      }
+      return element;
+    });
+  }),
+} as ICasesModel;
 
 export default CasesModel;
