@@ -1,16 +1,7 @@
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
 import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  AlertTitle,
   Button,
-  Checkbox,
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -18,18 +9,11 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  Select,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
-  useToast,
 } from "@chakra-ui/react";
 import AddCaseModal from "./AddCaseModal";
 import AddGroupModal from "./AddGroupModal";
@@ -40,17 +24,6 @@ interface PropTypes {
 }
 
 const Add = ({ isOpen, onClose }: PropTypes) => {
-  const submit = useRef(false);
-
-  useEffect(() => {
-    submit.current = false;
-  }, [isOpen]);
-
-  function handleSubmit() {
-    submit.current = true;
-    onClose();
-  }
-
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -58,33 +31,21 @@ const Add = ({ isOpen, onClose }: PropTypes) => {
         <ModalHeader>Agregar </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Tabs variant={"soft-rounded"} size={"sm"}>
+          <Tabs size={"sm"}>
             <TabList>
               <Tab> Caso </Tab>
               <Tab> Grupo </Tab>
             </TabList>
             <TabPanels>
               <TabPanel>
-                <AddCaseModal shouldSubmit={submit.current} />
+                <AddCaseModal onClose={onClose} />
               </TabPanel>
               <TabPanel>
-                <AddGroupModal shouldSubmit={submit.current} />
+                <AddGroupModal onClose={onClose} />
               </TabPanel>
             </TabPanels>
           </Tabs>
         </ModalBody>
-        <ModalFooter>
-          <Button variant={"ghost"} mr={3} onClick={onClose}>
-            Cerrar
-          </Button>
-          <Button
-            colorScheme="green"
-            type={"submit"}
-            onClick={() => handleSubmit()}
-          >
-            Agregar
-          </Button>
-        </ModalFooter>
       </ModalContent>
     </Modal>
   );

@@ -45,7 +45,7 @@ const Sidebar = () => {
             <Add isOpen={isOpenAdd} onClose={onCloseAdd} />
           </Flex>
           <Divider />
-          <Navigation />
+          {/*<Navigation />*/}
         </Box>
       </Box>
     </motion.div>

@@ -13,35 +13,29 @@ import {
   Select,
   toast,
   useToast,
+  Button,
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { useStoreActions, useStoreState } from "../../../Redux/Store";
 
 interface PropTypes {
-  shouldSubmit: boolean;
+  onClose: () => void;
 }
-const AddGroupModal = ({ shouldSubmit }: PropTypes) => {
+const AddGroupModal = ({ onClose }: PropTypes) => {
   const [autoPoints, setAutoPoints] = useState(true);
 
   const groupName = useRef<string | null>(null);
   const points = useRef<number | null>(null);
   const pointsDefined = useRef<boolean>(false);
 
-  const formRef = useRef<HTMLFormElement>(null);
-
-  const setData = useStoreActions((actions) => actions.add.setData);
+  const addGroup = useStoreActions((actions) => actions.cases.addGroup);
   const groupData = useStoreState((state) => state.cases.data);
 
   const toast = useToast();
 
-  useEffect(() => {
-    if (shouldSubmit) {
-      formRef.current && formRef.current.submit();
-    }
-  }, [shouldSubmit]);
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
 
-  function handleSubmit() {
-    // Primero tengo que checar si el caso está repetido
     let isValid = true;
     groupData.forEach((groupElement) => {
       if (groupElement.name === groupName.current) {
@@ -59,17 +53,18 @@ const AddGroupModal = ({ shouldSubmit }: PropTypes) => {
       return;
     }
 
-    setData({
-      type: "case",
-      caseName: null,
-      groupName: groupName.current,
+    addGroup({
+      name: groupName.current,
+      cases: [],
       points: points.current,
-      pointsDefined: pointsDefined.current,
+      defined: false,
     });
+
+    onClose();
   }
 
   return (
-    <form onSubmit={handleSubmit} ref={formRef}>
+    <form onSubmit={(e) => handleSubmit(e)}>
       <FormControl mt={3} isRequired>
         <FormLabel> Nombre del grupo</FormLabel>
         <Input onChange={(e) => (groupName.current = e.target.value)} />
@@ -105,6 +100,9 @@ const AddGroupModal = ({ shouldSubmit }: PropTypes) => {
           Puntaje automático
         </Checkbox>
       </FormControl>
+      <Button colorScheme="green" isFullWidth mt={10} type={"submit"}>
+        Agregar
+      </Button>
     </form>
   );
 };

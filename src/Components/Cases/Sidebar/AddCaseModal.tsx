@@ -1,5 +1,6 @@
 import * as React from "react";
 import {
+  Button,
   Checkbox,
   FormControl,
   FormHelperText,
@@ -17,31 +18,34 @@ import { useEffect, useRef, useState } from "react";
 import { useStoreActions, useStoreState } from "../../../Redux/Store";
 
 interface PropTypes {
-  shouldSubmit: boolean;
+  onClose: () => void;
 }
-const AddCaseModal = ({ shouldSubmit }: PropTypes) => {
+
+const AddCaseModal = ({ onClose }: PropTypes) => {
   const [autoPoints, setAutoPoints] = useState(true);
 
   const caseName = useRef<string | null>(null);
   const groupName = useRef<string | null>(null);
-  const points = useRef<number | null>(null);
+  const points = useRef<number | null>(50);
   const pointsDefined = useRef<boolean>(false);
 
-  const formRef = useRef<HTMLFormElement>(null);
-
-  useEffect(() => {
-    if (shouldSubmit) {
-      formRef.current && formRef.current.submit();
-    }
-  }, [shouldSubmit]);
-
-  const setData = useStoreActions((actions) => actions.add.setData);
+  const addCase = useStoreActions((actions) => actions.cases.addCase);
   const groupData = useStoreState((state) => state.cases.data);
 
   const toast = useToast();
 
-  function handleSubmit() {
-    // Primero tengo que checar si el caso está repetido
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    if (caseName === null || caseName.current === "") {
+      toast({
+        title: "Por favor ingresa los datos",
+        description: "No puedes dejar campos vacios",
+        status: "error",
+      });
+      return;
+    }
+
     let isValid = true;
     groupData.forEach((groupElement) => {
       if (groupElement.name === groupName.current) {
@@ -65,17 +69,19 @@ const AddCaseModal = ({ shouldSubmit }: PropTypes) => {
       return;
     }
 
-    setData({
-      type: "case",
-      caseName: caseName.current,
-      groupName: groupName.current,
+    addCase({
+      name: caseName.current,
+      group: groupName.current,
       points: points.current,
-      pointsDefined: pointsDefined.current,
+      defined: pointsDefined.current,
+      ioData: {},
     });
+
+    onClose();
   }
 
   return (
-    <form onSubmit={handleSubmit} ref={formRef}>
+    <form onSubmit={(e) => handleSubmit(e)}>
       <FormControl mt={3} isRequired>
         <FormLabel> Nombre del caso</FormLabel>
         <Input onChange={(e) => (caseName.current = e.target.value)} />
@@ -84,9 +90,16 @@ const AddCaseModal = ({ shouldSubmit }: PropTypes) => {
         <FormLabel> Nombre del grupo</FormLabel>
         <Select onChange={(e) => (groupName.current = e.target.value)}>
           <option value={"null"}>Sin Grupo</option>
-          <option value={"1"}>Opcion 1</option>
-          <option value={"2"}>Opcion 1</option>
-          <option value={"3"}>Opcion 1</option>
+          {groupData.map((group) => {
+            return (
+              <option
+                value={group.name ? group.name : undefined}
+                key={group.name}
+              >
+                {group.name}
+              </option>
+            );
+          })}
         </Select>
       </FormControl>
       <FormControl mt={5}>
@@ -120,6 +133,9 @@ const AddCaseModal = ({ shouldSubmit }: PropTypes) => {
           Puntaje automático
         </Checkbox>
       </FormControl>
+      <Button colorScheme="green" isFullWidth mt={10} type="submit">
+        Agregar
+      </Button>
     </form>
   );
 };

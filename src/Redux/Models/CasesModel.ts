@@ -1,15 +1,15 @@
 import { action, Action } from "easy-peasy";
 
 interface IGroup {
-  name: string;
+  name: string | null;
   points: number | null;
   defined: boolean;
   cases: ICase[];
 }
 
 interface ICase {
-  name: string;
-  group: string;
+  name: string | null;
+  group: string | null;
   points: number | null;
   defined: boolean;
   ioData: object;
