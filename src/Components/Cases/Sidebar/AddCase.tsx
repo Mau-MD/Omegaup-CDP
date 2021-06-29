@@ -78,6 +78,7 @@ const AddCase = ({ isOpen, onClose, title }: PropTypes) => {
         description:
           "No puedes tener casos con el mismo nombre dentro de un grupo",
         status: "error",
+        isClosable: true,
       });
       return;
     }
@@ -95,6 +96,7 @@ const AddCase = ({ isOpen, onClose, title }: PropTypes) => {
       title: "Caso creado",
       description: "El caso ha sido creado correctamente",
       status: "success",
+      isClosable: true,
     });
 
     onClose();

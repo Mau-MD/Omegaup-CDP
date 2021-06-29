@@ -89,6 +89,7 @@ const EditCase = ({
           title: "Nombre repetido",
           description: "No puedes tener dos grupos con el mismo nombre",
           status: "error",
+          isClosable: true,
         });
         isValid = false;
       }

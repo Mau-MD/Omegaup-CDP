@@ -30,6 +30,7 @@ const DeleteGroup = ({ isOpen, onClose, groupName }: PropTypes) => {
       title: "Grupo borrado",
       description: "El grupo ha sido borrado exitosamente",
       status: "success",
+      isClosable: true,
     });
 
     onClose();

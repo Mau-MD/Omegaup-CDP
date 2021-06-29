@@ -21,6 +21,8 @@ interface PropTypes {
   onClose: () => void;
 }
 
+// TODO handle logic for no group cases
+
 const AddCaseModal = ({ onClose }: PropTypes) => {
   const [autoPoints, setAutoPoints] = useState(true);
 
@@ -42,6 +44,7 @@ const AddCaseModal = ({ onClose }: PropTypes) => {
         title: "Por favor ingresa los datos",
         description: "No puedes dejar campos vacios",
         status: "error",
+        isClosable: true,
       });
       return;
     }
@@ -65,6 +68,7 @@ const AddCaseModal = ({ onClose }: PropTypes) => {
         description:
           "No puedes tener casos con el mismo nombre en un mismo grupo",
         status: "error",
+        isClosable: true,
       });
       return;
     }

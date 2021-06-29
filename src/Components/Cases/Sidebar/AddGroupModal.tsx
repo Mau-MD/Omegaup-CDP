@@ -49,6 +49,7 @@ const AddGroupModal = ({ onClose }: PropTypes) => {
         title: "Error al crear grupo",
         description: "No puedes tener grupos con el mismo nombre",
         status: "error",
+        isClosable: true,
       });
       return;
     }
