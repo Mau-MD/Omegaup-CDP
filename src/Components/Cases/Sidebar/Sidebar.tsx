@@ -10,7 +10,6 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import AddCase from "./AddCase";
 import Navigation from "./Navigation";
 import { useMediaPredicate } from "react-media-hook";
 import Add from "./Add";
@@ -45,7 +44,7 @@ const Sidebar = () => {
             <Add isOpen={isOpenAdd} onClose={onCloseAdd} />
           </Flex>
           <Divider />
-          {/*<Navigation />*/}
+          <Navigation />
         </Box>
       </Box>
     </motion.div>

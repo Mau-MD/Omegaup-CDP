@@ -20,13 +20,23 @@ import { useStoreActions, useStoreState } from "../../../Redux/Store";
 
 interface PropTypes {
   onClose: () => void;
+  initial?: {
+    groupName: string;
+    points: number;
+    pointsDefined: boolean;
+  };
+  submitButton: string;
 }
-const AddGroupModal = ({ onClose }: PropTypes) => {
-  const [autoPoints, setAutoPoints] = useState(true);
+const AddGroupModal = ({ onClose, initial, submitButton }: PropTypes) => {
+  const [autoPoints, setAutoPoints] = useState(
+    initial?.pointsDefined ? !initial?.pointsDefined : true
+  );
 
-  const groupName = useRef<string | null>(null);
-  const points = useRef<number | null>(null);
-  const pointsDefined = useRef<boolean>(false);
+  const groupName = useRef<string | null>(initial ? initial.groupName : null);
+  const points = useRef<number | null>(initial ? initial.points : 50);
+  const pointsDefined = useRef<boolean>(
+    initial ? initial.pointsDefined : false
+  );
 
   const addGroup = useStoreActions((actions) => actions.cases.addGroup);
   const groupData = useStoreState((state) => state.cases.data);
@@ -58,7 +68,7 @@ const AddGroupModal = ({ onClose }: PropTypes) => {
       name: groupName.current,
       cases: [],
       points: points.current,
-      defined: false,
+      defined: pointsDefined.current,
     });
 
     onClose();
@@ -68,13 +78,16 @@ const AddGroupModal = ({ onClose }: PropTypes) => {
     <form onSubmit={(e) => handleSubmit(e)}>
       <FormControl mt={3} isRequired>
         <FormLabel> Nombre del grupo</FormLabel>
-        <Input onChange={(e) => (groupName.current = e.target.value)} />
+        <Input
+          onChange={(e) => (groupName.current = e.target.value)}
+          defaultValue={initial?.groupName}
+        />
       </FormControl>
       <FormControl mt={5}>
         <FormLabel> Puntaje </FormLabel>
         <NumberInput
           onChange={(e, valueAsNumber) => (points.current = valueAsNumber)}
-          defaultValue={50}
+          defaultValue={initial?.points}
           min={0}
           max={100}
           isDisabled={autoPoints}
@@ -102,7 +115,7 @@ const AddGroupModal = ({ onClose }: PropTypes) => {
         </Checkbox>
       </FormControl>
       <Button colorScheme="green" isFullWidth mt={10} type={"submit"}>
-        Agregar
+        {submitButton}
       </Button>
     </form>
   );

@@ -16,17 +16,16 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { HiOutlineDotsVertical as Dots } from "react-icons/hi";
-import EditGroup from "./EditGroup";
-import DeleteGroup from "./DeleteGroup";
 import { useMediaPredicate } from "react-media-hook";
 import CaseItem from "./CaseItem";
 import { useStoreState } from "../../../Redux/Store";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import Edit from "./Edit";
 
 interface PropTypes {
-  name: string;
-  points: number;
+  name: string | null;
+  points: number | null;
   arePointsDefined: boolean;
 }
 
@@ -35,22 +34,12 @@ const GroupItem = ({ name, points, arePointsDefined }: PropTypes) => {
 
   const borderColor = useColorModeValue("gray.200", "gray.600");
   const caseState = useStoreState((state) => {
-    return state.cases.cases.find((value) => value.name === name);
+    return state.cases.data.find((element) => element.name === name);
   });
 
-  const {
-    isOpen: isOpenEdit,
-    onOpen: onOpenEdit,
-    onClose: onCloseEdit,
-  } = useDisclosure();
-
-  const {
-    isOpen: isOpenRemove,
-    onOpen: onOpenRemove,
-    onClose: onCloseRemove,
-  } = useDisclosure();
-
   const isLargeScreen = useMediaPredicate("(min-width: 830px)");
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   function handleCasesToggleClick(event: React.MouseEvent<HTMLDivElement>) {
     let percentage =
@@ -75,7 +64,7 @@ const GroupItem = ({ name, points, arePointsDefined }: PropTypes) => {
         >
           <Box>{name === "mainGroup" ? "Sin Grupo" : name}</Box>
           <Spacer />
-          {name !== "mainGroup" && (
+          {name !== "Sin Grupo" && (
             <>
               <Tooltip
                 label={
@@ -89,7 +78,7 @@ const GroupItem = ({ name, points, arePointsDefined }: PropTypes) => {
                   {isLargeScreen ? (
                     <span> {parseFloat("" + points).toFixed(2) + " pts"}</span>
                   ) : (
-                    <span>{Math.round(points)} </span>
+                    <span>{points && Math.round(points)} </span>
                   )}
                 </Badge>
               </Tooltip>
@@ -102,30 +91,26 @@ const GroupItem = ({ name, points, arePointsDefined }: PropTypes) => {
                   syle={{ zIndex: 99 }}
                 />
                 <MenuList>
-                  <MenuItem fontSize={"sm"} onClick={onOpenEdit}>
+                  <MenuItem fontSize={"sm"} onClick={onOpen}>
                     Editar Grupo
                   </MenuItem>
-                  <MenuItem fontSize={"sm"} onClick={onOpenRemove}>
+                  <MenuItem fontSize={"sm"} onClick={() => {}}>
                     Eliminar Grupo
                   </MenuItem>
                 </MenuList>
               </Menu>
+              <Edit
+                type={"group"}
+                isOpen={isOpen}
+                onClose={onClose}
+                groupName={name}
+                points={points}
+                arePointsDefined={arePointsDefined}
+              />
             </>
           )}
         </HStack>
         <Divider />
-        <EditGroup
-          isOpen={isOpenEdit}
-          onClose={onCloseEdit}
-          groupName={name}
-          groupPoints={points}
-          pointsDefined={arePointsDefined}
-        />
-        <DeleteGroup
-          isOpen={isOpenRemove}
-          onClose={onCloseRemove}
-          groupName={name}
-        />
       </Box>
       <Box ml={2}>
         {caseState &&
@@ -135,14 +120,16 @@ const GroupItem = ({ name, points, arePointsDefined }: PropTypes) => {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               style={{ display: "inline-block" }}
-              key={element.name + element.group}
+              key={
+                element.name && element.group && element.name + element.group
+              }
             >
               <CaseItem
-                caseName={element.name}
-                groupName={element.group}
-                pointsDefined={element.arePointsDefined}
-                points={element.points}
-                shouldShowPoints={name === "mainGroup"}
+                caseName={element.name ? element.name : ""}
+                groupName={element.group ? element.group : ""}
+                pointsDefined={element.defined}
+                points={element.points ? element.points : 0}
+                shouldShowPoints={element.group === "Sin Grupo"}
               />
             </motion.div>
           ))}

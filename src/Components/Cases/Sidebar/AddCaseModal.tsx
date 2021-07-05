@@ -19,17 +19,28 @@ import { useStoreActions, useStoreState } from "../../../Redux/Store";
 
 interface PropTypes {
   onClose: () => void;
+  initial?: {
+    caseName: string;
+    groupName: string;
+    points: number;
+    pointsDefined: boolean;
+  };
+  submitButton: string;
 }
 
 // TODO handle logic for no group cases
 
-const AddCaseModal = ({ onClose }: PropTypes) => {
-  const [autoPoints, setAutoPoints] = useState(true);
+const AddCaseModal = ({ onClose, initial, submitButton }: PropTypes) => {
+  const [autoPoints, setAutoPoints] = useState(
+    initial?.pointsDefined ? initial?.pointsDefined : true
+  );
 
-  const caseName = useRef<string | null>(null);
-  const groupName = useRef<string | null>(null);
-  const points = useRef<number | null>(50);
-  const pointsDefined = useRef<boolean>(false);
+  const caseName = useRef<string | null>(initial ? initial.caseName : null);
+  const groupName = useRef<string | null>(initial ? initial.groupName : null);
+  const points = useRef<number | null>(initial ? initial.points : 50);
+  const pointsDefined = useRef<boolean>(
+    initial ? initial.pointsDefined : false
+  );
 
   const addCase = useStoreActions((actions) => actions.cases.addCase);
   const groupData = useStoreState((state) => state.cases.data);
@@ -38,6 +49,10 @@ const AddCaseModal = ({ onClose }: PropTypes) => {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    if (groupName.current === null) {
+      groupName.current = "Sin Grupo";
+    }
 
     if (caseName === null || caseName.current === "") {
       toast({
@@ -88,12 +103,17 @@ const AddCaseModal = ({ onClose }: PropTypes) => {
     <form onSubmit={(e) => handleSubmit(e)}>
       <FormControl mt={3} isRequired>
         <FormLabel> Nombre del caso</FormLabel>
-        <Input onChange={(e) => (caseName.current = e.target.value)} />
+        <Input
+          onChange={(e) => (caseName.current = e.target.value)}
+          defaultValue={initial?.caseName}
+        />
       </FormControl>
       <FormControl mt={5} isRequired>
         <FormLabel> Nombre del grupo</FormLabel>
-        <Select onChange={(e) => (groupName.current = e.target.value)}>
-          <option value={"null"}>Sin Grupo</option>
+        <Select
+          onChange={(e) => (groupName.current = e.target.value)}
+          defaultValue={initial?.groupName}
+        >
           {groupData.map((group) => {
             return (
               <option
@@ -110,7 +130,7 @@ const AddCaseModal = ({ onClose }: PropTypes) => {
         <FormLabel> Puntaje </FormLabel>
         <NumberInput
           onChange={(e, valueAsNumber) => (points.current = valueAsNumber)}
-          defaultValue={50}
+          defaultValue={initial?.points}
           min={0}
           max={100}
           isDisabled={autoPoints}
@@ -138,7 +158,7 @@ const AddCaseModal = ({ onClose }: PropTypes) => {
         </Checkbox>
       </FormControl>
       <Button colorScheme="green" isFullWidth mt={10} type="submit">
-        Agregar
+        {submitButton}
       </Button>
     </form>
   );

@@ -1,21 +1,19 @@
 import title, { ITitleModel } from "./Models/TitleModel";
 import cases, { ICasesModel } from "./Models/CasesModel";
-import selected, { IIOModel } from "./Models/IOModel";
-import add, { IAddModel } from "./Models/AddModel";
+import modal, { IModalModel } from "./Models/ModalModel";
+
 import { createStore, createTypedHooks, persist } from "easy-peasy";
 
 const globalModel = {
   title,
   cases,
-  selected,
-  add,
+  modal,
 };
 
 interface IGlobalModel {
   title: ITitleModel;
   cases: ICasesModel;
-  selected: IIOModel;
-  add: IAddModel;
+  modal: IModalModel;
 }
 
 const GlobalStore = createStore(persist(globalModel));

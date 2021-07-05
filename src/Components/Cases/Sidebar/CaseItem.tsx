@@ -16,37 +16,15 @@ const CaseItem = ({
   points,
   shouldShowPoints,
 }: PropTypes) => {
-  const ioStore = useStoreState((state) => state.selected.data);
   const setSelectedCase = useStoreActions(
-    (actions) => actions.selected.setSelected
+    (actions) => actions.cases.setSelected
   );
-  const selectedCase = useStoreState((state) => state.selected.selected);
-  const createCase = useStoreActions((actions) => actions.selected.createCase);
-
-  function findSelectedCase(): boolean {
-    let found = false;
-    ioStore.forEach((element) => {
-      if (element.groupName === groupName && element.caseName === caseName) {
-        found = true;
-        return;
-      }
-    });
-    return found;
-  }
+  const selectedCase = useStoreState((state) => state.cases.selected);
 
   function handleSelectedCase() {
-    if (!findSelectedCase()) {
-      createCase({
-        groupName: groupName,
-        caseName: caseName,
-        inputData: "",
-        mode: "modern",
-        outputData: "",
-      });
-    }
     setSelectedCase({
-      caseName: caseName,
-      groupName: groupName,
+      name: caseName,
+      group: groupName,
     });
   }
 
@@ -56,8 +34,7 @@ const CaseItem = ({
       size={"sm"}
       onClick={() => handleSelectedCase()}
       isActive={
-        selectedCase?.caseName === caseName &&
-        selectedCase.groupName === groupName
+        selectedCase?.name === caseName && selectedCase.group === groupName
       }
     >
       <HStack>
