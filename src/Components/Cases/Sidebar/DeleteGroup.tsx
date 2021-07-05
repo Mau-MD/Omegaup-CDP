@@ -19,17 +19,14 @@ interface PropTypes {
 }
 
 const DeleteGroup = ({ isOpen, onClose, groupName }: PropTypes) => {
-  const deleteState = useStoreActions((actions) => actions.cases.removeCase);
-
   const toast = useToast();
 
   function removeCase() {
-    deleteState(groupName);
-
     toast({
       title: "Grupo borrado",
       description: "El grupo ha sido borrado exitosamente",
       status: "success",
+      isClosable: true,
     });
 
     onClose();

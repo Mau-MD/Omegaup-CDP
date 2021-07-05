@@ -10,9 +10,9 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import AddCase from "./AddCase";
 import Navigation from "./Navigation";
 import { useMediaPredicate } from "react-media-hook";
+import Add from "./Add";
 const Sidebar = () => {
   const divBorderColor = useColorModeValue("gray.200", "gray.600");
 
@@ -39,13 +39,9 @@ const Sidebar = () => {
             </Text>
             <Spacer />
             <Button size={"sm"} colorScheme={"green"} onClick={onOpenAdd}>
-              {isLargeScreen ? <p> Agregar Caso</p> : <p> + </p>}
+              {isLargeScreen ? <p> Agregar</p> : <p> + </p>}
             </Button>
-            <AddCase
-              isOpen={isOpenAdd}
-              onClose={onCloseAdd}
-              title={"Agregar Problema"}
-            />
+            <Add isOpen={isOpenAdd} onClose={onCloseAdd} />
           </Flex>
           <Divider />
           <Navigation />
