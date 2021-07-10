@@ -7,7 +7,7 @@ interface IGroup {
   cases: ICase[];
 }
 
-interface ICase {
+export interface ICase {
   name: string;
   group: string;
   points: number;

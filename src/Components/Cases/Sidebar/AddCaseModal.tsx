@@ -39,7 +39,6 @@ const AddCaseModal = ({ onClose, initial, submitButton }: PropTypes) => {
   const [selectedValue, setSelectedValue] = useState("");
 
   const caseName = useRef<string>(initial ? initial.caseName : "");
-  const groupName = useRef<StateManager>(null);
   const points = useRef<number>(initial ? initial.points : 50);
   const pointsDefined = useRef<boolean>(
     initial ? initial.pointsDefined : false

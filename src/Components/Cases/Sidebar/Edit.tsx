@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import AddCaseModal from "./AddCaseModal";
 import AddGroupModal from "./AddGroupModal";
+import { ICase } from "../../../Redux/Models/CasesModel";
 
 interface PropTypes {
   type: "group" | "case";
@@ -17,7 +18,7 @@ interface PropTypes {
   groupName: string;
   caseName?: string;
   points: number;
-  cases: object[];
+  cases?: ICase[];
   arePointsDefined: boolean;
 }
 const Edit = ({
@@ -27,7 +28,7 @@ const Edit = ({
   groupName,
   caseName = "",
   points,
-  cases,
+  cases = [],
   arePointsDefined,
 }: PropTypes) => {
   return (

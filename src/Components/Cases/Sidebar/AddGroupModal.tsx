@@ -17,6 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { useStoreActions, useStoreState } from "../../../Redux/Store";
+import { ICase } from "../../../Redux/Models/CasesModel";
 
 interface PropTypes {
   onClose: () => void;
@@ -24,7 +25,7 @@ interface PropTypes {
     groupName: string;
     points: number;
     pointsDefined: boolean;
-    cases: object[];
+    cases: ICase[];
   };
   edit: boolean;
   submitButton: string;
