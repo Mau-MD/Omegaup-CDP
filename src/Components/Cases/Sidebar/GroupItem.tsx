@@ -24,12 +24,13 @@ import { motion } from "framer-motion";
 import Edit from "./Edit";
 
 interface PropTypes {
-  name: string | null;
-  points: number | null;
+  name: string;
+  points: number;
+  cases: object[];
   arePointsDefined: boolean;
 }
 
-const GroupItem = ({ name, points, arePointsDefined }: PropTypes) => {
+const GroupItem = ({ name, points, arePointsDefined, cases }: PropTypes) => {
   const [showCases, setShowCases] = useState(false);
 
   const borderColor = useColorModeValue("gray.200", "gray.600");
@@ -105,6 +106,7 @@ const GroupItem = ({ name, points, arePointsDefined }: PropTypes) => {
                 onClose={onClose}
                 groupName={name}
                 points={points}
+                cases={cases}
                 arePointsDefined={arePointsDefined}
               />
             </>

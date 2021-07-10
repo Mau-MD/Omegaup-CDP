@@ -21,6 +21,7 @@ const Navigation = () => {
             name={group.name}
             points={group.points}
             arePointsDefined={group.defined}
+            cases={group.cases}
             key={group.name}
           />
         ))}

@@ -17,6 +17,7 @@ interface PropTypes {
   groupName: string;
   caseName?: string;
   points: number;
+  cases: object[];
   arePointsDefined: boolean;
 }
 const Edit = ({
@@ -26,6 +27,7 @@ const Edit = ({
   groupName,
   caseName = "",
   points,
+  cases,
   arePointsDefined,
 }: PropTypes) => {
   return (
@@ -42,8 +44,10 @@ const Edit = ({
                 groupName: groupName,
                 points: points,
                 pointsDefined: arePointsDefined,
+                cases: cases,
               }}
               submitButton={"Editar"}
+              edit={true}
             />
           ) : (
             <AddCaseModal

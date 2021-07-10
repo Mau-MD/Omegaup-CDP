@@ -1,16 +1,16 @@
-import { action, Action } from "easy-peasy";
+import { action, Action, Computed, computed } from "easy-peasy";
 
 interface IGroup {
-  name: string | null;
-  points: number | null;
+  name: string;
+  points: number;
   defined: boolean;
   cases: ICase[];
 }
 
 interface ICase {
-  name: string | null;
-  group: string | null;
-  points: number | null;
+  name: string;
+  group: string;
+  points: number;
   defined: boolean;
   ioData: object;
 }
@@ -20,7 +20,7 @@ export interface ICasesModel {
   selected: { name: string; group: string };
 
   addGroup: Action<ICasesModel, IGroup>;
-  editGroup: Action<ICasesModel, IGroup>;
+  editGroup: Action<ICasesModel, { payload: IGroup; oldName: string }>;
   removeGroup: Action<ICasesModel, string>;
 
   addCase: Action<ICasesModel, ICase>;
@@ -77,7 +77,7 @@ const CasesModel = {
       name: "Sin Grupo",
       cases: [],
       defined: false,
-      points: null,
+      points: 0,
     },
   ],
   selected: {
@@ -89,9 +89,9 @@ const CasesModel = {
     state.data = calculatePoints(state.data);
   }),
   editGroup: action((state, payload) => {
-    state.data.map((element) => {
-      if (element.name === payload.name) {
-        element = payload;
+    state.data = state.data.map((element) => {
+      if (element.name === payload.oldName) {
+        element = payload.payload;
       }
       return element;
     });

@@ -24,21 +24,24 @@ interface PropTypes {
     groupName: string;
     points: number;
     pointsDefined: boolean;
+    cases: object[];
   };
+  edit: boolean;
   submitButton: string;
 }
-const AddGroupModal = ({ onClose, initial, submitButton }: PropTypes) => {
+const AddGroupModal = ({ onClose, initial, submitButton, edit }: PropTypes) => {
   const [autoPoints, setAutoPoints] = useState(
     initial?.pointsDefined ? !initial?.pointsDefined : true
   );
 
-  const groupName = useRef<string | null>(initial ? initial.groupName : null);
-  const points = useRef<number | null>(initial ? initial.points : 50);
+  const groupName = useRef<string>(initial ? initial.groupName : "");
+  const points = useRef<number>(initial ? initial.points : 50);
   const pointsDefined = useRef<boolean>(
     initial ? initial.pointsDefined : false
   );
 
   const addGroup = useStoreActions((actions) => actions.cases.addGroup);
+  const editGroup = useStoreActions((actions) => actions.cases.editGroup);
   const groupData = useStoreState((state) => state.cases.data);
 
   const toast = useToast();
@@ -48,7 +51,10 @@ const AddGroupModal = ({ onClose, initial, submitButton }: PropTypes) => {
 
     let isValid = true;
     groupData.forEach((groupElement) => {
-      if (groupElement.name === groupName.current) {
+      if (
+        groupElement.name === groupName.current &&
+        groupElement.name !== initial?.groupName
+      ) {
         isValid = false;
         return;
       }
@@ -64,12 +70,27 @@ const AddGroupModal = ({ onClose, initial, submitButton }: PropTypes) => {
       return;
     }
 
-    addGroup({
-      name: groupName.current,
-      cases: [],
-      points: points.current,
-      defined: pointsDefined.current,
-    });
+    console.log(groupName.current);
+    if (edit) {
+      editGroup({
+        payload: {
+          name: groupName.current,
+          cases: initial
+            ? initial?.cases
+            : [{ name: "", points: 0, group: "", defined: false, ioData: [] }],
+          points: points.current,
+          defined: pointsDefined.current,
+        },
+        oldName: initial ? initial?.groupName : "",
+      });
+    } else {
+      addGroup({
+        name: groupName.current,
+        cases: [],
+        points: points.current,
+        defined: pointsDefined.current,
+      });
+    }
 
     onClose();
   }

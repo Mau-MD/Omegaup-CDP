@@ -16,6 +16,8 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { useStoreActions, useStoreState } from "../../../Redux/Store";
+import RSelect from "react-select";
+import StateManager from "react-select";
 
 interface PropTypes {
   onClose: () => void;
@@ -34,10 +36,11 @@ const AddCaseModal = ({ onClose, initial, submitButton }: PropTypes) => {
   const [autoPoints, setAutoPoints] = useState(
     initial?.pointsDefined ? initial?.pointsDefined : true
   );
+  const [selectedValue, setSelectedValue] = useState("");
 
-  const caseName = useRef<string | null>(initial ? initial.caseName : null);
-  const groupName = useRef<string | null>(initial ? initial.groupName : null);
-  const points = useRef<number | null>(initial ? initial.points : 50);
+  const caseName = useRef<string>(initial ? initial.caseName : "");
+  const groupName = useRef<StateManager>(null);
+  const points = useRef<number>(initial ? initial.points : 50);
   const pointsDefined = useRef<boolean>(
     initial ? initial.pointsDefined : false
   );
@@ -47,13 +50,22 @@ const AddCaseModal = ({ onClose, initial, submitButton }: PropTypes) => {
 
   const toast = useToast();
 
+  let options = groupData.map((groupElement) => {
+    return {
+      value: groupElement.name ? groupElement.name : undefined,
+      label: groupElement.name,
+    };
+  });
+
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (groupName.current === null) {
-      groupName.current = "Sin Grupo";
+    let groupNameCurrent: string = selectedValue;
+    if (groupNameCurrent === undefined || groupNameCurrent === "") {
+      groupNameCurrent = "Sin Grupo";
     }
 
+    console.log(groupNameCurrent);
     if (caseName === null || caseName.current === "") {
       toast({
         title: "Por favor ingresa los datos",
@@ -66,7 +78,7 @@ const AddCaseModal = ({ onClose, initial, submitButton }: PropTypes) => {
 
     let isValid = true;
     groupData.forEach((groupElement) => {
-      if (groupElement.name === groupName.current) {
+      if (groupElement.name === groupNameCurrent) {
         groupElement.cases.forEach((caseElement) => {
           if (caseElement.name === caseName.current) {
             isValid = false;
@@ -90,7 +102,7 @@ const AddCaseModal = ({ onClose, initial, submitButton }: PropTypes) => {
 
     addCase({
       name: caseName.current,
-      group: groupName.current,
+      group: groupNameCurrent,
       points: points.current,
       defined: pointsDefined.current,
       ioData: {},
@@ -99,6 +111,9 @@ const AddCaseModal = ({ onClose, initial, submitButton }: PropTypes) => {
     onClose();
   }
 
+  function handleSelectChange(event: any) {
+    setSelectedValue(event.value);
+  }
   return (
     <form onSubmit={(e) => handleSubmit(e)}>
       <FormControl mt={3} isRequired>
@@ -110,21 +125,30 @@ const AddCaseModal = ({ onClose, initial, submitButton }: PropTypes) => {
       </FormControl>
       <FormControl mt={5} isRequired>
         <FormLabel> Nombre del grupo</FormLabel>
-        <Select
-          onChange={(e) => (groupName.current = e.target.value)}
-          defaultValue={initial?.groupName}
-        >
-          {groupData.map((group) => {
-            return (
-              <option
-                value={group.name ? group.name : undefined}
-                key={group.name}
-              >
-                {group.name}
-              </option>
-            );
-          })}
-        </Select>
+        <RSelect
+          options={options}
+          value={options.find((obj) => obj.value === selectedValue)}
+          onChange={handleSelectChange}
+          defaultValue={{
+            label: initial?.groupName === undefined ? "" : initial?.groupName,
+            value: initial?.groupName === undefined ? "" : initial?.groupName,
+          }}
+        />
+        {/*<Select*/}
+        {/*  onChange={(e) => (groupName.current = e.target.value)}*/}
+        {/*  defaultValue={initial?.groupName}*/}
+        {/*>*/}
+        {/*  {groupData.map((group) => {*/}
+        {/*    return (*/}
+        {/*      <option*/}
+        {/*        value={group.name ? group.name : undefined}*/}
+        {/*        key={group.name}*/}
+        {/*      >*/}
+        {/*        {group.name}*/}
+        {/*      </option>*/}
+        {/*    );*/}
+        {/*  })}*/}
+        {/*</Select>*/}
       </FormControl>
       <FormControl mt={5}>
         <FormLabel> Puntaje </FormLabel>
