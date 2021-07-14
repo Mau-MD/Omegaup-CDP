@@ -27,6 +27,7 @@ interface PropTypes {
 const AddCaseModal = ({ onClose }: PropTypes) => {
   const [autoPoints, setAutoPoints] = useState(true);
   const [selectedValue, setSelectedValue] = useState("");
+  const [hasGroup, setHasGroup] = useState(false);
 
   const caseName = useRef<string>("");
   const points = useRef<number>(50);
@@ -90,6 +91,7 @@ const AddCaseModal = ({ onClose }: PropTypes) => {
 
   function handleSelectChange(event: any) {
     setSelectedValue(event.value);
+    setHasGroup(event.value !== options[0].value);
   }
   return (
     <form onSubmit={(e) => handleSubmit(e)}>
@@ -100,56 +102,44 @@ const AddCaseModal = ({ onClose }: PropTypes) => {
       <FormControl mt={5} isRequired>
         <FormLabel> Nombre del grupo</FormLabel>
         <RSelect
+          defaultValue={{ label: "Sin Grupo", value: options[0].value }}
           options={options}
           value={options.find((obj) => obj.value === selectedValue)}
           onChange={handleSelectChange}
         />
-        {/*<Select*/}
-        {/*  onChange={(e) => (groupName.current = e.target.value)}*/}
-        {/*  defaultValue={initial?.groupName}*/}
-        {/*>*/}
-        {/*  {groupData.map((group) => {*/}
-        {/*    return (*/}
-        {/*      <option*/}
-        {/*        value={group.name ? group.name : undefined}*/}
-        {/*        key={group.name}*/}
-        {/*      >*/}
-        {/*        {group.name}*/}
-        {/*      </option>*/}
-        {/*    );*/}
-        {/*  })}*/}
-        {/*</Select>*/}
       </FormControl>
-      <FormControl mt={5}>
-        <FormLabel> Puntaje </FormLabel>
-        <NumberInput
-          onChange={(e, valueAsNumber) => (points.current = valueAsNumber)}
-          min={0}
-          max={100}
-          isDisabled={autoPoints}
-        >
-          <NumberInputField />
-          <NumberInputStepper>
-            <NumberIncrementStepper />
-            <NumberDecrementStepper />
-          </NumberInputStepper>
-        </NumberInput>
-        {autoPoints && (
-          <FormHelperText>
-            El programa calculará automáticamente el puntaje
-          </FormHelperText>
-        )}
-        <Checkbox
-          mt={3}
-          isChecked={autoPoints}
-          onChange={() => {
-            setAutoPoints(!autoPoints);
-            pointsDefined.current = autoPoints;
-          }}
-        >
-          Puntaje automático
-        </Checkbox>
-      </FormControl>
+      {!hasGroup && (
+        <FormControl mt={5}>
+          <FormLabel> Puntaje </FormLabel>
+          <NumberInput
+            onChange={(e, valueAsNumber) => (points.current = valueAsNumber)}
+            min={0}
+            max={100}
+            isDisabled={autoPoints}
+          >
+            <NumberInputField />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
+            </NumberInputStepper>
+          </NumberInput>
+          {autoPoints && (
+            <FormHelperText>
+              El programa calculará automáticamente el puntaje
+            </FormHelperText>
+          )}
+          <Checkbox
+            mt={3}
+            isChecked={autoPoints}
+            onChange={() => {
+              setAutoPoints(!autoPoints);
+              pointsDefined.current = autoPoints;
+            }}
+          >
+            Puntaje automático
+          </Checkbox>
+        </FormControl>
+      )}
       <Button colorScheme="green" isFullWidth mt={10} type="submit">
         Agregar Caso
       </Button>

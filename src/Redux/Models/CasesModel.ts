@@ -31,7 +31,7 @@ export interface ICasesModel {
   removeGroup: Action<ICasesModel, string>;
 
   addCase: Action<ICasesModel, ICase>;
-  editCase: Action<ICasesModel, ICase>;
+  editCase: Action<ICasesModel, { case: ICase; lastId: string }>;
   removeCase: Action<ICasesModel, caseIndentifier>;
 
   setSelected: Action<ICasesModel, caseIndentifier>;
@@ -122,18 +122,34 @@ const CasesModel = {
     state.data = calculatePoints(state.data);
   }),
   editCase: action((state, payload) => {
-    state.data.map((element) => {
-      if (element.groupId === payload.groupId) {
-        element.cases.map((caseElement) => {
-          if (caseElement.caseId === payload.caseId) {
-            caseElement = payload;
-          }
-          return caseElement;
-        });
+    const { case: caseData, lastId } = payload;
+
+    const group = state.data.find(
+      (groupElement) => groupElement.groupId === lastId
+    );
+
+    if (lastId !== caseData.groupId) {
+      if (group) {
+        group.cases = group.cases.filter(
+          (caseElement) => caseElement.caseId !== caseData.caseId
+        );
       }
-      return element;
-    });
-    state.data = calculatePoints(state.data);
+
+      const newGroup = state.data.find(
+        (groupElement) => groupElement.groupId === caseData.groupId
+      );
+
+      newGroup?.cases.push(caseData);
+      return;
+    }
+
+    const caseIndex = group?.cases.findIndex(
+      (caseElement) => caseElement.caseId === caseData.caseId
+    );
+
+    if (group !== undefined && caseIndex !== undefined) {
+      group.cases[caseIndex] = caseData;
+    }
   }),
   removeCase: action((state, payload) => {
     state.data.map((element) => {
