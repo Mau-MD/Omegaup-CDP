@@ -10,7 +10,7 @@ import {
   Box,
 } from "@chakra-ui/react";
 import AddCaseModal from "../Sidebar/AddCaseModal";
-import Edit from "../Sidebar/Edit";
+import EditGroup from "../Sidebar/EditGroup";
 import Line from "./Line";
 
 const Navbar = () => {

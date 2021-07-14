@@ -8,7 +8,6 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import GroupItem from "./GroupItem";
-import AddCaseModal from "./AddCaseModal";
 
 const Navigation = () => {
   const caseState = useStoreState((state) => state.cases.data);
@@ -17,13 +16,7 @@ const Navigation = () => {
     <>
       <Box mt={2}>
         {caseState.map((group) => (
-          <GroupItem
-            name={group.name}
-            points={group.points}
-            arePointsDefined={group.defined}
-            cases={group.cases}
-            key={group.name}
-          />
+          <GroupItem {...group} />
         ))}
       </Box>
     </>

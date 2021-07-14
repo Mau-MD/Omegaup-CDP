@@ -21,16 +21,13 @@ import CaseItem from "./CaseItem";
 import { useStoreState } from "../../../Redux/Store";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import Edit from "./Edit";
+import EditGroup from "./EditGroup";
+import { IGroup } from "../../../Redux/Models/CasesModel";
 
-interface PropTypes {
-  name: string;
-  points: number;
-  cases: object[];
-  arePointsDefined: boolean;
-}
+interface PropTypes extends IGroup {}
 
-const GroupItem = ({ name, points, arePointsDefined, cases }: PropTypes) => {
+const GroupItem = (props: PropTypes) => {
+  const { name, defined, points, groupId } = props;
   const [showCases, setShowCases] = useState(false);
 
   const borderColor = useColorModeValue("gray.200", "gray.600");
@@ -72,10 +69,7 @@ const GroupItem = ({ name, points, arePointsDefined, cases }: PropTypes) => {
                   "Estos serán los puntos que obtendrá el usuario si resuelve correctamente el grupo"
                 }
               >
-                <Badge
-                  colorScheme={arePointsDefined ? "green" : "blue"}
-                  size={"sm"}
-                >
+                <Badge colorScheme={defined ? "green" : "blue"} size={"sm"}>
                   {isLargeScreen ? (
                     <span> {parseFloat("" + points).toFixed(2) + " pts"}</span>
                   ) : (
@@ -100,15 +94,7 @@ const GroupItem = ({ name, points, arePointsDefined, cases }: PropTypes) => {
                   </MenuItem>
                 </MenuList>
               </Menu>
-              <Edit
-                type={"group"}
-                isOpen={isOpen}
-                onClose={onClose}
-                groupName={name}
-                points={points}
-                cases={cases}
-                arePointsDefined={arePointsDefined}
-              />
+              <EditGroup {...props} isOpen={isOpen} onClose={onClose} />
             </>
           )}
         </HStack>
@@ -122,17 +108,9 @@ const GroupItem = ({ name, points, arePointsDefined, cases }: PropTypes) => {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               style={{ display: "inline-block" }}
-              key={
-                element.name && element.group && element.name + element.group
-              }
+              key={element.caseId}
             >
-              <CaseItem
-                caseName={element.name ? element.name : ""}
-                groupName={element.group ? element.group : ""}
-                pointsDefined={element.defined}
-                points={element.points ? element.points : 0}
-                shouldShowPoints={element.group === "Sin Grupo"}
-              />
+              <CaseItem {...element} shouldShowPoints={name === "Sin Grupo"} />
             </motion.div>
           ))}
       </Box>

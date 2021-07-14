@@ -18,16 +18,18 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { useStoreActions, useStoreState } from "../../../Redux/Store";
 import { ICase, IGroup } from "../../../Redux/Models/CasesModel";
+import { uuid } from "uuidv4";
 
 interface PropTypes extends IGroup {
   onClose: () => void;
 }
+
 const AddGroupModal = (props: PropTypes) => {
-  const { groupId, name, points, defined, onClose } = props;
+  const { groupId, name, points, defined, onClose, cases } = props;
 
-  const [autoPoints, setAutoPoints] = useState();
+  const [autoPoints, setAutoPoints] = useState(!defined);
 
-  const groupNameRef = useRef<string>(name);
+  const nameRef = useRef<string>(name);
   const pointsRef = useRef<number>(points);
   const definedRef = useRef<boolean>(defined);
 
@@ -41,10 +43,7 @@ const AddGroupModal = (props: PropTypes) => {
 
     let isValid = true;
     groupData.forEach((groupElement) => {
-      if (
-        groupNameRef.current === groupElement.name &&
-        groupNameRef.current !== name
-      ) {
+      if (groupElement.name === nameRef.current && nameRef.current !== name) {
         isValid = false;
         return;
       }
@@ -60,25 +59,13 @@ const AddGroupModal = (props: PropTypes) => {
       return;
     }
 
-    console.log(groupName.current);
-    if (edit) {
-      editGroup({
-        payload: {
-          name: groupName.current,
-          cases: initial ? initial?.cases : [],
-          points: points.current,
-          defined: pointsDefined.current,
-        },
-        oldName: initial ? initial?.groupName : "",
-      });
-    } else {
-      addGroup({
-        name: groupName.current,
-        cases: [],
-        points: points.current,
-        defined: pointsDefined.current,
-      });
-    }
+    editGroup({
+      groupId: groupId,
+      points: pointsRef.current,
+      defined: definedRef.current,
+      name: nameRef.current,
+      cases: cases,
+    });
 
     onClose();
   }
@@ -88,15 +75,15 @@ const AddGroupModal = (props: PropTypes) => {
       <FormControl mt={3} isRequired>
         <FormLabel> Nombre del grupo</FormLabel>
         <Input
-          onChange={(e) => (groupName.current = e.target.value)}
-          defaultValue={initial?.groupName}
+          onChange={(e) => (nameRef.current = e.target.value)}
+          defaultValue={name}
         />
       </FormControl>
       <FormControl mt={5}>
         <FormLabel> Puntaje </FormLabel>
         <NumberInput
-          onChange={(e, valueAsNumber) => (points.current = valueAsNumber)}
-          defaultValue={initial?.points}
+          defaultValue={points}
+          onChange={(e, valueAsNumber) => (pointsRef.current = valueAsNumber)}
           min={0}
           max={100}
           isDisabled={autoPoints}
@@ -117,14 +104,14 @@ const AddGroupModal = (props: PropTypes) => {
           isChecked={autoPoints}
           onChange={() => {
             setAutoPoints(!autoPoints);
-            pointsDefined.current = autoPoints;
+            definedRef.current = autoPoints;
           }}
         >
           Puntaje automático
         </Checkbox>
       </FormControl>
       <Button colorScheme="green" isFullWidth mt={10} type={"submit"}>
-        {submitButton}
+        Agregar Problema
       </Button>
     </form>
   );

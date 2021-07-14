@@ -1,7 +1,7 @@
 import { action, Action, Computed, computed } from "easy-peasy";
 import { uuid } from "uuidv4";
 
-interface IGroup {
+export interface IGroup {
   groupId: string;
   name: string;
   points: number;
