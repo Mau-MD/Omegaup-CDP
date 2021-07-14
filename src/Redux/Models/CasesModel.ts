@@ -98,12 +98,12 @@ const CasesModel = {
     state.data = calculatePoints(state.data);
   }),
   editGroup: action((state, payload) => {
-    state.data = state.data.map((element) => {
-      if (element.groupId === payload.groupId) {
-        element = payload;
-      }
-      return element;
-    });
+    const groupIndex = state.data.findIndex(
+      (groupElement) => groupElement.groupId === payload.groupId
+    );
+
+    if (groupIndex !== undefined) state.data[groupIndex] = payload;
+
     state.data = calculatePoints(state.data);
   }),
   removeGroup: action((state, payload) => {
@@ -113,24 +113,22 @@ const CasesModel = {
     state.data = calculatePoints(state.data);
   }),
   addCase: action((state, payload) => {
-    state.data.map((element) => {
-      if (element.groupId === payload.groupId) {
-        element.cases.push(payload);
-      }
-      return element;
-    });
+    const groupState = state.data.find(
+      (groupElement) => groupElement.groupId === payload.groupId
+    );
+    groupState?.cases.push(payload);
     state.data = calculatePoints(state.data);
   }),
   editCase: action((state, payload) => {
     const { case: caseData, lastId } = payload;
 
-    const group = state.data.find(
+    const groupState = state.data.find(
       (groupElement) => groupElement.groupId === lastId
     );
 
     if (lastId !== caseData.groupId) {
-      if (group) {
-        group.cases = group.cases.filter(
+      if (groupState) {
+        groupState.cases = groupState.cases.filter(
           (caseElement) => caseElement.caseId !== caseData.caseId
         );
       }
@@ -140,26 +138,29 @@ const CasesModel = {
       );
 
       newGroup?.cases.push(caseData);
+      calculatePoints(state.data);
       return;
     }
 
-    const caseIndex = group?.cases.findIndex(
+    const caseIndex = groupState?.cases.findIndex(
       (caseElement) => caseElement.caseId === caseData.caseId
     );
 
-    if (group !== undefined && caseIndex !== undefined) {
-      group.cases[caseIndex] = caseData;
+    if (groupState !== undefined && caseIndex !== undefined) {
+      groupState.cases[caseIndex] = caseData;
     }
   }),
+
   removeCase: action((state, payload) => {
-    state.data.map((element) => {
-      if (element.groupId === payload.groupId) {
-        element.cases = element.cases.filter((caseElement) => {
-          return caseElement.caseId !== payload.caseId;
-        });
-      }
-      return element;
-    });
+    const groupState = state.data.find(
+      (groupElement) => groupElement.groupId === payload.groupId
+    );
+
+    if (groupState !== undefined) {
+      groupState.cases = groupState.cases.filter(
+        (caseElement) => caseElement.caseId !== payload.caseId
+      );
+    }
     state.data = calculatePoints(state.data);
   }),
   setSelected: action((state, payload) => {

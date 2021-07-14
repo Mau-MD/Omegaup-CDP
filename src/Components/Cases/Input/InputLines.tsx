@@ -4,7 +4,7 @@ import { Flex, VStack } from "@chakra-ui/react";
 
 const InputLines = () => {
   return (
-    <VStack>
+    <VStack ml={5}>
       <Line />
       <Line />
       <Line hide />
