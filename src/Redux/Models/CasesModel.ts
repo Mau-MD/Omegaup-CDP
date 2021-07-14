@@ -1,6 +1,8 @@
 import { action, Action, Computed, computed } from "easy-peasy";
+import { uuid } from "uuidv4";
 
-interface IGroup {
+export interface IGroup {
+  groupId: string;
   name: string;
   points: number;
   defined: boolean;
@@ -8,25 +10,31 @@ interface IGroup {
 }
 
 export interface ICase {
+  caseId: string;
   name: string;
-  group: string;
+  groupId: string;
   points: number;
   defined: boolean;
-  ioData: object;
+}
+
+interface caseIndentifier {
+  groupId: string;
+  caseId: string;
 }
 
 export interface ICasesModel {
   data: IGroup[];
-  selected: { name: string; group: string };
+  selected: caseIndentifier;
 
   addGroup: Action<ICasesModel, IGroup>;
-  editGroup: Action<ICasesModel, { payload: IGroup; oldName: string }>;
+  editGroup: Action<ICasesModel, IGroup>;
   removeGroup: Action<ICasesModel, string>;
 
   addCase: Action<ICasesModel, ICase>;
-  editCase: Action<ICasesModel, ICase>;
-  removeCase: Action<ICasesModel, { name: string; group: string }>;
-  setSelected: Action<ICasesModel, { name: string; group: string }>;
+  editCase: Action<ICasesModel, { case: ICase; lastId: string }>;
+  removeCase: Action<ICasesModel, caseIndentifier>;
+
+  setSelected: Action<ICasesModel, caseIndentifier>;
 }
 
 function calculatePoints(state: IGroup[]) {
@@ -74,6 +82,7 @@ function calculatePoints(state: IGroup[]) {
 const CasesModel = {
   data: [
     {
+      groupId: uuid(),
       name: "Sin Grupo",
       cases: [],
       defined: false,
@@ -81,8 +90,8 @@ const CasesModel = {
     },
   ],
   selected: {
-    name: "none",
-    group: "none",
+    groupId: "none",
+    caseId: "none",
   },
   addGroup: action((state, payload) => {
     state.data.push(payload);
@@ -90,8 +99,8 @@ const CasesModel = {
   }),
   editGroup: action((state, payload) => {
     state.data = state.data.map((element) => {
-      if (element.name === payload.oldName) {
-        element = payload.payload;
+      if (element.groupId === payload.groupId) {
+        element = payload;
       }
       return element;
     });
@@ -99,13 +108,13 @@ const CasesModel = {
   }),
   removeGroup: action((state, payload) => {
     state.data = state.data.filter((element) => {
-      return element.name !== payload;
+      return element.groupId !== payload;
     });
     state.data = calculatePoints(state.data);
   }),
   addCase: action((state, payload) => {
     state.data.map((element) => {
-      if (element.name === payload.group) {
+      if (element.groupId === payload.groupId) {
         element.cases.push(payload);
       }
       return element;
@@ -113,27 +122,40 @@ const CasesModel = {
     state.data = calculatePoints(state.data);
   }),
   editCase: action((state, payload) => {
-    state.data.map((element) => {
-      if (element.name === payload.group) {
-        element.cases.map((caseElement) => {
-          if (caseElement.name === payload.name) {
-            caseElement = payload;
-          }
-          return caseElement;
-        });
+    const { case: caseData, lastId } = payload;
+
+    const group = state.data.find(
+      (groupElement) => groupElement.groupId === lastId
+    );
+
+    if (lastId !== caseData.groupId) {
+      if (group) {
+        group.cases = group.cases.filter(
+          (caseElement) => caseElement.caseId !== caseData.caseId
+        );
       }
-      return element;
-    });
-    state.data = calculatePoints(state.data);
+
+      const newGroup = state.data.find(
+        (groupElement) => groupElement.groupId === caseData.groupId
+      );
+
+      newGroup?.cases.push(caseData);
+      return;
+    }
+
+    const caseIndex = group?.cases.findIndex(
+      (caseElement) => caseElement.caseId === caseData.caseId
+    );
+
+    if (group !== undefined && caseIndex !== undefined) {
+      group.cases[caseIndex] = caseData;
+    }
   }),
   removeCase: action((state, payload) => {
     state.data.map((element) => {
-      if (element.name === payload.group) {
+      if (element.groupId === payload.groupId) {
         element.cases = element.cases.filter((caseElement) => {
-          return (
-            caseElement.name !== payload.name &&
-            caseElement.group !== payload.group
-          );
+          return caseElement.caseId !== payload.caseId;
         });
       }
       return element;

@@ -1,6 +1,5 @@
 import * as React from "react";
 import {
-  Button,
   Checkbox,
   FormControl,
   FormHelperText,
@@ -11,29 +10,30 @@ import {
   NumberInput,
   NumberInputField,
   NumberInputStepper,
+  Select,
+  toast,
   useToast,
+  Button,
 } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useStoreActions, useStoreState } from "../../../Redux/Store";
+import { ICase, IGroup } from "../../../Redux/Models/CasesModel";
 import RSelect from "react-select";
-import { uuid } from "uuidv4";
 
-interface PropTypes {
+interface PropTypes extends ICase {
   onClose: () => void;
 }
+const EditCaseModal = (props: PropTypes) => {
+  const { groupId, caseId, name, points, defined, onClose } = props;
 
-// TODO handle logic for no group cases
+  const [autoPoints, setAutoPoints] = useState(!defined);
+  const [selectedValue, setSelectedValue] = useState(groupId);
 
-const AddCaseModal = ({ onClose }: PropTypes) => {
-  const [autoPoints, setAutoPoints] = useState(true);
-  const [selectedValue, setSelectedValue] = useState("");
-  const [hasGroup, setHasGroup] = useState(false);
+  const nameRef = useRef<string>(name);
+  const pointsRef = useRef<number>(points);
+  const definedRef = useRef<boolean>(defined);
 
-  const caseName = useRef<string>("");
-  const points = useRef<number>(50);
-  const pointsDefined = useRef<boolean>(false);
-
-  const addCase = useStoreActions((actions) => actions.cases.addCase);
+  const editCase = useStoreActions((actions) => actions.cases.editCase);
   const groupData = useStoreState((state) => state.cases.data);
 
   const toast = useToast();
@@ -44,6 +44,11 @@ const AddCaseModal = ({ onClose }: PropTypes) => {
       label: groupElement.name,
     };
   });
+
+  const [hasGroup, setHasGroup] = useState(groupId !== options[0].value);
+
+  // Tengo que quitarlo primero del grupo donde estaba antes
+  // Tengo que agregarlo al nuevo grupo
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -56,34 +61,42 @@ const AddCaseModal = ({ onClose }: PropTypes) => {
     }
 
     groupData.forEach((groupElement) => {
-      if (groupElement.groupId === selectedGroupId) {
+      if (groupElement.groupId === groupId) {
         groupElement.cases.forEach((caseElement) => {
-          if (caseElement.name === caseName.current) {
+          if (
+            caseElement.name === nameRef.current &&
+            nameRef.current !== name
+          ) {
             isValid = false;
             return;
           }
         });
+        if (!isValid) return;
       }
-      if (!isValid) return;
     });
 
     if (!isValid) {
       toast({
-        title: "Error al crear caso",
-        description:
-          "No puedes tener casos con el mismo nombre en un mismo grupo",
+        title: "Error al crear grupo",
+        description: "No puedes tener grupos con el mismo nombre",
         status: "error",
         isClosable: true,
       });
       return;
     }
 
-    addCase({
-      caseId: uuid(),
-      name: caseName.current,
-      groupId: selectedGroupId,
-      points: points.current,
-      defined: pointsDefined.current,
+    console.log(nameRef.current);
+
+    // cambiar el selected
+    editCase({
+      case: {
+        caseId: caseId,
+        name: nameRef.current,
+        points: pointsRef.current,
+        groupId: selectedGroupId,
+        defined: definedRef.current,
+      },
+      lastId: groupId,
     });
 
     onClose();
@@ -93,16 +106,20 @@ const AddCaseModal = ({ onClose }: PropTypes) => {
     setSelectedValue(event.value);
     setHasGroup(event.value !== options[0].value);
   }
+
   return (
     <form onSubmit={(e) => handleSubmit(e)}>
       <FormControl mt={3} isRequired>
         <FormLabel> Nombre del caso</FormLabel>
-        <Input onChange={(e) => (caseName.current = e.target.value)} />
+        <Input
+          onChange={(e) => (nameRef.current = e.target.value)}
+          defaultValue={name}
+        />
       </FormControl>
       <FormControl mt={5} isRequired>
         <FormLabel> Nombre del grupo</FormLabel>
         <RSelect
-          defaultValue={{ label: "Sin Grupo", value: options[0].value }}
+          defaultValue={options.find((obj) => obj.value === groupId)}
           options={options}
           value={options.find((obj) => obj.value === selectedValue)}
           onChange={handleSelectChange}
@@ -112,7 +129,8 @@ const AddCaseModal = ({ onClose }: PropTypes) => {
         <FormControl mt={5}>
           <FormLabel> Puntaje </FormLabel>
           <NumberInput
-            onChange={(e, valueAsNumber) => (points.current = valueAsNumber)}
+            onChange={(e, valueAsNumber) => (pointsRef.current = valueAsNumber)}
+            defaultValue={points}
             min={0}
             max={100}
             isDisabled={autoPoints}
@@ -133,18 +151,18 @@ const AddCaseModal = ({ onClose }: PropTypes) => {
             isChecked={autoPoints}
             onChange={() => {
               setAutoPoints(!autoPoints);
-              pointsDefined.current = autoPoints;
+              definedRef.current = autoPoints;
             }}
           >
             Puntaje automático
           </Checkbox>
         </FormControl>
       )}
-      <Button colorScheme="green" isFullWidth mt={10} type="submit">
-        Agregar Caso
+      <Button colorScheme="green" isFullWidth mt={10} type={"submit"}>
+        Editar Caso
       </Button>
     </form>
   );
 };
 
-export default AddCaseModal;
+export default EditCaseModal;

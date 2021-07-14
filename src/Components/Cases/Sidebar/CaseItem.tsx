@@ -1,31 +1,21 @@
 import * as React from "react";
 import { Badge, Button, HStack } from "@chakra-ui/react";
 import { useStoreActions, useStoreState } from "../../../Redux/Store";
+import { ICase } from "../../../Redux/Models/CasesModel";
 
-interface PropTypes {
-  groupName: string;
-  caseName: string;
-  pointsDefined: boolean;
-  points: number;
+interface PropTypes extends ICase {
   shouldShowPoints: boolean;
 }
-const CaseItem = ({
-  groupName,
-  caseName,
-  pointsDefined,
-  points,
-  shouldShowPoints,
-}: PropTypes) => {
+const CaseItem = (props: PropTypes) => {
+  const { name, points, caseId, groupId, defined, shouldShowPoints } = props;
+
   const setSelectedCase = useStoreActions(
     (actions) => actions.cases.setSelected
   );
   const selectedCase = useStoreState((state) => state.cases.selected);
 
   function handleSelectedCase() {
-    setSelectedCase({
-      name: caseName,
-      group: groupName,
-    });
+    setSelectedCase({ caseId: caseId, groupId: groupId });
   }
 
   return (
@@ -34,13 +24,13 @@ const CaseItem = ({
       size={"sm"}
       onClick={() => handleSelectedCase()}
       isActive={
-        selectedCase?.name === caseName && selectedCase.group === groupName
+        selectedCase.caseId === caseId && selectedCase.groupId === groupId
       }
     >
       <HStack>
-        <span>{caseName}</span>
+        <span>{name}</span>
         {shouldShowPoints && (
-          <Badge colorScheme={pointsDefined ? "green" : "blue"}>
+          <Badge colorScheme={defined ? "green" : "blue"}>
             {points.toFixed(2) + " PTS"}
           </Badge>
         )}
