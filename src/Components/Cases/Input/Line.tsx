@@ -24,7 +24,6 @@ const Line = ({ hide = false }: PropTypes) => {
       w={"100%"}
       h={mode === "multiline" ? "100px" : "40px"}
       p={5}
-      ml={5}
       border={"1px solid rgba(5,5,5,0.1)"}
       borderRadius={5}
     >
@@ -37,7 +36,7 @@ const Line = ({ hide = false }: PropTypes) => {
           </Editable>
         )}
         {mode === "multiline" ? (
-          <Textarea isFullWidth size={"sm"} h={"100%"} w={"100%"} />
+          <Textarea size={"sm"} h={"100%"} w={"100%"} />
         ) : (
           <Input
             isFullWidth

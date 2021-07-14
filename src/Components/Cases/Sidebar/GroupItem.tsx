@@ -23,6 +23,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import EditGroup from "./EditGroup";
 import { IGroup } from "../../../Redux/Models/CasesModel";
+import DeleteGroup from "./DeleteGroup";
 
 interface PropTypes extends IGroup {}
 
@@ -37,7 +38,16 @@ const GroupItem = (props: PropTypes) => {
 
   const isLargeScreen = useMediaPredicate("(min-width: 830px)");
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenEdit,
+    onOpen: onOpenEdit,
+    onClose: onCloseEdit,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenRemove,
+    onOpen: onOpenRemove,
+    onClose: onCloseRemove,
+  } = useDisclosure();
 
   function handleCasesToggleClick(event: React.MouseEvent<HTMLDivElement>) {
     let percentage =
@@ -86,15 +96,20 @@ const GroupItem = (props: PropTypes) => {
                   syle={{ zIndex: 99 }}
                 />
                 <MenuList>
-                  <MenuItem fontSize={"sm"} onClick={onOpen}>
+                  <MenuItem fontSize={"sm"} onClick={onOpenEdit}>
                     Editar Grupo
                   </MenuItem>
-                  <MenuItem fontSize={"sm"} onClick={() => {}}>
+                  <MenuItem fontSize={"sm"} onClick={onOpenRemove}>
                     Eliminar Grupo
                   </MenuItem>
                 </MenuList>
               </Menu>
-              <EditGroup {...props} isOpen={isOpen} onClose={onClose} />
+              <EditGroup {...props} isOpen={isOpenEdit} onClose={onCloseEdit} />
+              <DeleteGroup
+                isOpen={isOpenRemove}
+                onClose={onCloseRemove}
+                groupId={groupId}
+              />
             </>
           )}
         </HStack>

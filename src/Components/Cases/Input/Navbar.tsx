@@ -15,34 +15,47 @@ import Line from "./Line";
 import { useEffect, useRef, useState } from "react";
 import { ICase } from "../../../Redux/Models/CasesModel";
 import EditCase from "../Sidebar/EditCase";
+import DeleteItem from "../Sidebar/DeleteItem";
 
 const Navbar = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenEdit,
+    onOpen: onOpenEdit,
+    onClose: onCloseEdit,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenRemove,
+    onOpen: onOpenRemove,
+    onClose: onCloseRemove,
+  } = useDisclosure();
 
   const selectedCase = useStoreState((state) => state.cases.selected);
   const groupData = useStoreState((state) => state.cases.data);
 
-  const [selectedCaseData, setSelectedCaseData] = useState<ICase>({
+  const emptyObject = {
     name: "None",
     caseId: "None",
     groupId: "None",
     points: 0,
     defined: false,
-  });
+  };
+  const [selectedCaseData, setSelectedCaseData] = useState<ICase>(emptyObject);
 
   const selectedGroupNameRef = useRef("");
 
   useEffect(() => {
-    groupData.forEach((groupElement) => {
-      if (groupElement.groupId === selectedCase.groupId) {
-        selectedGroupNameRef.current = groupElement.name;
-        groupElement.cases.forEach((caseElement) => {
-          if (caseElement.caseId === selectedCase.caseId) {
-            setSelectedCaseData(caseElement);
-          }
-        });
-      }
-    });
+    const groupState = groupData.find(
+      (groupElement) => groupElement.groupId === selectedCase.groupId
+    );
+    selectedGroupNameRef.current = groupState ? groupState.name : "None";
+
+    const caseState = groupState?.cases.find(
+      (caseElement) => caseElement.caseId === selectedCase.caseId
+    );
+
+    if (caseState) {
+      setSelectedCaseData(caseState);
+    }
   }, [selectedCase]);
 
   return (
@@ -53,12 +66,25 @@ const Navbar = () => {
         </Text>
         <h2> {selectedGroupNameRef.current}</h2>
         <Spacer />
-        <Button size={"sm"} onClick={onOpen}>
+        <Button size={"sm"} onClick={onOpenEdit}>
           Editar Caso
         </Button>
-        <Button size={"sm"}> Eliminar Caso </Button>
+        <Button size={"sm"} onClick={onOpenRemove}>
+          {" "}
+          Eliminar Caso{" "}
+        </Button>
       </HStack>
-      <EditCase isOpen={isOpen} onClose={onClose} {...selectedCaseData} />
+      <EditCase
+        isOpen={isOpenEdit}
+        onClose={onCloseEdit}
+        {...selectedCaseData}
+      />
+      <DeleteItem
+        isOpen={isOpenRemove}
+        onClose={onCloseRemove}
+        groupId={selectedCase.groupId}
+        caseId={selectedCase.caseId}
+      />
     </Box>
   );
 };

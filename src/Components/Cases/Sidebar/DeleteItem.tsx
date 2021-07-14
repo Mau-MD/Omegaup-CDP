@@ -16,24 +16,28 @@ interface PropTypes {
   isOpen: boolean;
   onClose: () => void;
   groupId: string;
+  caseId: string;
 }
 
-const DeleteGroup = (props: PropTypes) => {
-  const { isOpen, onClose, groupId } = props;
+const DeleteItem = (props: PropTypes) => {
+  const { isOpen, onClose, groupId, caseId } = props;
 
   const toast = useToast();
 
-  const removeGroup = useStoreActions((actions) => actions.cases.removeGroup);
+  const removeCase = useStoreActions((actions) => actions.cases.removeCase);
 
-  function deleteGroup() {
+  function deleteCase() {
     toast({
-      title: "Grupo borrado",
-      description: "El grupo ha sido borrado exitosamente",
+      title: "Caso borrado",
+      description: "El caso ha sido borrado exitosamente",
       status: "success",
       isClosable: true,
     });
 
-    removeGroup(groupId);
+    removeCase({
+      caseId: caseId,
+      groupId: groupId,
+    });
     onClose();
   }
 
@@ -41,10 +45,10 @@ const DeleteGroup = (props: PropTypes) => {
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Borar Grupo</ModalHeader>
+        <ModalHeader>Borrar Caso</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          ¿Estás seguro que deseas borrar este grupo? Este cambio no se puede
+          ¿Estás seguro que deseas borrar este caso? Este cambio no se puede
           deshacer
         </ModalBody>
         <ModalFooter>
@@ -54,9 +58,9 @@ const DeleteGroup = (props: PropTypes) => {
           <Button
             colorScheme="red"
             type={"submit"}
-            onClick={() => deleteGroup()}
+            onClick={() => deleteCase()}
           >
-            Borrar Grupo
+            Borrar Caso
           </Button>
         </ModalFooter>
       </ModalContent>
@@ -64,4 +68,4 @@ const DeleteGroup = (props: PropTypes) => {
   );
 };
 
-export default DeleteGroup;
+export default DeleteItem;
