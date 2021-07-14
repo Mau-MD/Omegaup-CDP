@@ -138,7 +138,7 @@ const CasesModel = {
       );
 
       newGroup?.cases.push(caseData);
-      calculatePoints(state.data);
+      state.data = calculatePoints(state.data);
       return;
     }
 
@@ -149,6 +149,8 @@ const CasesModel = {
     if (groupState !== undefined && caseIndex !== undefined) {
       groupState.cases[caseIndex] = caseData;
     }
+
+    state.data = calculatePoints(state.data);
   }),
 
   removeCase: action((state, payload) => {
