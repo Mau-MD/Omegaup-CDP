@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.js": "/Omegaup-CDP/static/js/main.269732cc.chunk.js",
-    "main.js.map": "/Omegaup-CDP/static/js/main.269732cc.chunk.js.map",
+    "main.js": "/Omegaup-CDP/static/js/main.06a4687b.chunk.js",
+    "main.js.map": "/Omegaup-CDP/static/js/main.06a4687b.chunk.js.map",
     "runtime-main.js": "/Omegaup-CDP/static/js/runtime-main.66fdfa16.js",
     "runtime-main.js.map": "/Omegaup-CDP/static/js/runtime-main.66fdfa16.js.map",
-    "static/js/2.6765416b.chunk.js": "/Omegaup-CDP/static/js/2.6765416b.chunk.js",
-    "static/js/2.6765416b.chunk.js.map": "/Omegaup-CDP/static/js/2.6765416b.chunk.js.map",
+    "static/js/2.29a6d6b8.chunk.js": "/Omegaup-CDP/static/js/2.29a6d6b8.chunk.js",
+    "static/js/2.29a6d6b8.chunk.js.map": "/Omegaup-CDP/static/js/2.29a6d6b8.chunk.js.map",
     "index.html": "/Omegaup-CDP/index.html",
-    "static/js/2.6765416b.chunk.js.LICENSE.txt": "/Omegaup-CDP/static/js/2.6765416b.chunk.js.LICENSE.txt"
+    "static/js/2.29a6d6b8.chunk.js.LICENSE.txt": "/Omegaup-CDP/static/js/2.29a6d6b8.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.66fdfa16.js",
-    "static/js/2.6765416b.chunk.js",
-    "static/js/main.269732cc.chunk.js"
+    "static/js/2.29a6d6b8.chunk.js",
+    "static/js/main.06a4687b.chunk.js"
   ]
 }
