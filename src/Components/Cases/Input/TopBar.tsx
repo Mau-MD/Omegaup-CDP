@@ -6,11 +6,15 @@ import {
   Button,
   useDisclosure,
   Box,
+  Switch,
 } from "@chakra-ui/react";
 import EditCase from "../Sidebar/EditCase";
 import DeleteItem from "../Sidebar/DeleteItem";
 import { useSelectedData } from "../../../Hooks/useSelectedData";
 import { ICase } from "../../../Redux/Models/CasesModel";
+import { BsEye, BsFillEyeSlashFill } from "react-icons/all";
+import { ChangeEvent } from "react";
+import { useStoreActions, useStoreState } from "../../../Redux/Store";
 
 interface PropTypes {
   groupName: string;
@@ -29,6 +33,13 @@ const TopBar = (props: PropTypes) => {
     onClose: onCloseRemove,
   } = useDisclosure();
 
+  const hidden = useStoreState((state) => state.input.hidden);
+  const setHidden = useStoreActions((actions) => actions.input.setHidden);
+
+  function handleHidden(event: ChangeEvent<HTMLInputElement>) {
+    setHidden(event.target.checked);
+  }
+
   return (
     <Box mb={2}>
       <HStack h={"20%"} w={"100%"} pl={5}>
@@ -37,6 +48,10 @@ const TopBar = (props: PropTypes) => {
         </Text>
         <h2> {groupName}</h2>
         <Spacer />
+        <HStack pr={5}>
+          <BsFillEyeSlashFill />
+          <Switch onChange={(e) => handleHidden(e)} isChecked={hidden} />
+        </HStack>
         <Button size={"sm"} onClick={onOpenEdit}>
           Editar Caso
         </Button>

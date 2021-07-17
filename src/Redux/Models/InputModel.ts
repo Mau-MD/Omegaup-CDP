@@ -17,9 +17,10 @@ export interface caseIndentifier {
   caseId: string;
 }
 
-interface IInputModel {
+export interface IInputModel {
   data: IInput[];
   layout: ILine[] | undefined;
+  hidden: boolean;
 
   addData: Action<IInputModel, IInput>;
   removeData: Action<IInputModel, caseIndentifier>;
@@ -42,11 +43,14 @@ interface IInputModel {
     IInputModel,
     { caseIndentifier: caseIndentifier; lineId: string; lineData: ILine }
   >;
+  setHidden: Action<IInputModel, boolean>;
+  setLayout: Action<IInputModel, ILine[]>;
 }
 
 const InputModel = {
   data: [],
   layout: undefined,
+  hidden: false,
 
   addData: action((state, inputPage) => {
     state.data.push(inputPage);
@@ -96,6 +100,13 @@ const InputModel = {
       lineGroup.lines[lineIndex] = lineData;
     }
   }),
+
+  setHidden: action((state, hide) => {
+    state.hidden = hide;
+  }),
+  setLayout: action((state, layout) => {
+    state.layout = layout;
+  }),
 } as IInputModel;
 
-export default IInputModel;
+export default InputModel;
