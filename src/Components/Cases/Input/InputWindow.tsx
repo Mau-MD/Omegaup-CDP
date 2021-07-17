@@ -2,7 +2,7 @@ import * as React from "react";
 import Line from "./Line";
 import { Flex, VStack } from "@chakra-ui/react";
 
-const InputLines = () => {
+const InputWindow = () => {
   return (
     <VStack ml={5}>
       <Line />
@@ -14,4 +14,4 @@ const InputLines = () => {
   );
 };
 
-export default InputLines;
+export default InputWindow;

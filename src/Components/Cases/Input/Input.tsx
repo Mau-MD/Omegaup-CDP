@@ -1,15 +1,18 @@
 import * as React from "react";
-import Navbar from "./Navbar";
+import TopBar from "./TopBar";
 import Line from "./Line";
 import { Box, Divider, Flex } from "@chakra-ui/react";
-import InputLines from "./InputLines";
+import InputWindow from "./InputWindow";
+import { useSelectedData } from "../../../Hooks/useSelectedData";
 
 const Input = () => {
+  const selectedData = useSelectedData();
+
   return (
     <Box w={"100%"} h={"100%"}>
-      <Navbar />
+      <TopBar {...selectedData} />
       <Divider mb={4} />
-      <InputLines />
+      <InputWindow />
     </Box>
   );
 };

@@ -25,6 +25,10 @@ interface caseIndentifier {
 export interface ICasesModel {
   data: IGroup[];
   selected: caseIndentifier;
+  selectedData: Computed<
+    ICasesModel,
+    (groupId: string, caseId: string) => { groupName: string; caseData: ICase }
+  >;
 
   addGroup: Action<ICasesModel, IGroup>;
   editGroup: Action<ICasesModel, IGroup>;
@@ -93,6 +97,21 @@ const CasesModel = {
     groupId: "none",
     caseId: "none",
   },
+  selectedData: computed((state) => {
+    return (groupId, caseId) => {
+      const groupState = state.data.find(
+        (groupElement) => groupElement.groupId === groupId
+      );
+
+      const groupName = groupState ? groupState.name : "None";
+
+      const caseState = groupState?.cases.find(
+        (caseElement) => caseElement.caseId === caseId
+      );
+
+      if (caseState) return { groupName: groupName, caseData: caseState };
+    };
+  }),
   addGroup: action((state, payload) => {
     state.data.push(payload);
     state.data = calculatePoints(state.data);

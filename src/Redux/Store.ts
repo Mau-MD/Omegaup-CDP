@@ -1,6 +1,5 @@
 import title, { ITitleModel } from "./Models/TitleModel";
 import cases, { ICasesModel } from "./Models/CasesModel";
-
 import { createStore, createTypedHooks, persist } from "easy-peasy";
 
 const globalModel = {

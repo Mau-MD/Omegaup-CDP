@@ -24,6 +24,7 @@ import { motion } from "framer-motion";
 import EditGroup from "./EditGroup";
 import { IGroup } from "../../../Redux/Models/CasesModel";
 import DeleteGroup from "./DeleteGroup";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 
 interface PropTypes extends IGroup {}
 
@@ -72,7 +73,7 @@ const GroupItem = (props: PropTypes) => {
         >
           <Box>{name === "mainGroup" ? "Sin Grupo" : name}</Box>
           <Spacer />
-          {name !== "Sin Grupo" && (
+          {name !== "Sin Grupo" ? (
             <>
               <Tooltip
                 label={
@@ -111,6 +112,8 @@ const GroupItem = (props: PropTypes) => {
                 groupId={groupId}
               />
             </>
+          ) : (
+            <ChevronDownIcon />
           )}
         </HStack>
         <Divider />
