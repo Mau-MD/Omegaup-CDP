@@ -19,7 +19,6 @@ import { useEffect, useRef, useState } from "react";
 import { useStoreActions, useStoreState } from "../../../Redux/Store";
 import { ICase, IGroup } from "../../../Redux/Models/CasesModel";
 import RSelect from "react-select";
-
 interface PropTypes extends ICase {
   onClose: () => void;
 }
@@ -35,6 +34,9 @@ const EditCaseModal = (props: PropTypes) => {
 
   const editCase = useStoreActions((actions) => actions.cases.editCase);
   const groupData = useStoreState((state) => state.cases.data);
+  const handleGroupChange = useStoreActions(
+    (actions) => actions.input.handleGroupChange
+  );
 
   const toast = useToast();
 
@@ -98,6 +100,8 @@ const EditCaseModal = (props: PropTypes) => {
       },
       lastId: groupId,
     });
+
+    handleGroupChange({ caseId: caseId, newGroupId: selectedGroupId });
 
     onClose();
   }

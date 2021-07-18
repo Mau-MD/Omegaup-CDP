@@ -40,6 +40,10 @@ export interface IInputModel {
     IInputModel,
     { caseIdentifier: caseIdentifier; lineId: string; lineData: ILine }
   >;
+  handleGroupChange: Action<
+    IInputModel,
+    { caseId: string; newGroupId: string }
+  >;
   setHidden: Action<IInputModel, boolean>;
   setLayout: Action<IInputModel, ILine[]>;
 }
@@ -105,6 +109,15 @@ const InputModel = {
   }),
   setLayout: action((state, layout) => {
     state.layout = layout;
+  }),
+
+  handleGroupChange: action((state, { caseId, newGroupId }) => {
+    const inputPage = state.data.find(
+      (inputElement) => inputElement.id.caseId === caseId
+    );
+    if (inputPage !== undefined) {
+      inputPage.id.groupId = newGroupId;
+    }
   }),
 } as IInputModel;
 
