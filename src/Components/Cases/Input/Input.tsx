@@ -12,7 +12,7 @@ const Input = () => {
     <Box w={"100%"} h={"100%"}>
       <TopBar {...selectedData} />
       <Divider mb={4} />
-      <InputWindow />
+      <InputWindow {...selectedData} />
     </Box>
   );
 };

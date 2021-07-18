@@ -12,12 +12,16 @@ import {
 } from "@chakra-ui/react";
 import { DeleteIcon, DragHandleIcon, EditIcon } from "@chakra-ui/icons";
 import { useState } from "react";
+import { ILine } from "../../../Redux/Models/InputModel";
 
-interface PropTypes {
+interface PropTypes extends ILine {
   hide?: boolean;
 }
-const Line = ({ hide = false }: PropTypes) => {
-  const [mode, setMode] = useState("line");
+
+const Line = (props: PropTypes) => {
+  const { hide = false, lineId, type, value, label } = props;
+
+  const [mode, setMode] = useState(type);
 
   return (
     <Box
@@ -30,7 +34,7 @@ const Line = ({ hide = false }: PropTypes) => {
       <HStack w={"100%"} h={"100%"}>
         <DragHandleIcon />
         {!hide && (
-          <Editable defaultValue={"Nombre"}>
+          <Editable defaultValue={label}>
             <EditablePreview />
             <EditableInput />
           </Editable>
@@ -39,6 +43,7 @@ const Line = ({ hide = false }: PropTypes) => {
           <Textarea size={"sm"} h={"100%"} w={"100%"} />
         ) : (
           <Input
+            defaultValue={value}
             isFullWidth
             size={"sm"}
             disabled={mode === "array" || mode === "matrix"}
@@ -48,7 +53,17 @@ const Line = ({ hide = false }: PropTypes) => {
           <Select
             size={"sm"}
             w={"240px"}
-            onChange={(e) => setMode(e.currentTarget.value)}
+            onChange={(e) => {
+              const value = e.currentTarget.value;
+              if (
+                value === "line" ||
+                value === "multiline" ||
+                value === "array" ||
+                value === "matrix"
+              ) {
+                setMode(value);
+              }
+            }}
           >
             <option value={"line"}> Linea </option>
             <option value={"multiline"}> Multiple Lineas </option>

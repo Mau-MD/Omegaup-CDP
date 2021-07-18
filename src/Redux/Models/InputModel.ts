@@ -8,11 +8,11 @@ export interface ILine {
 }
 
 export interface IInput {
-  id: caseIndentifier;
+  id: caseIdentifier;
   lines: ILine[];
 }
 
-export interface caseIndentifier {
+export interface caseIdentifier {
   groupId: string;
   caseId: string;
 }
@@ -23,25 +23,22 @@ export interface IInputModel {
   hidden: boolean;
 
   addData: Action<IInputModel, IInput>;
-  removeData: Action<IInputModel, caseIndentifier>;
+  removeData: Action<IInputModel, caseIdentifier>;
 
-  addLine: Action<
-    IInputModel,
-    { caseIndentifier: caseIndentifier; line: ILine }
-  >;
-  // updateLines: Action<IInputModel, caseIndentifier>; // Actualizar todos los inputs
+  addLine: Action<IInputModel, { caseIdentifier: caseIdentifier; line: ILine }>;
+  // updateLines: Action<IInputModel, caseIdentifier>; // Actualizar todos los inputs
   removeLine: Action<
     IInputModel,
-    { caseIndentifier: caseIndentifier; lineId: string }
+    { caseIdentifier: caseIdentifier; lineId: string }
   >;
 
   lineData: Computed<
     IInputModel,
-    (caseIndentifier: caseIndentifier, lineId: string) => ILine
+    (caseIdentifier: caseIdentifier, lineId: string) => ILine
   >;
   updateLine: Action<
     IInputModel,
-    { caseIndentifier: caseIndentifier; lineId: string; lineData: ILine }
+    { caseIdentifier: caseIdentifier; lineId: string; lineData: ILine }
   >;
   setHidden: Action<IInputModel, boolean>;
   setLayout: Action<IInputModel, ILine[]>;
@@ -62,22 +59,24 @@ const InputModel = {
   }),
   addLine: action((state, payload) => {
     const lineGroup = state.data.find(
-      (inputElement) => inputElement.id === payload.caseIndentifier
+      (inputElement) =>
+        JSON.stringify(inputElement.id) ===
+        JSON.stringify(payload.caseIdentifier)
     );
     lineGroup?.lines.push(payload.line);
   }),
   removeLine: action((state, payload) => {
     const lineGroup = state.data.find(
-      (inputElement) => inputElement.id === payload.caseIndentifier
+      (inputElement) => inputElement.id === payload.caseIdentifier
     );
     lineGroup?.lines.filter(
       (lineElement) => lineElement.lineId !== payload.lineId
     );
   }),
   lineData: computed((state) => {
-    return (caseIndentifier, lineId) => {
+    return (caseIdentifier, lineId) => {
       const lineGroup = state.data.find(
-        (inputElement) => inputElement.id === caseIndentifier
+        (inputElement) => inputElement.id === caseIdentifier
       );
 
       const line = lineGroup?.lines.find(
@@ -87,9 +86,9 @@ const InputModel = {
       if (line) return line;
     };
   }),
-  updateLine: action((state, { caseIndentifier, lineId, lineData }) => {
+  updateLine: action((state, { caseIdentifier, lineId, lineData }) => {
     const lineGroup = state.data.find(
-      (inputElement) => inputElement.id === caseIndentifier
+      (inputElement) => inputElement.id === caseIdentifier
     );
 
     const lineIndex = lineGroup?.lines.findIndex(

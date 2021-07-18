@@ -11,7 +11,7 @@ const MainWindow = () => {
   return (
     <>
       <Container maxW={"container.lg"} mt={3} h={"80vh"} padding={"0"}>
-        <Tabs variant={"enclosed"} size={"sm"} isLazy={true}>
+        <Tabs variant={"enclosed"} size={"sm"}>
           <TabList>
             <Tab>
               <HStack>
