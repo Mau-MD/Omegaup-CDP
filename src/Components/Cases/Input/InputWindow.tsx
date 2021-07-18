@@ -18,13 +18,11 @@ const InputWindow = (props: PropTypes) => {
   const addLine = useStoreActions((action) => action.input.addLine);
   const pageData = useInputPage(caseData);
 
-  useEffect(() => {
-    console.log(pageData);
-  }, [pageData]);
+  const caseIdentifier = { groupId: caseData.groupId, caseId: caseData.caseId };
 
   function addLineToStore() {
     addLine({
-      caseIdentifier: { groupId: caseData.groupId, caseId: caseData.caseId },
+      caseIdentifier: caseIdentifier,
       line: { lineId: uuid(), type: "line", value: "", label: "Nombre" },
     });
   }
@@ -32,7 +30,13 @@ const InputWindow = (props: PropTypes) => {
   return (
     <VStack ml={5}>
       {pageData.map((line) => (
-        <Line hide={hidden} key={line.lineId} {...line} />
+        <Line
+          hide={hidden}
+          key={line.lineId}
+          caseIdentifier={caseIdentifier}
+          addLine={addLineToStore}
+          {...line}
+        />
       ))}
       <Center>
         <Button size={"sm"} onClick={() => addLineToStore()}>
