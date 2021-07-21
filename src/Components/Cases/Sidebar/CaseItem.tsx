@@ -39,4 +39,4 @@ const CaseItem = (props: PropTypes) => {
   );
 };
 
-export default CaseItem;
+export default React.memo(CaseItem);

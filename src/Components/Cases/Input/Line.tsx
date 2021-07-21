@@ -17,6 +17,11 @@ import {
   ILine,
 } from "../../../Redux/Models/InputModel";
 import { useStoreActions } from "../../../Redux/Store";
+import _ from "lodash";
+
+// TODO: Focus automatico al presionar enter
+// TODO: no deberia de mostrar nada si ninguna caso esta seleccionado
+// TODO: Al borrar caso/grupo deberia ir al modo no seleccionado
 
 interface PropTypes extends ILine {
   caseIdentifier: ICaseIdentifier;
@@ -126,4 +131,7 @@ const Line = (props: PropTypes) => {
   );
 };
 
-export default Line;
+// export default Line;
+export default React.memo(Line, (prevState, nextState) => {
+  return _.isEqual(prevState, nextState);
+});

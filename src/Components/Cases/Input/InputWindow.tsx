@@ -4,7 +4,7 @@ import { Button, Center, Flex, VStack } from "@chakra-ui/react";
 import { useStoreActions, useStoreState } from "../../../Redux/Store";
 import { ICase } from "../../../Redux/Models/CasesModel";
 import { useInputPage } from "../../../Hooks/useInputPage";
-import { useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { uuid } from "uuidv4";
 
 interface PropTypes {
@@ -20,26 +20,33 @@ const InputWindow = (props: PropTypes) => {
 
   const caseIdentifier = { groupId: caseData.groupId, caseId: caseData.caseId };
 
-  function addLineToStore() {
+  const addLineToStore = useCallback(() => {
     addLine({
-      caseIdentifier: caseIdentifier,
+      caseIdentifier: { groupId: caseData.groupId, caseId: caseData.caseId },
       line: { lineId: uuid(), type: "line", value: "", label: "Nombre" },
     });
-  }
+  }, [addLine, caseData]);
+
+  // function addLineToStore() {
+  //   addLine({
+  //     caseIdentifier: caseIdentifier,
+  //     line: { lineId: uuid(), type: "line", value: "", label: "Nombre" },
+  //   });
+  // }
 
   return (
     <VStack ml={5}>
       {pageData.map((line) => (
         <Line
-          hide={hidden}
+          {...line}
           key={line.lineId}
+          hide={hidden}
           caseIdentifier={caseIdentifier}
           addLine={addLineToStore}
-          {...line}
         />
       ))}
       <Center>
-        <Button size={"sm"} onClick={() => addLineToStore()}>
+        <Button size={"sm"} onClick={addLineToStore}>
           +
         </Button>
       </Center>
