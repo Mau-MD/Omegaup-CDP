@@ -11,12 +11,14 @@ import {
   NumberInput,
   NumberInputField,
   NumberInputStepper,
+  useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { useStoreActions, useStoreState } from "../../../Redux/Store";
 import RSelect from "react-select";
 import { uuid } from "uuidv4";
+import chakraColors from "../../../Util/chakraColors";
 
 interface PropTypes {
   onClose: () => void;
@@ -37,6 +39,7 @@ const AddCaseModal = ({ onClose }: PropTypes) => {
   const groupData = useStoreState((state) => state.cases.data);
 
   const toast = useToast();
+  const darkTheme = useColorModeValue(false, true);
 
   let options = groupData.map((groupElement) => {
     return {
@@ -106,6 +109,29 @@ const AddCaseModal = ({ onClose }: PropTypes) => {
           options={options}
           value={options.find((obj) => obj.value === selectedValue)}
           onChange={handleSelectChange}
+          theme={
+            darkTheme
+              ? (theme) => ({
+                  ...theme,
+                  colors: {
+                    ...theme.colors,
+                    primary: chakraColors.blue[200], // Selected
+                    primary25: chakraColors.gray[600], // Ring
+                    primary50: chakraColors.blue[600], // Ring
+                    primary75: chakraColors.blue[700], // Ring
+                    neutral0: chakraColors.gray[700],
+                    neutral5: chakraColors.gray[700],
+                    neutral10: chakraColors.gray[700],
+                    neutral20: chakraColors.gray[600],
+                    neutral30: chakraColors.gray[500],
+                    neutral40: chakraColors.white,
+                    neutral50: chakraColors.white,
+                    neutral80: chakraColors.white,
+                    neutral90: chakraColors.white,
+                  },
+                })
+              : undefined
+          }
         />
       </FormControl>
       {!hasGroup && (

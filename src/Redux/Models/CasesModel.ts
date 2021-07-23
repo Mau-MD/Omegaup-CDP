@@ -94,8 +94,8 @@ const CasesModel = {
     },
   ],
   selected: {
-    groupId: "none",
-    caseId: "none",
+    groupId: "None",
+    caseId: "None",
   },
   selectedData: computed((state) => {
     return (groupId, caseId) => {

@@ -18,14 +18,17 @@ export const useSelectedData = () => {
   const selectedData = useStoreState((state) => state.cases.selectedData);
 
   useEffect(() => {
-    if (selectedCase.caseId !== "none" || selectedCase.groupId !== "none") {
+    if (selectedCase.caseId !== "None" || selectedCase.groupId !== "None") {
       const objectData = selectedData(
         selectedCase.groupId,
         selectedCase.caseId
       );
       setGroupName(objectData.groupName);
       setCaseData(objectData.caseData);
+      return;
     }
+    setGroupName("None");
+    setCaseData(emptyObject);
   }, [selectedCase]);
 
   return { groupName, caseData };

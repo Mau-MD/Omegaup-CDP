@@ -27,13 +27,6 @@ const InputWindow = (props: PropTypes) => {
     });
   }, [addLine, caseData]);
 
-  // function addLineToStore() {
-  //   addLine({
-  //     caseIdentifier: caseIdentifier,
-  //     line: { lineId: uuid(), type: "line", value: "", label: "Nombre" },
-  //   });
-  // }
-
   return (
     <VStack ml={5}>
       {pageData.map((line) => (

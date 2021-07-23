@@ -11,12 +11,12 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { DeleteIcon, DragHandleIcon, EditIcon } from "@chakra-ui/icons";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   caseIdentifier as ICaseIdentifier,
   ILine,
 } from "../../../Redux/Models/InputModel";
-import { useStoreActions } from "../../../Redux/Store";
+import { useStoreActions, useStoreState } from "../../../Redux/Store";
 import _ from "lodash";
 
 // TODO: Focus automatico al presionar enter
@@ -42,44 +42,73 @@ const Line = (props: PropTypes) => {
 
   const [mode, setMode] = useState(type);
   const labelRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<any>(null);
 
   const updateLine = useStoreActions((actions) => actions.input.updateLine);
+  const deleteLine = useStoreActions((actions) => actions.input.removeLine);
+  const lastCreated = useStoreState((state) => state.input.lastCreated);
+
+  useEffect(() => {
+    handleUpdateLine();
+  }, [mode]);
+
+  useEffect(() => {
+    if (lastCreated === lineId) {
+      inputRef.current.focus();
+    }
+  }, [lastCreated]);
 
   function handleUpdateLine() {
-    console.log(labelRef.current?.children[0].innerHTML);
-    console.log(inputRef.current?.value);
-    console.log(mode);
-    // updateLine({
-    //   lineId: lineId,
-    //   caseIdentifier: caseIdentifier,
-    //   lineData: { lineId: lineId, label: "", value: "", type: "line" },
-    // });
+    let label =
+      labelRef.current !== null ? labelRef.current.children[0].innerHTML : "";
+    let value = inputRef.current !== null ? inputRef.current.value : "";
+
+    updateLine({
+      lineId: lineId,
+      caseIdentifier: caseIdentifier,
+      lineData: { lineId: lineId, label: label, value: value, type: mode },
+    });
   }
 
   function handleEnterPress(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === "Enter") {
-      console.log("Created new line");
       inputRef.current?.blur();
       addLine();
     }
   }
 
+  function handleSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    const value = e.currentTarget.value;
+    if (
+      value === "line" ||
+      value === "multiline" ||
+      value === "array" ||
+      value === "matrix"
+    ) {
+      setMode(value);
+    }
+  }
+
+  function handleDelete() {
+    deleteLine({
+      caseIdentifier: caseIdentifier,
+      lineId: lineId,
+    });
+  }
+
   return (
-    <Box
-      w={"100%"}
-      h={mode === "multiline" ? "100px" : "40px"}
-      p={5}
-      border={"1px solid rgba(5,5,5,0.1)"}
-      borderRadius={5}
-    >
+    <Box w={"100%"} p={3} border={"1px solid rgba(5,5,5,0.1)"} borderRadius={5}>
       <HStack w={"100%"} h={"100%"}>
         <DragHandleIcon />
         {!hide && (
           <Editable
+            isTruncated
             defaultValue={label}
             fontSize={"sm"}
             ref={labelRef}
+            textOverflow={"clip"}
+            minW={"40px"}
+            maxW={"40px"}
             onSubmit={() => handleUpdateLine()}
           >
             <EditablePreview />
@@ -87,7 +116,12 @@ const Line = (props: PropTypes) => {
           </Editable>
         )}
         {mode === "multiline" ? (
-          <Textarea size={"sm"} h={"100%"} w={"100%"} />
+          <Textarea
+            size={"sm"}
+            defaultValue={value}
+            ref={inputRef}
+            onBlur={() => handleUpdateLine()}
+          />
         ) : (
           <Input
             defaultValue={value}
@@ -102,22 +136,14 @@ const Line = (props: PropTypes) => {
         {!hide && (
           <Select
             size={"sm"}
-            w={"240px"}
-            onChange={(e) => {
-              const value = e.currentTarget.value;
-              if (
-                value === "line" ||
-                value === "multiline" ||
-                value === "array" ||
-                value === "matrix"
-              ) {
-                setMode(value);
-              }
-              handleUpdateLine();
-            }}
+            w={
+              mode === "array" || mode === "matrix" ? 200 - 38 + "px" : "200px"
+            }
+            value={type}
+            onChange={(e) => handleSelectChange(e)}
           >
             <option value={"line"}> Linea </option>
-            <option value={"multiline"}> Multiple Lineas </option>
+            <option value={"multiline"}> Multilínea</option>
             <option value={"array"}> Arreglo </option>
             <option value={"matrix"}> Matriz </option>
           </Select>
@@ -125,7 +151,7 @@ const Line = (props: PropTypes) => {
         {(mode === "array" || mode === "matrix") && (
           <EditIcon cursor={"pointer"} />
         )}
-        <DeleteIcon cursor={"pointer"} />
+        <DeleteIcon cursor={"pointer"} onClick={() => handleDelete()} />
       </HStack>
     </Box>
   );

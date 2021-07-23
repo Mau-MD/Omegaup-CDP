@@ -25,6 +25,7 @@ const DeleteItem = (props: PropTypes) => {
   const toast = useToast();
 
   const removeCase = useStoreActions((actions) => actions.cases.removeCase);
+  const selectCase = useStoreActions((actions) => actions.cases.setSelected);
 
   function deleteCase() {
     toast({
@@ -38,6 +39,7 @@ const DeleteItem = (props: PropTypes) => {
       caseId: caseId,
       groupId: groupId,
     });
+    selectCase({ caseId: "None", groupId: "None" });
     onClose();
   }
 

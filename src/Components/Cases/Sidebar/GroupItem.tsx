@@ -24,13 +24,15 @@ import { motion } from "framer-motion";
 import EditGroup from "./EditGroup";
 import { IGroup } from "../../../Redux/Models/CasesModel";
 import DeleteGroup from "./DeleteGroup";
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 
 interface PropTypes extends IGroup {}
 
 const GroupItem = (props: PropTypes) => {
   const { name, defined, points, groupId } = props;
-  const [showCases, setShowCases] = useState(false);
+  const [showCases, setShowCases] = useState(
+    name === "mainGroup" ? true : false
+  );
 
   const borderColor = useColorModeValue("gray.200", "gray.600");
   const caseState = useStoreState((state) => {
@@ -112,8 +114,10 @@ const GroupItem = (props: PropTypes) => {
                 groupId={groupId}
               />
             </>
-          ) : (
+          ) : showCases ? (
             <ChevronDownIcon />
+          ) : (
+            <ChevronUpIcon />
           )}
         </HStack>
         <Divider />

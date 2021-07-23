@@ -1,4 +1,5 @@
 import { action, Action, computed, Computed } from "easy-peasy";
+import _ from "lodash";
 
 export interface ILine {
   lineId: string;
@@ -21,6 +22,7 @@ export interface IInputModel {
   data: IInput[];
   layout: ILine[] | undefined;
   hidden: boolean;
+  lastCreated: string;
 
   addData: Action<IInputModel, IInput>;
   removeData: Action<IInputModel, caseIdentifier>;
@@ -52,6 +54,7 @@ const InputModel = {
   data: [],
   layout: undefined,
   hidden: false,
+  lastCreated: "",
 
   addData: action((state, inputPage) => {
     state.data.push(inputPage);
@@ -62,20 +65,22 @@ const InputModel = {
     });
   }),
   addLine: action((state, payload) => {
-    const lineGroup = state.data.find(
-      (inputElement) =>
-        JSON.stringify(inputElement.id) ===
-        JSON.stringify(payload.caseIdentifier)
+    const lineGroup = state.data.find((inputElement) =>
+      _.isEqual(inputElement.id, payload.caseIdentifier)
     );
     lineGroup?.lines.push(payload.line);
+    state.lastCreated = payload.line.lineId;
   }),
   removeLine: action((state, payload) => {
-    const lineGroup = state.data.find(
-      (inputElement) => inputElement.id === payload.caseIdentifier
+    const lineGroup = state.data.find((inputElement) =>
+      _.isEqual(inputElement.id, payload.caseIdentifier)
     );
-    lineGroup?.lines.filter(
-      (lineElement) => lineElement.lineId !== payload.lineId
-    );
+    console.log(lineGroup);
+    if (lineGroup !== undefined) {
+      lineGroup.lines = lineGroup?.lines.filter(
+        (lineElement) => lineElement.lineId !== payload.lineId
+      );
+    }
   }),
   lineData: computed((state) => {
     return (caseIdentifier, lineId) => {
@@ -91,8 +96,8 @@ const InputModel = {
     };
   }),
   updateLine: action((state, { caseIdentifier, lineId, lineData }) => {
-    const lineGroup = state.data.find(
-      (inputElement) => inputElement.id === caseIdentifier
+    const lineGroup = state.data.find((inputElement) =>
+      _.isEqual(inputElement.id, caseIdentifier)
     );
 
     const lineIndex = lineGroup?.lines.findIndex(
