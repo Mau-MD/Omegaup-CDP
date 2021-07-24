@@ -29,6 +29,7 @@ interface PropTypes extends ILine {
   addLine: () => void;
   hide?: boolean;
   provided: DraggableProvided;
+  showInput?: boolean;
 }
 
 const Line = (props: PropTypes) => {
@@ -41,8 +42,10 @@ const Line = (props: PropTypes) => {
     caseIdentifier,
     addLine,
     provided,
+    showInput = true,
   } = props;
 
+  console.log(showInput);
   const [mode, setMode] = useState(type);
   const labelRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<any>(null);
@@ -121,24 +124,25 @@ const Line = (props: PropTypes) => {
             <EditableInput />
           </Editable>
         )}
-        {mode === "multiline" ? (
-          <Textarea
-            size={"sm"}
-            defaultValue={value}
-            ref={inputRef}
-            onBlur={() => handleUpdateLine()}
-          />
-        ) : (
-          <Input
-            defaultValue={value}
-            // isFullWidth
-            size={"sm"}
-            disabled={mode === "array" || mode === "matrix"}
-            ref={inputRef}
-            onBlur={() => handleUpdateLine()}
-            onKeyPress={(e) => handleEnterPress(e)}
-          />
-        )}
+        {showInput &&
+          (mode === "multiline" ? (
+            <Textarea
+              size={"sm"}
+              defaultValue={value}
+              ref={inputRef}
+              onBlur={() => handleUpdateLine()}
+            />
+          ) : (
+            <Input
+              defaultValue={value}
+              // isFullWidth
+              size={"sm"}
+              disabled={mode === "array" || mode === "matrix"}
+              ref={inputRef}
+              onBlur={() => handleUpdateLine()}
+              onKeyPress={(e) => handleEnterPress(e)}
+            />
+          ))}
         {!hide && (
           <Select
             size={"sm"}

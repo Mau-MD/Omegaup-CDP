@@ -53,12 +53,16 @@ export interface IInputModel {
     { caseId: string; newGroupId: string }
   >;
   setHidden: Action<IInputModel, boolean>;
+
   setLayout: Action<IInputModel, ILine[]>;
+  addLayoutLine: Action<IInputModel, ILine>;
+  updateLayoutLine: Action<IInputModel, ILine>;
+  removeLayoutLine: Action<IInputModel, string>;
 }
 
 const InputModel = {
   data: [],
-  layout: undefined,
+  layout: [],
   hidden: false,
   lastCreated: "",
 
@@ -135,8 +139,26 @@ const InputModel = {
   setHidden: action((state, hide) => {
     state.hidden = hide;
   }),
+
   setLayout: action((state, layout) => {
     state.layout = layout;
+  }),
+  addLayoutLine: action((state, payload) => {
+    state.layout?.push(payload);
+  }),
+  updateLayoutLine: action((state, payload) => {
+    const lineToUpdate = state.layout?.find(
+      (lineElement) => lineElement.lineId === payload.lineId
+    );
+    if (lineToUpdate !== undefined) {
+      lineToUpdate.label = payload.label;
+      lineToUpdate.type = payload.type;
+    }
+  }),
+  removeLayoutLine: action((state, payload) => {
+    state.layout = state.layout?.filter(
+      (lineElement) => lineElement.lineId !== payload
+    );
   }),
 
   handleGroupChange: action((state, { caseId, newGroupId }) => {

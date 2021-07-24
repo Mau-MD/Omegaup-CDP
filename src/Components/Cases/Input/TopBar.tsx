@@ -22,6 +22,7 @@ import { BsEye, BsFillEyeSlashFill } from "react-icons/all";
 import { ChangeEvent } from "react";
 import { useStoreActions, useStoreState } from "../../../Redux/Store";
 import DeleteLinesModal from "./DeleteLinesModal";
+import LayoutDrawer from "./LayoutDrawer";
 
 interface PropTypes {
   groupName: string;
@@ -43,6 +44,11 @@ const TopBar = (props: PropTypes) => {
     isOpen: isOpenLines,
     onOpen: onOpenLines,
     onClose: onCloseLines,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenLayout,
+    onOpen: onOpenLayout,
+    onClose: onCloseLayout,
   } = useDisclosure();
 
   const hidden = useStoreState((state) => state.input.hidden);
@@ -79,7 +85,9 @@ const TopBar = (props: PropTypes) => {
             syle={{ zIndex: 99 }}
           />
           <MenuList>
-            <MenuItem fontSize={"sm"}>Layout</MenuItem>
+            <MenuItem fontSize={"sm"} onClick={onOpenLayout}>
+              Layout
+            </MenuItem>
             <MenuItem fontSize={"sm"} onClick={onOpenLines}>
               Borrar Lineas
             </MenuItem>
@@ -98,6 +106,7 @@ const TopBar = (props: PropTypes) => {
         onClose={onCloseLines}
         caseIdentifier={{ groupId: caseData.groupId, caseId: caseData.caseId }}
       />
+      <LayoutDrawer isOpen={isOpenLayout} onClose={onCloseLayout} />
     </Box>
   );
 };
