@@ -25,7 +25,7 @@ const InputWindow = (props: PropTypes) => {
   const hidden = useStoreState((state) => state.input.hidden);
   const addLine = useStoreActions((action) => action.input.addLine);
   const setLines = useStoreActions((action) => action.input.setLines);
-  const pageData = useInputPage(caseData);
+  const { pageData, setPageData } = useInputPage(caseData);
 
   const caseIdentifier = { groupId: caseData.groupId, caseId: caseData.caseId };
 
@@ -46,6 +46,7 @@ const InputWindow = (props: PropTypes) => {
     const [removed] = newArray.splice(startIndex, 1);
     newArray.splice(endIndex, 0, removed);
 
+    setPageData(newArray);
     setLines({
       caseIdentifier,
       lineArray: newArray,

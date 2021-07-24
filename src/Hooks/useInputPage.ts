@@ -27,5 +27,5 @@ export const useInputPage = (caseData: ICase) => {
     }
   }, [caseData, inputData]);
 
-  return pageData;
+  return {pageData, setPageData};
 };
