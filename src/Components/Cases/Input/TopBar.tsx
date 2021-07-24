@@ -7,14 +7,21 @@ import {
   useDisclosure,
   Box,
   Switch,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
 } from "@chakra-ui/react";
 import EditCase from "../Sidebar/EditCase";
+import { HiOutlineDotsVertical as Dots } from "react-icons/hi";
 import DeleteItem from "../Sidebar/DeleteItem";
 import { useSelectedData } from "../../../Hooks/useSelectedData";
 import { ICase } from "../../../Redux/Models/CasesModel";
 import { BsEye, BsFillEyeSlashFill } from "react-icons/all";
 import { ChangeEvent } from "react";
 import { useStoreActions, useStoreState } from "../../../Redux/Store";
+import DeleteLinesModal from "./DeleteLinesModal";
 
 interface PropTypes {
   groupName: string;
@@ -31,6 +38,11 @@ const TopBar = (props: PropTypes) => {
     isOpen: isOpenRemove,
     onOpen: onOpenRemove,
     onClose: onCloseRemove,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenLines,
+    onOpen: onOpenLines,
+    onClose: onCloseLines,
   } = useDisclosure();
 
   const hidden = useStoreState((state) => state.input.hidden);
@@ -59,6 +71,20 @@ const TopBar = (props: PropTypes) => {
           {" "}
           Eliminar Caso{" "}
         </Button>
+        <Menu>
+          <MenuButton
+            as={IconButton}
+            icon={<Dots />}
+            size={"sm"}
+            syle={{ zIndex: 99 }}
+          />
+          <MenuList>
+            <MenuItem fontSize={"sm"}>Layout</MenuItem>
+            <MenuItem fontSize={"sm"} onClick={onOpenLines}>
+              Borrar Lineas
+            </MenuItem>
+          </MenuList>
+        </Menu>
       </HStack>
       <EditCase isOpen={isOpenEdit} onClose={onCloseEdit} {...caseData} />
       <DeleteItem
@@ -66,6 +92,11 @@ const TopBar = (props: PropTypes) => {
         onClose={onCloseRemove}
         groupId={caseData.groupId}
         caseId={caseData.caseId}
+      />
+      <DeleteLinesModal
+        isOpen={isOpenLines}
+        onClose={onCloseLines}
+        caseIdentifier={{ groupId: caseData.groupId, caseId: caseData.caseId }}
       />
     </Box>
   );

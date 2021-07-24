@@ -28,12 +28,18 @@ export interface IInputModel {
   removeData: Action<IInputModel, caseIdentifier>;
 
   addLine: Action<IInputModel, { caseIdentifier: caseIdentifier; line: ILine }>;
-  // updateLines: Action<IInputModel, caseIdentifier>; // Actualizar todos los inputs
+  setLines: Action<
+    IInputModel,
+    {
+      caseIdentifier: caseIdentifier;
+      lineArray: ILine[];
+    }
+  >;
   removeLine: Action<
     IInputModel,
     { caseIdentifier: caseIdentifier; lineId: string }
   >;
-
+  removeAllLines: Action<IInputModel, caseIdentifier>;
   lineData: Computed<
     IInputModel,
     (caseIdentifier: caseIdentifier, lineId: string) => ILine
@@ -71,15 +77,32 @@ const InputModel = {
     lineGroup?.lines.push(payload.line);
     state.lastCreated = payload.line.lineId;
   }),
+  setLines: action((state, payload) => {
+    const lineGroup = state.data.find((inputElement) =>
+      _.isEqual(inputElement.id, payload.caseIdentifier)
+    );
+
+    if (lineGroup !== undefined) {
+      lineGroup.lines = payload.lineArray;
+    }
+  }),
   removeLine: action((state, payload) => {
     const lineGroup = state.data.find((inputElement) =>
       _.isEqual(inputElement.id, payload.caseIdentifier)
     );
-    console.log(lineGroup);
     if (lineGroup !== undefined) {
       lineGroup.lines = lineGroup?.lines.filter(
         (lineElement) => lineElement.lineId !== payload.lineId
       );
+    }
+  }),
+  removeAllLines: action((state, payload) => {
+    const lineGroup = state.data.find((inputElement) =>
+      _.isEqual(payload, inputElement.id)
+    );
+
+    if (lineGroup !== undefined) {
+      lineGroup.lines = [];
     }
   }),
   lineData: computed((state) => {

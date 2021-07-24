@@ -90,8 +90,6 @@ const EditCaseModal = (props: PropTypes) => {
       return;
     }
 
-    console.log(nameRef.current);
-
     // cambiar el selected
     editCase({
       case: {

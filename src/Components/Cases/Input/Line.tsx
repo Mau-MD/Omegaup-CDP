@@ -18,6 +18,7 @@ import {
 } from "../../../Redux/Models/InputModel";
 import { useStoreActions, useStoreState } from "../../../Redux/Store";
 import _ from "lodash";
+import { DraggableProvided } from "react-beautiful-dnd";
 
 // TODO: Focus automatico al presionar enter
 // TODO: no deberia de mostrar nada si ninguna caso esta seleccionado
@@ -27,6 +28,7 @@ interface PropTypes extends ILine {
   caseIdentifier: ICaseIdentifier;
   addLine: () => void;
   hide?: boolean;
+  provided: DraggableProvided;
 }
 
 const Line = (props: PropTypes) => {
@@ -38,6 +40,7 @@ const Line = (props: PropTypes) => {
     label,
     caseIdentifier,
     addLine,
+    provided,
   } = props;
 
   const [mode, setMode] = useState(type);
@@ -99,7 +102,10 @@ const Line = (props: PropTypes) => {
   return (
     <Box w={"100%"} p={3} border={"1px solid rgba(5,5,5,0.1)"} borderRadius={5}>
       <HStack w={"100%"} h={"100%"}>
-        <DragHandleIcon />
+        <Box {...provided.dragHandleProps}>
+          <DragHandleIcon />
+        </Box>
+
         {!hide && (
           <Editable
             isTruncated
@@ -125,7 +131,7 @@ const Line = (props: PropTypes) => {
         ) : (
           <Input
             defaultValue={value}
-            isFullWidth
+            // isFullWidth
             size={"sm"}
             disabled={mode === "array" || mode === "matrix"}
             ref={inputRef}
@@ -159,5 +165,6 @@ const Line = (props: PropTypes) => {
 
 // export default Line;
 export default React.memo(Line, (prevState, nextState) => {
+  console.log(_.isEqual(prevState, nextState));
   return _.isEqual(prevState, nextState);
 });

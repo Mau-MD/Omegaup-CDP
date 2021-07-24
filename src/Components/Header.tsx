@@ -32,7 +32,6 @@ const Header = () => {
   function handleTitleSubmit(value: string) {
     setIsEditTitleActive(false);
     setTitleText(value);
-    console.log(value);
   }
 
   function createNewProblem() {

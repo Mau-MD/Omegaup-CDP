@@ -16,9 +16,6 @@ import sloth from "../../../Assets/Images/sloth.png";
 const Input = () => {
   const selectedData = useSelectedData();
 
-  React.useEffect(() => {
-    console.log(selectedData);
-  }, [selectedData]);
   return (
     <Box w={"100%"} h={"100%"}>
       {selectedData.caseData.caseId === "None" ? (
