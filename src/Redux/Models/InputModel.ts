@@ -1,11 +1,19 @@
 import { action, Action, computed, Computed } from "easy-peasy";
 import _ from "lodash";
 
+export interface IArrayData {
+  size: number;
+  minValue: number;
+  maxValue: number;
+  distinct: boolean;
+}
 export interface ILine {
   lineId: string;
   type: "line" | "multiline" | "array" | "matrix";
   label: string;
   value: string;
+  arrayData: IArrayData | undefined;
+  matrixData: object | undefined;
 }
 
 export interface IInput {
@@ -51,6 +59,10 @@ export interface IInputModel {
   handleGroupChange: Action<
     IInputModel,
     { caseId: string; newGroupId: string }
+  >;
+  setLineArrayData: Action<
+    IInputModel,
+    { caseIdentifier: caseIdentifier; lineId: string; arrayData: IArrayData }
   >;
   setHidden: Action<IInputModel, boolean>;
 
@@ -135,7 +147,19 @@ const InputModel = {
       lineGroup.lines[lineIndex] = lineData;
     }
   }),
+  setLineArrayData: action((state, payload) => {
+    const lineGroup = state.data.find((inputElement) =>
+      _.isEqual(inputElement.id, payload.caseIdentifier)
+    );
 
+    const line = lineGroup?.lines.find(
+      (lineElement) => lineElement.lineId === payload.lineId
+    );
+
+    if (line !== undefined) {
+      line.arrayData = payload.arrayData;
+    }
+  }),
   setHidden: action((state, hide) => {
     state.hidden = hide;
   }),

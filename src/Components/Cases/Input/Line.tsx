@@ -44,6 +44,8 @@ const Line = (props: PropTypes) => {
     caseIdentifier,
     addLine,
     provided,
+    arrayData,
+    matrixData,
     showInput = true,
   } = props;
 
@@ -75,7 +77,14 @@ const Line = (props: PropTypes) => {
     updateLine({
       lineId: lineId,
       caseIdentifier: caseIdentifier,
-      lineData: { lineId: lineId, label: label, value: value, type: mode },
+      lineData: {
+        lineId: lineId,
+        label: label,
+        value: value,
+        type: mode,
+        arrayData: arrayData,
+        matrixData: matrixData,
+      },
     });
   }
 

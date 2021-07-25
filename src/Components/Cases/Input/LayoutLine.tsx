@@ -19,7 +19,7 @@ interface PropTypes extends ILine {
   provided: DraggableProvided;
 }
 const LayoutLine = (props: PropTypes) => {
-  const { provided, label, type, lineId } = props;
+  const { provided, label, type, lineId, arrayData, matrixData } = props;
 
   const [mode, setMode] = useState(type);
 
@@ -54,6 +54,8 @@ const LayoutLine = (props: PropTypes) => {
       lineId: lineId,
       type: typeRef.current,
       value: "",
+      arrayData: arrayData,
+      matrixData: matrixData,
     });
   }
 

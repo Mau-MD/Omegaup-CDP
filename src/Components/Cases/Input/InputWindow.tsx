@@ -32,7 +32,14 @@ const InputWindow = (props: PropTypes) => {
   const addLineToStore = useCallback(() => {
     addLine({
       caseIdentifier: { groupId: caseData.groupId, caseId: caseData.caseId },
-      line: { lineId: uuid(), type: "line", value: "", label: "Nombre" },
+      line: {
+        lineId: uuid(),
+        type: "line",
+        value: "",
+        label: "Nombre",
+        arrayData: undefined,
+        matrixData: undefined,
+      },
     });
   }, [addLine, caseData]);
 

@@ -22,7 +22,14 @@ const LayoutLines = () => {
   function handleDragEnd(result: DropResult) {}
 
   function handleAddLine() {
-    addLine({ lineId: uuid(), label: "New", type: "line", value: "" });
+    addLine({
+      lineId: uuid(),
+      label: "New",
+      type: "line",
+      value: "",
+      arrayData: undefined,
+      matrixData: undefined,
+    });
   }
 
   return (
