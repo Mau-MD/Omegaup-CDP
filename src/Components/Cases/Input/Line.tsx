@@ -9,6 +9,7 @@ import {
   HStack,
   Select,
   Textarea,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { DeleteIcon, DragHandleIcon, EditIcon } from "@chakra-ui/icons";
 import { useEffect, useRef, useState } from "react";
@@ -19,6 +20,7 @@ import {
 import { useStoreActions, useStoreState } from "../../../Redux/Store";
 import _ from "lodash";
 import { DraggableProvided } from "react-beautiful-dnd";
+import ArrayGenDrawer from "./ArrayGenDrawer";
 
 // TODO: Focus automatico al presionar enter
 // TODO: no deberia de mostrar nada si ninguna caso esta seleccionado
@@ -45,7 +47,6 @@ const Line = (props: PropTypes) => {
     showInput = true,
   } = props;
 
-  console.log(showInput);
   const [mode, setMode] = useState(type);
   const labelRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<any>(null);
@@ -53,6 +54,8 @@ const Line = (props: PropTypes) => {
   const updateLine = useStoreActions((actions) => actions.input.updateLine);
   const deleteLine = useStoreActions((actions) => actions.input.removeLine);
   const lastCreated = useStoreState((state) => state.input.lastCreated);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     handleUpdateLine();
@@ -159,10 +162,11 @@ const Line = (props: PropTypes) => {
           </Select>
         )}
         {(mode === "array" || mode === "matrix") && (
-          <EditIcon cursor={"pointer"} />
+          <EditIcon cursor={"pointer"} onClick={onOpen} />
         )}
         <DeleteIcon cursor={"pointer"} onClick={() => handleDelete()} />
       </HStack>
+      <ArrayGenDrawer isOpen={isOpen} onClose={onClose} />
     </Box>
   );
 };
