@@ -22,6 +22,8 @@ const LayoutLine = (props: PropTypes) => {
   const { provided, label, type, lineId } = props;
 
   const [mode, setMode] = useState(type);
+
+  const typeRef = useRef(type);
   const labelRef = useRef<HTMLDivElement>(null);
   const updateLine = useStoreActions(
     (actions) => actions.input.updateLayoutLine
@@ -39,6 +41,7 @@ const LayoutLine = (props: PropTypes) => {
       value === "matrix"
     ) {
       setMode(value);
+      typeRef.current = value;
     }
     handleUpdateLine();
   }
@@ -46,7 +49,12 @@ const LayoutLine = (props: PropTypes) => {
   function handleUpdateLine() {
     const newLabel =
       labelRef.current !== null ? labelRef.current.children[0].innerHTML : "";
-    updateLine({ label: newLabel, lineId: lineId, type: mode, value: "" });
+    updateLine({
+      label: newLabel,
+      lineId: lineId,
+      type: typeRef.current,
+      value: "",
+    });
   }
 
   return (
@@ -71,7 +79,7 @@ const LayoutLine = (props: PropTypes) => {
         </Editable>
         <Select
           size={"sm"}
-          value={mode}
+          value={type}
           onChange={(e) => handleSelectChange(e)}
         >
           <option value={"line"}> Linea </option>
