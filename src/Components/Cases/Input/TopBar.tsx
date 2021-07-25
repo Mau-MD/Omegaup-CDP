@@ -23,11 +23,13 @@ import { ChangeEvent } from "react";
 import { useStoreActions, useStoreState } from "../../../Redux/Store";
 import DeleteLinesModal from "./DeleteLinesModal";
 import LayoutDrawer from "./LayoutDrawer";
+import { uuid } from "uuidv4";
 
 interface PropTypes {
   groupName: string;
   caseData: ICase;
 }
+
 const TopBar = (props: PropTypes) => {
   const { groupName, caseData } = props;
   const {
@@ -53,9 +55,23 @@ const TopBar = (props: PropTypes) => {
 
   const hidden = useStoreState((state) => state.input.hidden);
   const setHidden = useStoreActions((actions) => actions.input.setHidden);
+  const setLines = useStoreActions((actions) => actions.input.setLines);
+  const layout = useStoreState((state) => state.input.layout);
 
   function handleHidden(event: ChangeEvent<HTMLInputElement>) {
     setHidden(event.target.checked);
+  }
+
+  function handleLayoutLoad() {
+    if (layout !== undefined) {
+      const layoutNewIds = layout.map((layoutElement) => {
+        return { ...layoutElement, lineId: uuid() };
+      });
+      setLines({
+        caseIdentifier: { groupId: caseData.groupId, caseId: caseData.caseId },
+        lineArray: layoutNewIds,
+      });
+    }
   }
 
   return (
@@ -86,7 +102,10 @@ const TopBar = (props: PropTypes) => {
           />
           <MenuList>
             <MenuItem fontSize={"sm"} onClick={onOpenLayout}>
-              Layout
+              Layout...
+            </MenuItem>
+            <MenuItem fontSize={"sm"} onClick={handleLayoutLoad}>
+              Cargar Layout
             </MenuItem>
             <MenuItem fontSize={"sm"} onClick={onOpenLines}>
               Borrar Lineas

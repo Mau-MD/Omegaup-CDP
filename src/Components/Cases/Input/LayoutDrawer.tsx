@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import _ from "lodash";
 import * as React from "react";
+import { uuid } from "uuidv4";
 import { useStoreActions, useStoreState } from "../../../Redux/Store";
 import LayoutLines from "./LayoutLines";
 
@@ -34,7 +35,10 @@ const LayoutDrawer = (props: PropTypes) => {
 
   function loadCurrentLayout() {
     if (selectedInputData !== undefined) {
-      setLayout(selectedInputData?.lines);
+      const mappedLines = selectedInputData.lines.map((inputElement) => {
+        return { ...inputElement, value: "", lineId: uuid() };
+      });
+      setLayout(mappedLines);
     }
   }
 
@@ -62,7 +66,7 @@ const LayoutDrawer = (props: PropTypes) => {
               colorScheme="green"
               onClick={() => loadCurrentLayout()}
             >
-              Cargar Layout a partir del caso seleccionado
+              Crear Layout a partir del caso seleccionado
             </Button>
           </VStack>
         </DrawerFooter>
