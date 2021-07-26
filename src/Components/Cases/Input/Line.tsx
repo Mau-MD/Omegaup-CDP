@@ -175,7 +175,13 @@ const Line = (props: PropTypes) => {
         )}
         <DeleteIcon cursor={"pointer"} onClick={() => handleDelete()} />
       </HStack>
-      <ArrayGenDrawer isOpen={isOpen} onClose={onClose} />
+      <ArrayGenDrawer
+        isOpen={isOpen}
+        onClose={onClose}
+        lineId={lineId}
+        caseIdentifier={caseIdentifier}
+        arrayData={arrayData}
+      />
     </Box>
   );
 };

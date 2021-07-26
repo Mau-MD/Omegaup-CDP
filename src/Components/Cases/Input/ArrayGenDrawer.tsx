@@ -19,14 +19,21 @@ import {
   Center,
   Checkbox,
   Textarea,
+  FormErrorMessage,
+  FormHelperText,
 } from "@chakra-ui/react";
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
+import { caseIdentifier, IArrayData } from "../../../Redux/Models/InputModel";
+import { useStoreActions } from "../../../Redux/Store";
 import LayoutLines from "./LayoutLines";
 
 interface PropTypes {
   isOpen: boolean;
   onClose: () => void;
+  caseIdentifier: caseIdentifier;
+  lineId: string;
+  arrayData: IArrayData | undefined;
 }
 
 function getRandom(min: number, max: number) {
@@ -56,17 +63,26 @@ function generateArray(
   }
   return generatedArray;
 }
+
 const ArrayGenDrawer = (props: PropTypes) => {
-  const { isOpen, onClose } = props;
+  const { isOpen, onClose, caseIdentifier, lineId, arrayData } = props;
 
   const [arrayValue, setArrayValue] = useState("");
+  const [distinct, setDistinct] = useState<boolean>(
+    arrayData !== undefined ? arrayData.distinct : false
+  );
+  const [valid, setValid] = useState<"size" | "min" | "max" | "none">("none");
 
   const sizeRef = useRef<HTMLInputElement>(null);
   const minValueRef = useRef<HTMLInputElement>(null);
   const maxValueRef = useRef<HTMLInputElement>(null);
-  const distinctRef = useRef<boolean>(false);
+
+  const updateArrayData = useStoreActions(
+    (actions) => actions.input.setLineArrayData
+  );
 
   function handleGenerateArray() {
+    setValid("none");
     if (
       sizeRef.current !== null &&
       minValueRef.current !== null &&
@@ -75,14 +91,53 @@ const ArrayGenDrawer = (props: PropTypes) => {
       const size = parseInt(sizeRef.current.value);
       const minValue = parseInt(minValueRef.current.value);
       const maxValue = parseInt(maxValueRef.current.value);
-      const distinct = distinctRef.current;
 
       const newArray = generateArray(size, minValue, maxValue, distinct);
-
+      const arrayData: IArrayData = {
+        size: size,
+        minValue: minValue,
+        maxValue: maxValue,
+        distinct: distinct,
+      };
       setArrayValue(newArray);
-      console.log(newArray);
+      updateArrayData({
+        caseIdentifier: caseIdentifier,
+        lineId: lineId,
+        arrayData: arrayData,
+      });
     }
   }
+
+  function checkValidity(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    const localArrayVal = e.target.value;
+    let anyFails = false;
+    const arraySplitted = localArrayVal.split(" ").filter((value) => {
+      const parsedValue = parseInt(value);
+      if (minValueRef.current !== null && maxValueRef.current !== null) {
+        if (parsedValue < parseInt(minValueRef.current.value)) {
+          setValid("min");
+          anyFails = true;
+        }
+
+        if (parsedValue > parseInt(maxValueRef.current.value)) {
+          setValid("max");
+          anyFails = true;
+        }
+      }
+      return value !== "";
+    });
+    if (
+      sizeRef.current !== null &&
+      arraySplitted.length !== parseInt(sizeRef.current.value)
+    ) {
+      setValid("size");
+      anyFails = true;
+    }
+    console.log(arraySplitted);
+    if (!anyFails) setValid("none");
+    setArrayValue(e.target.value);
+  }
+
   return (
     <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
       <DrawerOverlay />
@@ -94,7 +149,7 @@ const ArrayGenDrawer = (props: PropTypes) => {
           <DrawerBody>
             <FormControl isRequired>
               <FormLabel> Tamaño del Arreglo</FormLabel>
-              <NumberInput>
+              <NumberInput defaultValue={arrayData?.size}>
                 <NumberInputField ref={sizeRef} required />
                 <NumberInputStepper>
                   <NumberIncrementStepper />
@@ -105,7 +160,7 @@ const ArrayGenDrawer = (props: PropTypes) => {
             <HStack mt={5}>
               <FormControl isRequired>
                 <FormLabel> Valor Mínimo</FormLabel>
-                <NumberInput>
+                <NumberInput defaultValue={arrayData?.minValue}>
                   <NumberInputField ref={minValueRef} required />
                   <NumberInputStepper>
                     <NumberIncrementStepper />
@@ -115,7 +170,7 @@ const ArrayGenDrawer = (props: PropTypes) => {
               </FormControl>
               <FormControl isRequired>
                 <FormLabel> Valor Máximo</FormLabel>
-                <NumberInput>
+                <NumberInput defaultValue={arrayData?.maxValue}>
                   <NumberInputField ref={maxValueRef} required />
                   <NumberInputStepper>
                     <NumberIncrementStepper />
@@ -126,31 +181,51 @@ const ArrayGenDrawer = (props: PropTypes) => {
             </HStack>
             <Center mt={5}>
               <Checkbox
-                onChange={(e) => (distinctRef.current = e.target.checked)}
+                isChecked={distinct}
+                onChange={(e) => setDistinct(e.target.checked)}
               >
                 Valores Distintos
               </Checkbox>
             </Center>
-            <FormControl mt={5}>
+            <FormControl mt={5} isInvalid={valid !== "none"}>
               <FormLabel>Arreglo Generado:</FormLabel>
-              <Textarea isReadOnly h={"180px"} value={arrayValue}></Textarea>
+              <Textarea
+                h={valid !== "none" ? "170px" : "195px"}
+                value={arrayValue}
+                onChange={(e) => checkValidity(e)}
+              ></Textarea>
+              <FormErrorMessage>
+                {valid === "size" && (
+                  <span>El tamaño del arreglo no coincide</span>
+                )}
+                {valid === "min" && (
+                  <span>Algún valor del arreglo es menor </span>
+                )}
+                {valid === "max" && (
+                  <span>Algún valor del arreglo es mayor </span>
+                )}
+              </FormErrorMessage>
             </FormControl>
           </DrawerBody>
 
           <DrawerFooter>
             <VStack w={"100%"}>
               <HStack w={"100%"}>
-                <Button isFullWidth colorScheme="blue">
+                <Button isFullWidth size={"sm"} colorScheme="blue">
                   Ver Redacción
                 </Button>
-                <Button isFullWidth colorScheme="blue">
+                <Button isFullWidth size={"sm"} colorScheme="blue">
                   Ver Layout
                 </Button>
               </HStack>
               <Button
                 isFullWidth
                 colorScheme="red"
-                onClick={() => setArrayValue("")}
+                size={"sm"}
+                onClick={() => {
+                  setValid("none");
+                  setArrayValue("");
+                }}
               >
                 Reiniciar
               </Button>
