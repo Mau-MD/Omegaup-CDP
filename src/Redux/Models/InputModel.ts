@@ -6,6 +6,7 @@ export interface IArrayData {
   minValue: number;
   maxValue: number;
   distinct: boolean;
+  value: string;
 }
 export interface ILine {
   lineId: string;

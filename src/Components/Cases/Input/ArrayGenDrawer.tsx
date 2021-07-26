@@ -67,7 +67,9 @@ function generateArray(
 const ArrayGenDrawer = (props: PropTypes) => {
   const { isOpen, onClose, caseIdentifier, lineId, arrayData } = props;
 
-  const [arrayValue, setArrayValue] = useState("");
+  const [arrayValue, setArrayValue] = useState<string>(
+    arrayData !== undefined ? arrayData.value : ""
+  );
   const [distinct, setDistinct] = useState<boolean>(
     arrayData !== undefined ? arrayData.distinct : false
   );
@@ -93,11 +95,13 @@ const ArrayGenDrawer = (props: PropTypes) => {
       const maxValue = parseInt(maxValueRef.current.value);
 
       const newArray = generateArray(size, minValue, maxValue, distinct);
+
       const arrayData: IArrayData = {
         size: size,
         minValue: minValue,
         maxValue: maxValue,
         distinct: distinct,
+        value: newArray,
       };
       setArrayValue(newArray);
       updateArrayData({
@@ -136,6 +140,12 @@ const ArrayGenDrawer = (props: PropTypes) => {
     console.log(arraySplitted);
     if (!anyFails) setValid("none");
     setArrayValue(e.target.value);
+    if (arrayData !== undefined)
+      updateArrayData({
+        caseIdentifier: caseIdentifier,
+        lineId: lineId,
+        arrayData: { ...arrayData, value: e.target.value },
+      });
   }
 
   return (
