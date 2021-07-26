@@ -4,6 +4,11 @@ import {
   Button,
   Divider,
   Flex,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Spacer,
   Text,
   useColorModeValue,
@@ -13,6 +18,9 @@ import { motion } from "framer-motion";
 import Navigation from "./Navigation";
 import { useMediaPredicate } from "react-media-hook";
 import Add from "./Add";
+import { HiOutlineDotsVertical as Dots } from "react-icons/hi";
+import LayoutDrawer from "../Input/LayoutDrawer";
+
 const Sidebar = () => {
   const divBorderColor = useColorModeValue("gray.200", "gray.600");
 
@@ -20,6 +28,12 @@ const Sidebar = () => {
     isOpen: isOpenAdd,
     onOpen: onOpenAdd,
     onClose: onCloseAdd,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenLayout,
+    onOpen: onOpenLayout,
+    onClose: onCloseLayout,
   } = useDisclosure();
 
   const isLargeScreen = useMediaPredicate("(min-width: 830px)");
@@ -38,10 +52,29 @@ const Sidebar = () => {
               Grupos
             </Text>
             <Spacer />
-            <Button size={"sm"} colorScheme={"green"} onClick={onOpenAdd}>
+            <Button
+              size={"sm"}
+              colorScheme={"green"}
+              onClick={onOpenAdd}
+              mr={2}
+            >
               {isLargeScreen ? <p> Agregar</p> : <p> + </p>}
             </Button>
+            <Menu>
+              <MenuButton
+                as={IconButton}
+                icon={<Dots />}
+                size={"sm"}
+                syle={{ zIndex: 99 }}
+              />
+              <MenuList>
+                <MenuItem fontSize={"sm"} onClick={onOpenLayout}>
+                  Layout
+                </MenuItem>
+              </MenuList>
+            </Menu>
             <Add isOpen={isOpenAdd} onClose={onCloseAdd} />
+            <LayoutDrawer isOpen={isOpenLayout} onClose={onCloseLayout} />
           </Flex>
           <Divider />
           <Navigation />

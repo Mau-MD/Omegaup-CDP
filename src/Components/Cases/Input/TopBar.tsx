@@ -24,6 +24,7 @@ import { useStoreActions, useStoreState } from "../../../Redux/Store";
 import DeleteLinesModal from "./DeleteLinesModal";
 import LayoutDrawer from "./LayoutDrawer";
 import { uuid } from "uuidv4";
+import _ from "lodash";
 
 interface PropTypes {
   groupName: string;
@@ -47,16 +48,26 @@ const TopBar = (props: PropTypes) => {
     onOpen: onOpenLines,
     onClose: onCloseLines,
   } = useDisclosure();
-  const {
-    isOpen: isOpenLayout,
-    onOpen: onOpenLayout,
-    onClose: onCloseLayout,
-  } = useDisclosure();
 
   const hidden = useStoreState((state) => state.input.hidden);
   const setHidden = useStoreActions((actions) => actions.input.setHidden);
   const setLines = useStoreActions((actions) => actions.input.setLines);
   const layout = useStoreState((state) => state.input.layout);
+  const addCase = useStoreActions((actions) => actions.cases.addCase);
+  const addPage = useStoreActions((actions) => actions.input.addData);
+  const selectedLines = useStoreState((state) =>
+    state.input.data.find((inputElement) =>
+      _.isEqual(inputElement.id, {
+        groupId: caseData.groupId,
+        caseId: caseData.caseId,
+      })
+    )
+  );
+  const groupState = useStoreState((state) =>
+    state.cases.data.find(
+      (groupElement) => groupElement.groupId === caseData.groupId
+    )
+  );
 
   function handleHidden(event: ChangeEvent<HTMLInputElement>) {
     setHidden(event.target.checked);
@@ -70,6 +81,37 @@ const TopBar = (props: PropTypes) => {
       setLines({
         caseIdentifier: { groupId: caseData.groupId, caseId: caseData.caseId },
         lineArray: layoutNewIds,
+      });
+    }
+  }
+
+  function duplicateCase() {
+    const newCaseId = uuid();
+    let newCaseName: string;
+    let i = 1;
+    while (true) {
+      newCaseName = caseData.name + ` (${i})`;
+      if (
+        groupState?.cases.find(
+          (caseElement) => caseElement.name === newCaseName
+        ) === undefined
+      ) {
+        break;
+      }
+      i++;
+    }
+    addCase({
+      ...caseData,
+      caseId: newCaseId,
+      name: newCaseName,
+    });
+    const newIdLines = selectedLines?.lines.map((lineElement) => {
+      return { ...lineElement, lineId: uuid() };
+    });
+    if (newIdLines !== undefined) {
+      addPage({
+        id: { groupId: caseData.groupId, caseId: newCaseId },
+        lines: newIdLines,
       });
     }
   }
@@ -101,11 +143,11 @@ const TopBar = (props: PropTypes) => {
             syle={{ zIndex: 99 }}
           />
           <MenuList>
-            <MenuItem fontSize={"sm"} onClick={onOpenLayout}>
-              Layout...
-            </MenuItem>
             <MenuItem fontSize={"sm"} onClick={handleLayoutLoad}>
               Cargar Layout
+            </MenuItem>
+            <MenuItem fontSize={"sm"} onClick={duplicateCase}>
+              Duplicar Caso
             </MenuItem>
             <MenuItem fontSize={"sm"} onClick={onOpenLines}>
               Borrar Lineas
@@ -125,7 +167,6 @@ const TopBar = (props: PropTypes) => {
         onClose={onCloseLines}
         caseIdentifier={{ groupId: caseData.groupId, caseId: caseData.caseId }}
       />
-      <LayoutDrawer isOpen={isOpenLayout} onClose={onCloseLayout} />
     </Box>
   );
 };
