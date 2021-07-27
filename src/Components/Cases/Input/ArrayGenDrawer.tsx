@@ -21,9 +21,11 @@ import {
   Textarea,
   FormErrorMessage,
   FormHelperText,
+  Spacer,
 } from "@chakra-ui/react";
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import { caseIdentifier, IArrayData } from "../../../Redux/Models/InputModel";
 import { useStoreActions } from "../../../Redux/Store";
 import LayoutLines from "./LayoutLines";
@@ -154,8 +156,12 @@ const ArrayGenDrawer = (props: PropTypes) => {
       <DrawerContent>
         <DrawerCloseButton />
         <DrawerHeader>Generador de Arreglos</DrawerHeader>
-
-        <form onSubmit={(e) => e.preventDefault()}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleGenerateArray();
+          }}
+        >
           <DrawerBody>
             <FormControl isRequired>
               <FormLabel> Tamaño del Arreglo</FormLabel>
@@ -198,7 +204,17 @@ const ArrayGenDrawer = (props: PropTypes) => {
               </Checkbox>
             </Center>
             <FormControl mt={5} isInvalid={valid !== "none"}>
-              <FormLabel>Arreglo Generado:</FormLabel>
+              <FormLabel>
+                <HStack>
+                  <span>Arreglo Generado:</span>
+                  <Spacer />
+                  <Link to={`/raw/${lineId}`}>
+                    <Button size="sm" variant="link">
+                      Ver Raw
+                    </Button>
+                  </Link>
+                </HStack>
+              </FormLabel>
               <Textarea
                 h={valid !== "none" ? "170px" : "195px"}
                 value={arrayValue}
@@ -243,7 +259,7 @@ const ArrayGenDrawer = (props: PropTypes) => {
                 type="submit"
                 isFullWidth
                 colorScheme="green"
-                onClick={() => handleGenerateArray()}
+                // onClick={() => handleGenerateArray()}
               >
                 Generar
               </Button>

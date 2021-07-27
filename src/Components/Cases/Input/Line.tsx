@@ -114,6 +114,45 @@ const Line = (props: PropTypes) => {
     });
   }
 
+  function renderSwitch() {
+    switch (mode) {
+      case "multiline":
+        return (
+          <Textarea
+            size={"sm"}
+            defaultValue={value}
+            ref={inputRef}
+            onBlur={() => handleUpdateLine()}
+          />
+        );
+      case "line":
+        return (
+          <Input
+            defaultValue={value}
+            // isFullWidth
+            size={"sm"}
+            ref={inputRef}
+            onBlur={() => handleUpdateLine()}
+            onKeyPress={(e) => handleEnterPress(e)}
+          />
+        );
+      default: {
+        return (
+          <Input
+            size={"sm"}
+            disabled
+            ref={inputRef}
+            value={
+              arrayData === undefined
+                ? ""
+                : arrayData?.value.substring(0, 20) + "..."
+            }
+          />
+        );
+      }
+    }
+  }
+
   return (
     <Box w={"100%"} p={3} border={"1px solid rgba(5,5,5,0.1)"} borderRadius={5}>
       <HStack w={"100%"} h={"100%"}>
@@ -136,25 +175,27 @@ const Line = (props: PropTypes) => {
             <EditableInput />
           </Editable>
         )}
-        {showInput &&
-          (mode === "multiline" ? (
-            <Textarea
-              size={"sm"}
-              defaultValue={value}
-              ref={inputRef}
-              onBlur={() => handleUpdateLine()}
-            />
-          ) : (
-            <Input
-              defaultValue={value}
-              // isFullWidth
-              size={"sm"}
-              disabled={mode === "array" || mode === "matrix"}
-              ref={inputRef}
-              onBlur={() => handleUpdateLine()}
-              onKeyPress={(e) => handleEnterPress(e)}
-            />
-          ))}
+        {
+          showInput && renderSwitch()
+          // (mode === "multiline" ? (
+          //   <Textarea
+          //     size={"sm"}
+          //     defaultValue={value}
+          //     ref={inputRef}
+          //     onBlur={() => handleUpdateLine()}
+          //   />
+          // ) : (
+          //   <Input
+          //     defaultValue={value}
+          //     // isFullWidth
+          //     size={"sm"}
+          //     disabled={mode === "array" || mode === "matrix"}
+          //     ref={inputRef}
+          //     onBlur={() => handleUpdateLine()}
+          //     onKeyPress={(e) => handleEnterPress(e)}
+          //   />
+          // ))}
+        }
         {!hide && (
           <Select
             size={"sm"}
