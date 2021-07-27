@@ -8,13 +8,22 @@ export interface IArrayData {
   distinct: boolean;
   value: string;
 }
+
+export interface IMatrixData {
+  rows: number;
+  columns: number;
+  minValue: number;
+  maxValue: number;
+  distinct: "row" | "column" | "all" | "none";
+  value: string;
+}
 export interface ILine {
   lineId: string;
   type: "line" | "multiline" | "array" | "matrix";
   label: string;
   value: string;
   arrayData: IArrayData | undefined;
-  matrixData: object | undefined;
+  matrixData: IMatrixData | undefined;
 }
 
 export interface IInput {
@@ -64,6 +73,10 @@ export interface IInputModel {
   setLineArrayData: Action<
     IInputModel,
     { caseIdentifier: caseIdentifier; lineId: string; arrayData: IArrayData }
+  >;
+  setLineMatrixData: Action<
+    IInputModel,
+    { caseIdentifier: caseIdentifier; lineId: string; matrixData: IMatrixData }
   >;
   setHidden: Action<IInputModel, boolean>;
 
@@ -159,6 +172,19 @@ const InputModel = {
 
     if (line !== undefined) {
       line.arrayData = payload.arrayData;
+    }
+  }),
+  setLineMatrixData: action((state, payload) => {
+    const lineGroup = state.data.find((inputElement) =>
+      _.isEqual(inputElement.id, payload.caseIdentifier)
+    );
+
+    const line = lineGroup?.lines.find(
+      (lineElement) => lineElement.lineId === payload.lineId
+    );
+
+    if (line !== undefined) {
+      line.matrixData = payload.matrixData;
     }
   }),
   setHidden: action((state, hide) => {

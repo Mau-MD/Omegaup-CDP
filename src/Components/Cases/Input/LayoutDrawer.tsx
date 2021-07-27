@@ -36,7 +36,15 @@ const LayoutDrawer = (props: PropTypes) => {
   function loadCurrentLayout() {
     if (selectedInputData !== undefined) {
       const mappedLines = selectedInputData.lines.map((inputElement) => {
-        return { ...inputElement, value: "", lineId: uuid() };
+        return {
+          ...inputElement,
+          value: "",
+          lineId: uuid(),
+          arrayData:
+            inputElement.arrayData !== undefined
+              ? { ...inputElement.arrayData, value: "" }
+              : undefined,
+        };
       });
       setLayout(mappedLines);
     }

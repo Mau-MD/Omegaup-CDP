@@ -21,6 +21,7 @@ import { useStoreActions, useStoreState } from "../../../Redux/Store";
 import _ from "lodash";
 import { DraggableProvided } from "react-beautiful-dnd";
 import ArrayGenDrawer from "./ArrayGenDrawer";
+import MatrixGenDrawer from "./MatrixGenDrawer";
 
 // TODO: Focus automatico al presionar enter
 // TODO: no deberia de mostrar nada si ninguna caso esta seleccionado
@@ -136,7 +137,7 @@ const Line = (props: PropTypes) => {
             onKeyPress={(e) => handleEnterPress(e)}
           />
         );
-      default: {
+      case "array":
         return (
           <Input
             size={"sm"}
@@ -149,7 +150,19 @@ const Line = (props: PropTypes) => {
             }
           />
         );
-      }
+      case "matrix":
+        return (
+          <Input
+            size={"sm"}
+            disabled
+            ref={inputRef}
+            value={
+              matrixData === undefined
+                ? ""
+                : matrixData?.value.substring(0, 20) + "..."
+            }
+          />
+        );
     }
   }
 
@@ -175,27 +188,7 @@ const Line = (props: PropTypes) => {
             <EditableInput />
           </Editable>
         )}
-        {
-          showInput && renderSwitch()
-          // (mode === "multiline" ? (
-          //   <Textarea
-          //     size={"sm"}
-          //     defaultValue={value}
-          //     ref={inputRef}
-          //     onBlur={() => handleUpdateLine()}
-          //   />
-          // ) : (
-          //   <Input
-          //     defaultValue={value}
-          //     // isFullWidth
-          //     size={"sm"}
-          //     disabled={mode === "array" || mode === "matrix"}
-          //     ref={inputRef}
-          //     onBlur={() => handleUpdateLine()}
-          //     onKeyPress={(e) => handleEnterPress(e)}
-          //   />
-          // ))}
-        }
+        {showInput && renderSwitch()}
         {!hide && (
           <Select
             size={"sm"}
@@ -216,13 +209,24 @@ const Line = (props: PropTypes) => {
         )}
         <DeleteIcon cursor={"pointer"} onClick={() => handleDelete()} />
       </HStack>
-      <ArrayGenDrawer
-        isOpen={isOpen}
-        onClose={onClose}
-        lineId={lineId}
-        caseIdentifier={caseIdentifier}
-        arrayData={arrayData}
-      />
+      {mode === "array" && (
+        <ArrayGenDrawer
+          isOpen={isOpen}
+          onClose={onClose}
+          lineId={lineId}
+          caseIdentifier={caseIdentifier}
+          arrayData={arrayData}
+        />
+      )}
+      {mode === "matrix" && (
+        <MatrixGenDrawer
+          isOpen={isOpen}
+          onClose={onClose}
+          lineId={lineId}
+          caseIdentifier={caseIdentifier}
+          matrixData={matrixData}
+        />
+      )}
     </Box>
   );
 };
