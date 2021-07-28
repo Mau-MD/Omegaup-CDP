@@ -208,7 +208,7 @@ const ArrayGenDrawer = (props: PropTypes) => {
                 <HStack>
                   <span>Arreglo Generado:</span>
                   <Spacer />
-                  <Link to={`/raw/${lineId}`}>
+                  <Link to={`/array/${lineId}`}>
                     <Button size="sm" variant="link">
                       Ver Raw
                     </Button>

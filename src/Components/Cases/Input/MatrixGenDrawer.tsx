@@ -47,42 +47,75 @@ function getRandom(min: number, max: number) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-function generateArray(
-  size: number,
+function generateMatrix(
+  rows: number,
+  columns: number,
   minValue: number,
   maxValue: number,
-  distinct: boolean
+  distinct: "row" | "column" | "all" | "none"
 ) {
-  var generatedArray = "";
-  const arrayValues = new Set();
+  var generatedMatrix = "";
+  const rowValues = new Array(rows);
+  const columnValues = new Array(columns);
 
-  if (distinct && maxValue - minValue < size - 1) {
+  rowValues.fill(new Set());
+  columnValues.fill(new Set());
+
+  if (distinct !== "none" && maxValue - minValue < rows * columns - 1) {
     return "No se puede generar un arreglo con estos parámetros";
   }
 
-  for (var i = 0; i < size; i++) {
-    let randomValue = Infinity;
-    do {
-      randomValue = getRandom(minValue, maxValue + 1);
-    } while (distinct && arrayValues.has(randomValue));
-    arrayValues.add(randomValue);
-    generatedArray += randomValue + " ";
+  for (var i = 0; i < rows; i++) {
+    for (var j = 0; j < columns; j++) {
+      let randomNumber: number;
+      switch (distinct) {
+        case "row": {
+          do {
+            randomNumber = getRandom(minValue, maxValue + 1);
+          } while (rowValues[i].has(randomNumber));
+          break;
+        }
+        case "column": {
+          do {
+            randomNumber = getRandom(minValue, maxValue + 1);
+          } while (columnValues[j].has(randomNumber));
+          break;
+        }
+        case "all": {
+          do {
+            randomNumber = getRandom(minValue, maxValue + 1);
+          } while (
+            rowValues[i].has(randomNumber) ||
+            columnValues[j].has(randomNumber)
+          );
+          break;
+        }
+        default: {
+          randomNumber = getRandom(minValue, maxValue + 1);
+        }
+      }
+
+      rowValues[i].add(randomNumber);
+      columnValues[j].add(randomNumber);
+      generatedMatrix += randomNumber + " ";
+    }
+    generatedMatrix += "\n";
   }
-  return generatedArray;
+  return generatedMatrix;
 }
 
 const ArrayGenDrawer = (props: PropTypes) => {
   const { isOpen, onClose, caseIdentifier, lineId, matrixData } = props;
 
-  const [arrayValue, setArrayValue] = useState<string>(
+  const [matrixValue, setMatrixValue] = useState<string>(
     matrixData !== undefined ? matrixData.value : ""
   );
-  const [distinct, setDistinct] = useState<string>(
-    matrixData !== undefined ? matrixData.distinct : "none"
+  const [distinct, setDistinct] = useState<"row" | "column" | "all" | "none">(
+    "none"
   );
-  const [valid, setValid] = useState<"size" | "min" | "max" | "none">("none");
 
-  const sizeRef = useRef<HTMLInputElement>(null);
+  const rowsRef = useRef<HTMLInputElement>(null);
+  const colsRef = useRef<HTMLInputElement>(null);
   const minValueRef = useRef<HTMLInputElement>(null);
   const maxValueRef = useRef<HTMLInputElement>(null);
 
@@ -91,68 +124,41 @@ const ArrayGenDrawer = (props: PropTypes) => {
   );
 
   function handleGenerateArray() {
-    setValid("none");
     if (
-      sizeRef.current !== null &&
+      rowsRef.current !== null &&
+      colsRef.current !== null &&
       minValueRef.current !== null &&
       maxValueRef.current !== null
     ) {
-      const size = parseInt(sizeRef.current.value);
+      const rows = parseInt(rowsRef.current.value);
+      const cols = parseInt(colsRef.current.value);
       const minValue = parseInt(minValueRef.current.value);
       const maxValue = parseInt(maxValueRef.current.value);
 
-      // const newArray = generateArray(size, minValue, maxValue, distinct);
+      const newMatrix = generateMatrix(
+        rows,
+        cols,
+        minValue,
+        maxValue,
+        distinct
+      );
 
-      // const arrayData: IArrayData = {
-      //   size: size,
-      //   minValue: minValue,
-      //   maxValue: maxValue,
-      //   distinct: distinct,
-      //   value: newArray,
-      // };
-      // setArrayValue(newArray);
-      // updateArrayData({
-      //   caseIdentifier: caseIdentifier,
-      //   lineId: lineId,
-      //   arrayData: arrayData,
-      // });
+      const matrixData: IMatrixData = {
+        rows: rows,
+        columns: cols,
+        minValue: minValue,
+        maxValue: maxValue,
+        distinct: distinct,
+        value: newMatrix,
+      };
+
+      setMatrixValue(newMatrix);
+      updateMatrixData({
+        caseIdentifier: caseIdentifier,
+        lineId: lineId,
+        matrixData: matrixData,
+      });
     }
-  }
-
-  function checkValidity(e: React.ChangeEvent<HTMLTextAreaElement>) {
-    const localArrayVal = e.target.value;
-    let anyFails = false;
-    const arraySplitted = localArrayVal.split(" ").filter((value) => {
-      const parsedValue = parseInt(value);
-      if (minValueRef.current !== null && maxValueRef.current !== null) {
-        if (parsedValue < parseInt(minValueRef.current.value)) {
-          setValid("min");
-          anyFails = true;
-        }
-
-        if (parsedValue > parseInt(maxValueRef.current.value)) {
-          setValid("max");
-          anyFails = true;
-        }
-      }
-      return value !== "";
-    });
-    if (
-      sizeRef.current !== null &&
-      arraySplitted.length !== parseInt(sizeRef.current.value)
-    ) {
-      setValid("size");
-      anyFails = true;
-    }
-    console.log(arraySplitted);
-    if (!anyFails) setValid("none");
-    // setArrayValue(e.target.value);
-    // if (arrayData !== undefined)
-    //   updateArrayData({
-    //     caseIdentifier: caseIdentifier,
-    //     lineId: lineId,
-    //     arrayData: { ...arrayData, value: e.target.value },
-    //   });
   }
 
   return (
@@ -172,7 +178,7 @@ const ArrayGenDrawer = (props: PropTypes) => {
               <FormControl isRequired>
                 <FormLabel> Columnas</FormLabel>
                 <NumberInput defaultValue={matrixData?.columns}>
-                  <NumberInputField ref={sizeRef} required />
+                  <NumberInputField ref={colsRef} required />
                   <NumberInputStepper>
                     <NumberIncrementStepper />
                     <NumberDecrementStepper />
@@ -182,7 +188,7 @@ const ArrayGenDrawer = (props: PropTypes) => {
               <FormControl isRequired>
                 <FormLabel> Filas</FormLabel>
                 <NumberInput defaultValue={matrixData?.rows}>
-                  <NumberInputField ref={sizeRef} required />
+                  <NumberInputField ref={rowsRef} required />
                   <NumberInputStepper>
                     <NumberIncrementStepper />
                     <NumberDecrementStepper />
@@ -214,41 +220,38 @@ const ArrayGenDrawer = (props: PropTypes) => {
             </HStack>
             <FormControl mt={5}>
               <FormLabel> Valores distintos:</FormLabel>
-              <Select>
+              <Select
+                onChange={(e) => {
+                  const selectedValue = e.target.value;
+                  if (
+                    selectedValue === "none" ||
+                    selectedValue === "row" ||
+                    selectedValue === "column" ||
+                    selectedValue === "all"
+                  ) {
+                    setDistinct(selectedValue);
+                  }
+                }}
+              >
                 <option value="none">Ninguno</option>
                 <option value="row">Filas</option>
                 <option value="column">Columnas</option>
                 <option value="all">Ambas</option>
               </Select>
             </FormControl>
-            <FormControl mt={5} isInvalid={valid !== "none"}>
+            <FormControl mt={5}>
               <FormLabel>
                 <HStack>
                   <span>Matriz Generada:</span>
                   <Spacer />
-                  <Link to={`/raw/${lineId}`}>
+                  <Link to={`/matrix/${lineId}`}>
                     <Button size="sm" variant="link">
                       Ver Raw
                     </Button>
                   </Link>
                 </HStack>
               </FormLabel>
-              <Textarea
-                h={valid !== "none" ? "170px" : "150px"}
-                value={arrayValue}
-                onChange={(e) => checkValidity(e)}
-              ></Textarea>
-              <FormErrorMessage>
-                {valid === "size" && (
-                  <span>El tamaño del arreglo no coincide</span>
-                )}
-                {valid === "min" && (
-                  <span>Algún valor del arreglo es menor </span>
-                )}
-                {valid === "max" && (
-                  <span>Algún valor del arreglo es mayor </span>
-                )}
-              </FormErrorMessage>
+              <Textarea h={"150px"} value={matrixValue}></Textarea>
             </FormControl>
           </DrawerBody>
 
@@ -267,8 +270,7 @@ const ArrayGenDrawer = (props: PropTypes) => {
                 colorScheme="red"
                 size={"sm"}
                 onClick={() => {
-                  setValid("none");
-                  setArrayValue("");
+                  setMatrixValue("");
                 }}
               >
                 Reiniciar
