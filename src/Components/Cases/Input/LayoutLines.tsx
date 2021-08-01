@@ -19,7 +19,19 @@ const LayoutLines = () => {
   const setLayout = useStoreActions((actions) => actions.input.setLayout);
   const addLine = useStoreActions((actions) => actions.input.addLayoutLine);
 
-  function handleDragEnd(result: DropResult) {}
+  function handleDragEnd(result: DropResult) {
+    if (!result.destination) return;
+
+    const startIndex = result.source.index;
+    const endIndex = result.destination.index;
+
+    if (layout !== undefined) {
+      const newArray = Array.from(layout);
+      const [removed] = newArray.splice(startIndex, 1);
+      newArray.splice(endIndex, 0, removed);
+      setLayout(newArray);
+    }
+  }
 
   function handleAddLine() {
     addLine({
@@ -49,16 +61,32 @@ const LayoutLines = () => {
                     draggableId={line.lineId}
                     index={index}
                   >
-                    {(provided, snapshot) => (
-                      <Box
-                        w={"full"}
-                        mb={3}
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                      >
-                        <LayoutLine provided={provided} {...line} />
-                      </Box>
-                    )}
+                    {(provided, snapshot) => {
+                      if (
+                        snapshot.isDragging &&
+                        provided.draggableProps.style !== undefined
+                      ) {
+                        const offset = { x: window.innerWidth - 320, y: 0 }; // your fixed container left/top position
+                        // @ts-ignore
+                        const x = provided.draggableProps.style.left - offset.x;
+                        // @ts-ignore
+                        const y = provided.draggableProps.style.top - offset.y;
+                        // @ts-ignore
+                        provided.draggableProps.style.left = x;
+                        // @ts-ignore
+                        provided.draggableProps.style.top = y;
+                      }
+                      return (
+                        <Box
+                          w={"full"}
+                          mb={3}
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                        >
+                          <LayoutLine provided={provided} {...line} />
+                        </Box>
+                      );
+                    }}
                   </Draggable>
                 ))}
               {provided.placeholder}

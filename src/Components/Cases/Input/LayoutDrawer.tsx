@@ -18,6 +18,7 @@ import * as React from "react";
 import { uuid } from "uuidv4";
 import { useStoreActions, useStoreState } from "../../../Redux/Store";
 import LayoutLines from "./LayoutLines";
+import { useRef } from "react";
 
 interface PropTypes {
   isOpen: boolean;
@@ -25,6 +26,7 @@ interface PropTypes {
 }
 const LayoutDrawer = (props: PropTypes) => {
   const { isOpen, onClose } = props;
+
   const setLayout = useStoreActions((actions) => actions.input.setLayout);
   const selectedCase = useStoreState((state) => state.cases.selected);
   const selectedInputData = useStoreState((state) =>
