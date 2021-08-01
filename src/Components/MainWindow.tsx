@@ -6,6 +6,7 @@ import { BsPencil as EditIcon } from "react-icons/bs";
 import { IoMdCheckmarkCircleOutline as CheckIcon } from "react-icons/io";
 import Sidebar from "./Cases/Sidebar/Sidebar";
 import Main from "./Cases/Main";
+import WritingWindow from "./Writing/WritingWindow";
 
 const MainWindow = () => {
   return (
@@ -37,7 +38,9 @@ const MainWindow = () => {
             <TabPanel>
               <Main />
             </TabPanel>
-            <TabPanel>3</TabPanel>
+            <TabPanel>
+              <WritingWindow />
+            </TabPanel>
           </TabPanels>
         </Tabs>
         {/*<Sidebar />*/}
