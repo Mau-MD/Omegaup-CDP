@@ -1,6 +1,6 @@
 ## Omegaup Creador de Problemas `ALPHA`
 
-[![Website](https://img.shields.io/website?label=OmegaupCDP.com&style=for-the-badge&url=https%3A%2F%2Fmau-md.github.io/Omegaup-CDP)](https://mau-md.github.io/OmegaupCDP)
+[![Website](https://img.shields.io/website?label=OmegaupCDP.com&style=for-the-badge&url=https%3A%2F%2Fmau-md.github.io/Omegaup-CDP)](https://mau-md.github.io/Omegaup-CDP)
 
 ![imagen](https://user-images.githubusercontent.com/74751751/128214017-18547414-3216-4886-9577-4da39d1e596a.png)
 
