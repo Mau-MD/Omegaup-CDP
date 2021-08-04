@@ -63,10 +63,10 @@ hola
 
 const Display = () => {
   const style = useColorModeValue("light", "dark");
-  const divRef = useRef();
+  const divRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    divRef.current.innerHTML = markdownHtml;
+    if (divRef.current != null) divRef.current.innerHTML = markdownHtml;
   }, []);
 
   return (

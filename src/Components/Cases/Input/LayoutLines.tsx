@@ -14,7 +14,11 @@ import { useStoreActions, useStoreState } from "../../../Redux/Store";
 import LayoutLine from "./LayoutLine";
 import Line from "./Line";
 
-const LayoutLines = () => {
+interface PropTypes {
+  isLeft?: boolean;
+}
+const LayoutLines = (props: PropTypes) => {
+  const { isLeft = false } = props;
   const layout = useStoreState((state) => state.input.layout);
   const setLayout = useStoreActions((actions) => actions.input.setLayout);
   const addLine = useStoreActions((actions) => actions.input.addLayoutLine);
@@ -66,7 +70,10 @@ const LayoutLines = () => {
                         snapshot.isDragging &&
                         provided.draggableProps.style !== undefined
                       ) {
-                        const offset = { x: window.innerWidth - 320, y: 0 }; // your fixed container left/top position
+                        const offset = {
+                          x: isLeft ? 0 : window.innerWidth - 320,
+                          y: 0,
+                        }; // your fixed container left/top position
                         // @ts-ignore
                         const x = provided.draggableProps.style.left - offset.x;
                         // @ts-ignore

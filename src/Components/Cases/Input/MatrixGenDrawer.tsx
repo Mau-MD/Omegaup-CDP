@@ -23,6 +23,7 @@ import {
   FormHelperText,
   Spacer,
   Select,
+  useDisclosure,
 } from "@chakra-ui/react";
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
@@ -34,6 +35,7 @@ import {
 } from "../../../Redux/Models/InputModel";
 import { useStoreActions } from "../../../Redux/Store";
 import LayoutLines from "./LayoutLines";
+import LayoutDrawer from "./LayoutDrawer";
 
 interface PropTypes {
   isOpen: boolean;
@@ -123,6 +125,12 @@ const ArrayGenDrawer = (props: PropTypes) => {
     (actions) => actions.input.setLineMatrixData
   );
 
+  const {
+    isOpen: isOpenLayout,
+    onClose: onCloseLayout,
+    onOpen: onOpenLayout,
+  } = useDisclosure();
+
   function handleGenerateArray() {
     if (
       rowsRef.current !== null &&
@@ -162,132 +170,144 @@ const ArrayGenDrawer = (props: PropTypes) => {
   }
 
   return (
-    <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
-      <DrawerOverlay />
-      <DrawerContent>
-        <DrawerCloseButton />
-        <DrawerHeader>Generador de Matriz</DrawerHeader>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleGenerateArray();
-          }}
-        >
-          <DrawerBody>
-            <HStack>
-              <FormControl isRequired>
-                <FormLabel> Columnas</FormLabel>
-                <NumberInput defaultValue={matrixData?.columns}>
-                  <NumberInputField ref={colsRef} required />
-                  <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                  </NumberInputStepper>
-                </NumberInput>
-              </FormControl>
-              <FormControl isRequired>
-                <FormLabel> Filas</FormLabel>
-                <NumberInput defaultValue={matrixData?.rows}>
-                  <NumberInputField ref={rowsRef} required />
-                  <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                  </NumberInputStepper>
-                </NumberInput>
-              </FormControl>
-            </HStack>
-            <HStack mt={5}>
-              <FormControl isRequired>
-                <FormLabel> Valor Mínimo</FormLabel>
-                <NumberInput defaultValue={matrixData?.minValue}>
-                  <NumberInputField ref={minValueRef} required />
-                  <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                  </NumberInputStepper>
-                </NumberInput>
-              </FormControl>
-              <FormControl isRequired>
-                <FormLabel> Valor Máximo</FormLabel>
-                <NumberInput defaultValue={matrixData?.maxValue}>
-                  <NumberInputField ref={maxValueRef} required />
-                  <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                  </NumberInputStepper>
-                </NumberInput>
-              </FormControl>
-            </HStack>
-            <FormControl mt={5}>
-              <FormLabel> Valores distintos:</FormLabel>
-              <Select
-                onChange={(e) => {
-                  const selectedValue = e.target.value;
-                  if (
-                    selectedValue === "none" ||
-                    selectedValue === "row" ||
-                    selectedValue === "column" ||
-                    selectedValue === "all"
-                  ) {
-                    setDistinct(selectedValue);
-                  }
-                }}
-              >
-                <option value="none">Ninguno</option>
-                <option value="row">Filas</option>
-                <option value="column">Columnas</option>
-                <option value="all">Ambas</option>
-              </Select>
-            </FormControl>
-            <FormControl mt={5}>
-              <FormLabel>
-                <HStack>
-                  <span>Matriz Generada:</span>
-                  <Spacer />
-                  <Link to={`/matrix/${lineId}`}>
-                    <Button size="sm" variant="link">
-                      Ver Raw
-                    </Button>
-                  </Link>
-                </HStack>
-              </FormLabel>
-              <Textarea h={"150px"} value={matrixValue}></Textarea>
-            </FormControl>
-          </DrawerBody>
-
-          <DrawerFooter>
-            <VStack w={"100%"}>
-              <HStack w={"100%"}>
-                <Button isFullWidth size={"sm"} colorScheme="blue">
-                  Ver Redacción
-                </Button>
-                <Button isFullWidth size={"sm"} colorScheme="blue">
-                  Ver Layout
-                </Button>
+    <>
+      <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Generador de Matriz</DrawerHeader>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleGenerateArray();
+            }}
+          >
+            <DrawerBody>
+              <HStack>
+                <FormControl isRequired>
+                  <FormLabel> Columnas</FormLabel>
+                  <NumberInput defaultValue={matrixData?.columns}>
+                    <NumberInputField ref={colsRef} required />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel> Filas</FormLabel>
+                  <NumberInput defaultValue={matrixData?.rows}>
+                    <NumberInputField ref={rowsRef} required />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+                </FormControl>
               </HStack>
-              <Button
-                isFullWidth
-                colorScheme="red"
-                size={"sm"}
-                onClick={() => {
-                  setMatrixValue("");
-                }}
-              >
-                Reiniciar
-              </Button>
-              <Button
-                type="submit"
-                isFullWidth
-                colorScheme="green"
-                // onClick={() => handleGenerateArray()}
-              >
-                Generar
-              </Button>
-            </VStack>
-          </DrawerFooter>
-        </form>
-      </DrawerContent>
-    </Drawer>
+              <HStack mt={5}>
+                <FormControl isRequired>
+                  <FormLabel> Valor Mínimo</FormLabel>
+                  <NumberInput defaultValue={matrixData?.minValue}>
+                    <NumberInputField ref={minValueRef} required />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel> Valor Máximo</FormLabel>
+                  <NumberInput defaultValue={matrixData?.maxValue}>
+                    <NumberInputField ref={maxValueRef} required />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+                </FormControl>
+              </HStack>
+              <FormControl mt={5}>
+                <FormLabel> Valores distintos:</FormLabel>
+                <Select
+                  onChange={(e) => {
+                    const selectedValue = e.target.value;
+                    if (
+                      selectedValue === "none" ||
+                      selectedValue === "row" ||
+                      selectedValue === "column" ||
+                      selectedValue === "all"
+                    ) {
+                      setDistinct(selectedValue);
+                    }
+                  }}
+                >
+                  <option value="none">Ninguno</option>
+                  <option value="row">Filas</option>
+                  <option value="column">Columnas</option>
+                  <option value="all">Ambas</option>
+                </Select>
+              </FormControl>
+              <FormControl mt={5}>
+                <FormLabel>
+                  <HStack>
+                    <span>Matriz Generada:</span>
+                    <Spacer />
+                    <Link to={`/matrix/${lineId}`}>
+                      <Button size="sm" variant="link">
+                        Ver Raw
+                      </Button>
+                    </Link>
+                  </HStack>
+                </FormLabel>
+                <Textarea h={"150px"} value={matrixValue}/>
+              </FormControl>
+            </DrawerBody>
+
+            <DrawerFooter>
+              <VStack w={"100%"}>
+                <HStack w={"100%"}>
+                  <Button isFullWidth size={"sm"} colorScheme="blue">
+                    Ver Redacción
+                  </Button>
+                  <Button
+                    isFullWidth
+                    size={"sm"}
+                    colorScheme="blue"
+                    onClick={onOpenLayout}
+                  >
+                    Ver Layout
+                  </Button>
+                </HStack>
+                <Button
+                  isFullWidth
+                  colorScheme="red"
+                  size={"sm"}
+                  onClick={() => {
+                    setMatrixValue("");
+                  }}
+                >
+                  Reiniciar
+                </Button>
+                <Button
+                  type="submit"
+                  isFullWidth
+                  colorScheme="green"
+                  // onClick={() => handleGenerateArray()}
+                >
+                  Generar
+                </Button>
+              </VStack>
+            </DrawerFooter>
+          </form>
+        </DrawerContent>
+      </Drawer>
+      <LayoutDrawer
+        isOpen={isOpenLayout}
+        onClose={onCloseLayout}
+        placement={"left"}
+      />
+    </>
   );
 };
 export default ArrayGenDrawer;

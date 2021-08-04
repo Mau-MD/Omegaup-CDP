@@ -22,6 +22,7 @@ import {
   FormErrorMessage,
   FormHelperText,
   Spacer,
+  useDisclosure,
 } from "@chakra-ui/react";
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
@@ -29,6 +30,7 @@ import { Link, useHistory } from "react-router-dom";
 import { caseIdentifier, IArrayData } from "../../../Redux/Models/InputModel";
 import { useStoreActions } from "../../../Redux/Store";
 import LayoutLines from "./LayoutLines";
+import LayoutDrawer from "./LayoutDrawer";
 
 interface PropTypes {
   isOpen: boolean;
@@ -84,6 +86,12 @@ const ArrayGenDrawer = (props: PropTypes) => {
   const updateArrayData = useStoreActions(
     (actions) => actions.input.setLineArrayData
   );
+
+  const {
+    isOpen: isOpenLayout,
+    onClose: onCloseLayout,
+    onOpen: onOpenLayout,
+  } = useDisclosure();
 
   function handleGenerateArray() {
     setValid("none");
@@ -151,123 +159,135 @@ const ArrayGenDrawer = (props: PropTypes) => {
   }
 
   return (
-    <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
-      <DrawerOverlay />
-      <DrawerContent>
-        <DrawerCloseButton />
-        <DrawerHeader>Generador de Arreglos</DrawerHeader>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleGenerateArray();
-          }}
-        >
-          <DrawerBody>
-            <FormControl isRequired>
-              <FormLabel> Tamaño del Arreglo</FormLabel>
-              <NumberInput defaultValue={arrayData?.size}>
-                <NumberInputField ref={sizeRef} required />
-                <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper>
-              </NumberInput>
-            </FormControl>
-            <HStack mt={5}>
+    <>
+      <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Generador de Arreglos</DrawerHeader>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleGenerateArray();
+            }}
+          >
+            <DrawerBody>
               <FormControl isRequired>
-                <FormLabel> Valor Mínimo</FormLabel>
-                <NumberInput defaultValue={arrayData?.minValue}>
-                  <NumberInputField ref={minValueRef} required />
+                <FormLabel> Tamaño del Arreglo</FormLabel>
+                <NumberInput defaultValue={arrayData?.size}>
+                  <NumberInputField ref={sizeRef} required />
                   <NumberInputStepper>
                     <NumberIncrementStepper />
                     <NumberDecrementStepper />
                   </NumberInputStepper>
                 </NumberInput>
               </FormControl>
-              <FormControl isRequired>
-                <FormLabel> Valor Máximo</FormLabel>
-                <NumberInput defaultValue={arrayData?.maxValue}>
-                  <NumberInputField ref={maxValueRef} required />
-                  <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                  </NumberInputStepper>
-                </NumberInput>
-              </FormControl>
-            </HStack>
-            <Center mt={5}>
-              <Checkbox
-                isChecked={distinct}
-                onChange={(e) => setDistinct(e.target.checked)}
-              >
-                Valores Distintos
-              </Checkbox>
-            </Center>
-            <FormControl mt={5} isInvalid={valid !== "none"}>
-              <FormLabel>
-                <HStack>
-                  <span>Arreglo Generado:</span>
-                  <Spacer />
-                  <Link to={`/array/${lineId}`}>
-                    <Button size="sm" variant="link">
-                      Ver Raw
-                    </Button>
-                  </Link>
-                </HStack>
-              </FormLabel>
-              <Textarea
-                h={valid !== "none" ? "170px" : "195px"}
-                value={arrayValue}
-                onChange={(e) => checkValidity(e)}
-              ></Textarea>
-              <FormErrorMessage>
-                {valid === "size" && (
-                  <span>El tamaño del arreglo no coincide</span>
-                )}
-                {valid === "min" && (
-                  <span>Algún valor del arreglo es menor </span>
-                )}
-                {valid === "max" && (
-                  <span>Algún valor del arreglo es mayor </span>
-                )}
-              </FormErrorMessage>
-            </FormControl>
-          </DrawerBody>
-
-          <DrawerFooter>
-            <VStack w={"100%"}>
-              <HStack w={"100%"}>
-                <Button isFullWidth size={"sm"} colorScheme="blue">
-                  Ver Redacción
-                </Button>
-                <Button isFullWidth size={"sm"} colorScheme="blue">
-                  Ver Layout
-                </Button>
+              <HStack mt={5}>
+                <FormControl isRequired>
+                  <FormLabel> Valor Mínimo</FormLabel>
+                  <NumberInput defaultValue={arrayData?.minValue}>
+                    <NumberInputField ref={minValueRef} required />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel> Valor Máximo</FormLabel>
+                  <NumberInput defaultValue={arrayData?.maxValue}>
+                    <NumberInputField ref={maxValueRef} required />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+                </FormControl>
               </HStack>
-              <Button
-                isFullWidth
-                colorScheme="red"
-                size={"sm"}
-                onClick={() => {
-                  setValid("none");
-                  setArrayValue("");
-                }}
-              >
-                Reiniciar
-              </Button>
-              <Button
-                type="submit"
-                isFullWidth
-                colorScheme="green"
-                // onClick={() => handleGenerateArray()}
-              >
-                Generar
-              </Button>
-            </VStack>
-          </DrawerFooter>
-        </form>
-      </DrawerContent>
-    </Drawer>
+              <Center mt={5}>
+                <Checkbox
+                  isChecked={distinct}
+                  onChange={(e) => setDistinct(e.target.checked)}
+                >
+                  Valores Distintos
+                </Checkbox>
+              </Center>
+              <FormControl mt={5} isInvalid={valid !== "none"}>
+                <FormLabel>
+                  <HStack>
+                    <span>Arreglo Generado:</span>
+                    <Spacer />
+                    <Link to={`/array/${lineId}`}>
+                      <Button size="sm" variant="link">
+                        Ver Raw
+                      </Button>
+                    </Link>
+                  </HStack>
+                </FormLabel>
+                <Textarea
+                  h={valid !== "none" ? "170px" : "195px"}
+                  value={arrayValue}
+                  onChange={(e) => checkValidity(e)}
+                ></Textarea>
+                <FormErrorMessage>
+                  {valid === "size" && (
+                    <span>El tamaño del arreglo no coincide</span>
+                  )}
+                  {valid === "min" && (
+                    <span>Algún valor del arreglo es menor </span>
+                  )}
+                  {valid === "max" && (
+                    <span>Algún valor del arreglo es mayor </span>
+                  )}
+                </FormErrorMessage>
+              </FormControl>
+            </DrawerBody>
+
+            <DrawerFooter>
+              <VStack w={"100%"}>
+                <HStack w={"100%"}>
+                  <Button isFullWidth size={"sm"} colorScheme="blue">
+                    Ver Redacción
+                  </Button>
+                  <Button
+                    isFullWidth
+                    size={"sm"}
+                    colorScheme="blue"
+                    onClick={onOpenLayout}
+                  >
+                    Ver Layout
+                  </Button>
+                </HStack>
+                <Button
+                  isFullWidth
+                  colorScheme="red"
+                  size={"sm"}
+                  onClick={() => {
+                    setValid("none");
+                    setArrayValue("");
+                  }}
+                >
+                  Reiniciar
+                </Button>
+                <Button
+                  type="submit"
+                  isFullWidth
+                  colorScheme="green"
+                  // onClick={() => handleGenerateArray()}
+                >
+                  Generar
+                </Button>
+              </VStack>
+            </DrawerFooter>
+          </form>
+        </DrawerContent>
+      </Drawer>
+      <LayoutDrawer
+        isOpen={isOpenLayout}
+        onClose={onCloseLayout}
+        placement={"left"}
+      />
+    </>
   );
 };
 export default ArrayGenDrawer;

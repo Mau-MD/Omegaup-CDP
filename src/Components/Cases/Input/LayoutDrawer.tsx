@@ -23,9 +23,16 @@ import { useRef } from "react";
 interface PropTypes {
   isOpen: boolean;
   onClose: () => void;
+  placement?: "right" | "left";
+  displayWritingButton?: boolean;
 }
 const LayoutDrawer = (props: PropTypes) => {
-  const { isOpen, onClose } = props;
+  const {
+    isOpen,
+    onClose,
+    placement = "right",
+    displayWritingButton = false,
+  } = props;
 
   const setLayout = useStoreActions((actions) => actions.input.setLayout);
   const selectedCase = useStoreState((state) => state.cases.selected);
@@ -53,19 +60,29 @@ const LayoutDrawer = (props: PropTypes) => {
   }
 
   return (
-    <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+    <Drawer isOpen={isOpen} placement={placement} onClose={onClose}>
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton />
         <DrawerHeader>Layout</DrawerHeader>
 
         <DrawerBody>
-          <LayoutLines />
+          <LayoutLines isLeft={!displayWritingButton} />
         </DrawerBody>
 
         <DrawerFooter>
           <VStack w={"100%"}>
-            <Button isFullWidth colorScheme="red" onClick={() => setLayout([])}>
+            {displayWritingButton && (
+              <Button isFullWidth size={"sm"} colorScheme="blue">
+                Ver Reddacción
+              </Button>
+            )}
+            <Button
+              isFullWidth
+              colorScheme="red"
+              size={"sm"}
+              onClick={() => setLayout([])}
+            >
               Borrar Layout
             </Button>
             <Button

@@ -74,7 +74,11 @@ const Sidebar = () => {
               </MenuList>
             </Menu>
             <Add isOpen={isOpenAdd} onClose={onCloseAdd} />
-            <LayoutDrawer isOpen={isOpenLayout} onClose={onCloseLayout} />
+            <LayoutDrawer
+              isOpen={isOpenLayout}
+              onClose={onCloseLayout}
+              displayWritingButton
+            />
           </Flex>
           <Divider />
           <Navigation />
