@@ -63,6 +63,7 @@ const Display = () => {
   const style = useColorModeValue("light", "dark");
   const divRef = useRef(null);
 
+
   useEffect(() => {
     if (divRef.current !== null) divRef.current.innerHTML = markdownHtml;
   }, []);
