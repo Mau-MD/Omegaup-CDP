@@ -1,18 +1,26 @@
 import * as React from "react";
-import { Box, Spacer, Flex, Image, Container, Tooltip } from "@chakra-ui/react";
+import {
+  Box,
+  Spacer,
+  Flex,
+  Image,
+  Container,
+  Tooltip,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { AiFillGithub } from "react-icons/ai";
 import { ColorModeSwitcher } from "../ColorModeSwitcher";
+import dark from "../Assets/Images/logoDark.png";
+import light from "../Assets/Images/logoLight.png";
 
 const Navbar = () => {
+  const logo = useColorModeValue(light, dark);
   return (
     <Box boxShadow={"md"}>
       <Container maxW={"container.lg"}>
         <Flex align={"center"} height={"38px"}>
           <Box w={"86px"}>
-            <Image
-              w={"full"}
-              src={"https://omegaup.com/preguntas//omegaup_curves.png"}
-            />
+            <Image w={"100px"} src={logo} />
           </Box>
           <Spacer />
           <Box mr={5}>

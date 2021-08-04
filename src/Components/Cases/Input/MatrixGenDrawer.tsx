@@ -260,7 +260,7 @@ const ArrayGenDrawer = (props: PropTypes) => {
                     </Link>
                   </HStack>
                 </FormLabel>
-                <Textarea h={"150px"} value={matrixValue}/>
+                <Textarea h={"150px"} value={matrixValue} />
               </FormControl>
             </DrawerBody>
 
