@@ -53,7 +53,10 @@ function getLines(input: string) {
       inputTable.push(row);
       row = [];
     }
-    row.push(result.reduce((text, line) => (text += line + "<br />"), ""));
+    row.push(
+      result.reduce((text, line) => (text += "<pre>" + line + "</pre>"), "")
+      // "<pre>" + result.join("") + "</pre>"
+    );
     iterator++;
   } while (iterator < 1000);
   inputTable.push(row);

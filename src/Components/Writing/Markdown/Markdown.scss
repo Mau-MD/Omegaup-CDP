@@ -7,7 +7,7 @@
   }
 
   table {
-    width: 70%;
+    //width: 70%;
   }
 
   th {
@@ -17,4 +17,14 @@
   li {
     margin-left: 2rem;
   }
+
+  td {
+    vertical-align: top;
+    padding: 10px;
+  }
+  pre {
+    display: block;
+    font-size: 87.5%;
+  }
+
 }

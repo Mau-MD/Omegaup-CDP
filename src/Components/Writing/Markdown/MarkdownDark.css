@@ -2,5 +2,7 @@
   border: white solid 1px !important;
   background-color: #212939 !important;
   padding: 0.5rem; }
+.dark pre {
+  color: #e3e3e3; }
 
 /*# sourceMappingURL=MarkdownDark.css.map */

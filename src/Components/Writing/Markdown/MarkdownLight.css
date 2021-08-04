@@ -2,5 +2,7 @@
   border: black solid 1px !important;
   background-color: #EEEEEE !important;
   padding: 0.5rem; }
+.light pre {
+  color: #212529; }
 
 /*# sourceMappingURL=MarkdownLight.css.map */

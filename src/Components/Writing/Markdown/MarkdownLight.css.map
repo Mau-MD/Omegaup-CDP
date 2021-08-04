@@ -1,6 +1,6 @@
 {
 "version": 3,
-"mappings": "AACE,SAAG;EACD,MAAM,EAAE,0BAA0B;EAClC,gBAAgB,EAAE,kBAAkB;EACpC,OAAO,EAAE,MAAM",
+"mappings": "AACE,SAAG;EACD,MAAM,EAAE,0BAA0B;EAClC,gBAAgB,EAAE,kBAAkB;EACpC,OAAO,EAAE,MAAM;AAGjB,UAAI;EACF,KAAK,EAAE,OAAO",
 "sources": ["MarkdownLight.scss"],
 "names": [],
 "file": "MarkdownLight.css"

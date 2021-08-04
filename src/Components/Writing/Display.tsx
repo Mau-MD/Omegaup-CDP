@@ -41,6 +41,8 @@ Explicación
 10
 ||output
 Case #2: 15
+Case #3: 15
+14
 ||description 
 hola
 ||input
@@ -61,11 +63,10 @@ hola
 
 const Display = () => {
   const style = useColorModeValue("light", "dark");
-  const divRef = useRef(null);
-
+  const divRef = useRef();
 
   useEffect(() => {
-    if (divRef.current !== null) divRef.current.innerHTML = markdownHtml;
+    divRef.current.innerHTML = markdownHtml;
   }, []);
 
   return (
