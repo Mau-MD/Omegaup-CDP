@@ -38,14 +38,10 @@ const Add = ({ isOpen, onClose }: PropTypes) => {
             </TabList>
             <TabPanels>
               <TabPanel>
-                <AddCaseModal onClose={onClose} submitButton={"Agregar"} />
+                <AddCaseModal onClose={onClose} />
               </TabPanel>
               <TabPanel>
-                <AddGroupModal
-                  onClose={onClose}
-                  submitButton={"Agregar"}
-                  edit={false}
-                />
+                <AddGroupModal onClose={onClose} />
               </TabPanel>
             </TabPanels>
           </Tabs>

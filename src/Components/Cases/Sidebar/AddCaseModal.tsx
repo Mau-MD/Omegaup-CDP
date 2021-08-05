@@ -19,6 +19,7 @@ import { useStoreActions, useStoreState } from "../../../Redux/Store";
 import RSelect from "react-select";
 import { uuid } from "uuidv4";
 import chakraColors from "../../../Util/chakraColors";
+import ReactSelectDark from "../../External/ReactSelectDark";
 
 interface PropTypes {
   onClose: () => void;
@@ -104,34 +105,12 @@ const AddCaseModal = ({ onClose }: PropTypes) => {
       </FormControl>
       <FormControl mt={5} isRequired>
         <FormLabel> Nombre del grupo</FormLabel>
-        <RSelect
-          defaultValue={{ label: "Sin Grupo", value: options[0].value }}
-          options={options}
-          value={options.find((obj) => obj.value === selectedValue)}
+        <ReactSelectDark
           onChange={handleSelectChange}
-          theme={
-            darkTheme
-              ? (theme) => ({
-                  ...theme,
-                  colors: {
-                    ...theme.colors,
-                    primary: chakraColors.blue[200], // Selected
-                    primary25: chakraColors.gray[600], // Ring
-                    primary50: chakraColors.blue[600], // Ring
-                    primary75: chakraColors.blue[700], // Ring
-                    neutral0: chakraColors.gray[700],
-                    neutral5: chakraColors.gray[700],
-                    neutral10: chakraColors.gray[700],
-                    neutral20: chakraColors.gray[600],
-                    neutral30: chakraColors.gray[500],
-                    neutral40: chakraColors.white,
-                    neutral50: chakraColors.white,
-                    neutral80: chakraColors.white,
-                    neutral90: chakraColors.white,
-                  },
-                })
-              : undefined
-          }
+          value={options.find((obj) => obj.value === selectedValue)}
+          options={options}
+          defaultValue={{ label: "Sin Grupo", value: options[0].value }}
+          darkTheme={darkTheme}
         />
       </FormControl>
       {!hasGroup && (

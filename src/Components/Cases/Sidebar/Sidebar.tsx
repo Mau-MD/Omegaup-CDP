@@ -20,6 +20,7 @@ import { useMediaPredicate } from "react-media-hook";
 import Add from "./Add";
 import { HiOutlineDotsVertical as Dots } from "react-icons/hi";
 import LayoutDrawer from "../Input/LayoutDrawer";
+import AddMultipleCasesModal from "./AddMultipleCasesModal";
 
 const Sidebar = () => {
   const divBorderColor = useColorModeValue("gray.200", "gray.600");
@@ -34,6 +35,12 @@ const Sidebar = () => {
     isOpen: isOpenLayout,
     onOpen: onOpenLayout,
     onClose: onCloseLayout,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenMultiple,
+    onOpen: onOpenMultiple,
+    onClose: onCloseMultiple,
   } = useDisclosure();
 
   const isLargeScreen = useMediaPredicate("(min-width: 830px)");
@@ -71,9 +78,16 @@ const Sidebar = () => {
                 <MenuItem fontSize={"sm"} onClick={onOpenLayout}>
                   Layout
                 </MenuItem>
+                <MenuItem fontSize={"sm"} onClick={onOpenMultiple}>
+                  Agregar Multiples Casos
+                </MenuItem>
               </MenuList>
             </Menu>
             <Add isOpen={isOpenAdd} onClose={onCloseAdd} />
+            <AddMultipleCasesModal
+              isOpen={isOpenMultiple}
+              onClose={onCloseMultiple}
+            />
             <LayoutDrawer
               isOpen={isOpenLayout}
               onClose={onCloseLayout}
