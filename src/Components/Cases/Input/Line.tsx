@@ -71,9 +71,9 @@ const Line = (props: PropTypes) => {
   }, [lastCreated]);
 
   function handleUpdateLine() {
-    let label =
+    const label =
       labelRef.current !== null ? labelRef.current.children[0].innerHTML : "";
-    let value = inputRef.current !== null ? inputRef.current.value : "";
+    const value = inputRef.current !== null ? inputRef.current.value : "";
 
     updateLine({
       lineId: lineId,
@@ -177,6 +177,7 @@ const Line = (props: PropTypes) => {
           <Editable
             isTruncated
             defaultValue={label}
+            placeholder={"---"}
             fontSize={"sm"}
             ref={labelRef}
             textOverflow={"clip"}
@@ -216,6 +217,7 @@ const Line = (props: PropTypes) => {
           lineId={lineId}
           caseIdentifier={caseIdentifier}
           arrayData={arrayData}
+          label={label}
         />
       )}
       {mode === "matrix" && (
@@ -225,6 +227,7 @@ const Line = (props: PropTypes) => {
           lineId={lineId}
           caseIdentifier={caseIdentifier}
           matrixData={matrixData}
+          label={label}
         />
       )}
     </Box>

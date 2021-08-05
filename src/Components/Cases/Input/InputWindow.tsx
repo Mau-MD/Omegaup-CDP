@@ -36,7 +36,7 @@ const InputWindow = (props: PropTypes) => {
         lineId: uuid(),
         type: "line",
         value: "",
-        label: "Nombre",
+        label: "New",
         arrayData: undefined,
         matrixData: undefined,
       },

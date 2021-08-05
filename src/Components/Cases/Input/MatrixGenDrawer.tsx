@@ -24,6 +24,7 @@ import {
   Spacer,
   Select,
   useDisclosure,
+  Text,
 } from "@chakra-ui/react";
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
@@ -43,6 +44,7 @@ interface PropTypes {
   caseIdentifier: caseIdentifier;
   lineId: string;
   matrixData: IMatrixData | undefined;
+  label: string;
 }
 
 function getRandom(min: number, max: number) {
@@ -107,7 +109,7 @@ function generateMatrix(
 }
 
 const ArrayGenDrawer = (props: PropTypes) => {
-  const { isOpen, onClose, caseIdentifier, lineId, matrixData } = props;
+  const { isOpen, onClose, caseIdentifier, lineId, matrixData, label } = props;
 
   const [matrixValue, setMatrixValue] = useState<string>(
     matrixData !== undefined ? matrixData.value : ""
@@ -171,11 +173,15 @@ const ArrayGenDrawer = (props: PropTypes) => {
 
   return (
     <>
-      <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+      <Drawer isOpen={isOpen} placement="right" size={"sm"} onClose={onClose}>
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>Generador de Matriz</DrawerHeader>
+          <DrawerHeader>
+            <Text maxW={"95%"} isTruncated>
+              Generador de Matriz - {label}
+            </Text>
+          </DrawerHeader>
           <form
             onSubmit={(e) => {
               e.preventDefault();

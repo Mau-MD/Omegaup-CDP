@@ -23,6 +23,7 @@ import {
   FormHelperText,
   Spacer,
   useDisclosure,
+  Text,
 } from "@chakra-ui/react";
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
@@ -38,6 +39,7 @@ interface PropTypes {
   caseIdentifier: caseIdentifier;
   lineId: string;
   arrayData: IArrayData | undefined;
+  label: string;
 }
 
 function getRandom(min: number, max: number) {
@@ -69,7 +71,7 @@ function generateArray(
 }
 
 const ArrayGenDrawer = (props: PropTypes) => {
-  const { isOpen, onClose, caseIdentifier, lineId, arrayData } = props;
+  const { isOpen, onClose, caseIdentifier, lineId, arrayData, label } = props;
 
   const [arrayValue, setArrayValue] = useState<string>(
     arrayData !== undefined ? arrayData.value : ""
@@ -160,11 +162,15 @@ const ArrayGenDrawer = (props: PropTypes) => {
 
   return (
     <>
-      <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+      <Drawer isOpen={isOpen} placement="right" size={"sm"} onClose={onClose}>
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>Generador de Arreglos</DrawerHeader>
+          <DrawerHeader>
+            <Text maxW={"95%"} isTruncated>
+              Generador de Arreglos - {label}
+            </Text>
+          </DrawerHeader>
           <form
             onSubmit={(e) => {
               e.preventDefault();
