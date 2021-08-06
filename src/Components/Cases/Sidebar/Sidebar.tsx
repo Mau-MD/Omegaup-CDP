@@ -75,11 +75,11 @@ const Sidebar = () => {
                 syle={{ zIndex: 99 }}
               />
               <MenuList>
-                <MenuItem fontSize={"sm"} onClick={onOpenLayout}>
-                  Layout
-                </MenuItem>
                 <MenuItem fontSize={"sm"} onClick={onOpenMultiple}>
                   Agregar Multiples Casos
+                </MenuItem>
+                <MenuItem fontSize={"sm"} onClick={onOpenLayout}>
+                  Layout
                 </MenuItem>
               </MenuList>
             </Menu>

@@ -30,9 +30,7 @@ interface PropTypes extends IGroup {}
 
 const GroupItem = (props: PropTypes) => {
   const { name, defined, points, groupId } = props;
-  const [showCases, setShowCases] = useState(
-    name === "mainGroup" ? true : false
-  );
+  const [showCases, setShowCases] = useState(name === "Sin Grupo");
 
   const borderColor = useColorModeValue("gray.200", "gray.600");
   const caseState = useStoreState((state) => {
@@ -73,7 +71,7 @@ const GroupItem = (props: PropTypes) => {
           }}
           onClick={(event) => handleCasesToggleClick(event)}
         >
-          <Box>{name === "mainGroup" ? "Sin Grupo" : name}</Box>
+          <Box>{name}</Box>
           <Spacer />
           {name !== "Sin Grupo" ? (
             <>
