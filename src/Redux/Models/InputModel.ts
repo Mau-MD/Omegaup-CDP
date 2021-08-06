@@ -1,5 +1,6 @@
 import { action, Action, computed, Computed } from "easy-peasy";
 import _ from "lodash";
+import { uuid } from "uuidv4";
 
 export interface IArrayData {
   size: number;
@@ -81,6 +82,7 @@ export interface IInputModel {
   setHidden: Action<IInputModel, boolean>;
 
   setLayout: Action<IInputModel, ILine[]>;
+  setLayoutToAll: Action<IInputModel>;
   addLayoutLine: Action<IInputModel, ILine>;
   updateLayoutLine: Action<IInputModel, ILine>;
   removeLayoutLine: Action<IInputModel, string>;
@@ -193,6 +195,16 @@ const InputModel = {
 
   setLayout: action((state, layout) => {
     state.layout = layout;
+  }),
+  setLayoutToAll: action((state) => {
+    state.data.forEach((inputElement) => {
+      if (state.layout !== undefined) {
+        const newLines = state.layout.map((layoutLine) => {
+          return { ...layoutLine, lineId: uuid() };
+        });
+        inputElement.lines = newLines;
+      }
+    });
   }),
   addLayoutLine: action((state, payload) => {
     state.layout?.push(payload);

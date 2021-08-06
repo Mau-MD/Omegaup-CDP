@@ -21,6 +21,7 @@ import Add from "./Add";
 import { HiOutlineDotsVertical as Dots } from "react-icons/hi";
 import LayoutDrawer from "../Input/LayoutDrawer";
 import AddMultipleCasesModal from "./AddMultipleCasesModal";
+import LoadLayoutToAllModal from "./LoadLayoutToAllModal";
 
 const Sidebar = () => {
   const divBorderColor = useColorModeValue("gray.200", "gray.600");
@@ -35,6 +36,12 @@ const Sidebar = () => {
     isOpen: isOpenLayout,
     onOpen: onOpenLayout,
     onClose: onCloseLayout,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenLoadAll,
+    onOpen: onOpenLoadAll,
+    onClose: onCloseLoadAll,
   } = useDisclosure();
 
   const {
@@ -81,6 +88,9 @@ const Sidebar = () => {
                 <MenuItem fontSize={"sm"} onClick={onOpenLayout}>
                   Layout
                 </MenuItem>
+                <MenuItem fontSize={"sm"} onClick={onOpenLoadAll}>
+                  Cargar Layout en todos los Casos
+                </MenuItem>
               </MenuList>
             </Menu>
             <Add isOpen={isOpenAdd} onClose={onCloseAdd} />
@@ -92,6 +102,10 @@ const Sidebar = () => {
               isOpen={isOpenLayout}
               onClose={onCloseLayout}
               displayWritingButton
+            />
+            <LoadLayoutToAllModal
+              isOpen={isOpenLoadAll}
+              onClose={onCloseLoadAll}
             />
           </Flex>
           <Divider />
