@@ -38,7 +38,6 @@ interface PropTypes {
 const AddMultipleCasesModal = (props: PropTypes) => {
   const { isOpen, onClose } = props;
 
-  const [selectedValue, setSelectedValue] = useState("");
   const [prefix, setPrefix] = useState("");
   const [suffix, setSuffix] = useState("");
 
@@ -57,12 +56,13 @@ const AddMultipleCasesModal = (props: PropTypes) => {
     };
   });
 
+  const [selectedValue, setSelectedValue] = useState(options[0].value);
+
   function handleSelectChange(event: any) {
     setSelectedValue(event.value);
   }
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    alert("hi");
     e.preventDefault();
     const selectedGroupData = groupData.find(
       (groupElement) => groupElement.groupId === selectedValue
