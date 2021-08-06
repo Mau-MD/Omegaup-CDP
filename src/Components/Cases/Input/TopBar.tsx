@@ -18,13 +18,21 @@ import { HiOutlineDotsVertical as Dots } from "react-icons/hi";
 import DeleteItem from "../Sidebar/DeleteItem";
 import { useSelectedData } from "../../../Hooks/useSelectedData";
 import { ICase } from "../../../Redux/Models/CasesModel";
-import { BsEye, BsFillEyeSlashFill } from "react-icons/all";
+import {
+  BiDuplicate,
+  BsEye,
+  BsFillEyeSlashFill,
+  FaFileDownload,
+  FiDelete,
+  GrDuplicate,
+} from "react-icons/all";
 import { ChangeEvent } from "react";
 import { useStoreActions, useStoreState } from "../../../Redux/Store";
 import DeleteLinesModal from "./DeleteLinesModal";
 import LayoutDrawer from "./LayoutDrawer";
 import { uuid } from "uuidv4";
 import _ from "lodash";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 
 interface PropTypes {
   groupName: string;
@@ -128,10 +136,10 @@ const TopBar = (props: PropTypes) => {
           <BsFillEyeSlashFill />
           <Switch onChange={(e) => handleHidden(e)} isChecked={hidden} />
         </HStack>
-        <Button size={"sm"} onClick={onOpenEdit}>
+        <Button leftIcon={<EditIcon />} size={"sm"} onClick={onOpenEdit}>
           Editar Caso
         </Button>
-        <Button size={"sm"} onClick={onOpenRemove}>
+        <Button leftIcon={<DeleteIcon />} size={"sm"} onClick={onOpenRemove}>
           {" "}
           Eliminar Caso{" "}
         </Button>
@@ -143,13 +151,21 @@ const TopBar = (props: PropTypes) => {
             syle={{ zIndex: 99 }}
           />
           <MenuList>
-            <MenuItem fontSize={"sm"} onClick={handleLayoutLoad}>
+            <MenuItem
+              icon={<FaFileDownload />}
+              fontSize={"sm"}
+              onClick={handleLayoutLoad}
+            >
               Cargar Layout
             </MenuItem>
-            <MenuItem fontSize={"sm"} onClick={duplicateCase}>
+            <MenuItem
+              icon={<BiDuplicate />}
+              fontSize={"sm"}
+              onClick={duplicateCase}
+            >
               Duplicar Caso
             </MenuItem>
-            <MenuItem fontSize={"sm"} onClick={onOpenLines}>
+            <MenuItem icon={<FiDelete />} fontSize={"sm"} onClick={onOpenLines}>
               Borrar Lineas
             </MenuItem>
           </MenuList>

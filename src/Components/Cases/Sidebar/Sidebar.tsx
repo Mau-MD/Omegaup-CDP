@@ -7,6 +7,7 @@ import {
   IconButton,
   Menu,
   MenuButton,
+  MenuDivider,
   MenuItem,
   MenuList,
   Spacer,
@@ -22,6 +23,11 @@ import { HiOutlineDotsVertical as Dots } from "react-icons/hi";
 import LayoutDrawer from "../Input/LayoutDrawer";
 import AddMultipleCasesModal from "./AddMultipleCasesModal";
 import LoadLayoutToAllModal from "./LoadLayoutToAllModal";
+import { AddIcon } from "@chakra-ui/icons";
+import {
+  BsReverseLayoutTextSidebarReverse,
+  CgLayoutList,
+} from "react-icons/all";
 
 const Sidebar = () => {
   const divBorderColor = useColorModeValue("gray.200", "gray.600");
@@ -82,15 +88,32 @@ const Sidebar = () => {
                 syle={{ zIndex: 99 }}
               />
               <MenuList>
-                <MenuItem fontSize={"sm"} onClick={onOpenMultiple}>
+                <MenuItem
+                  icon={<AddIcon />}
+                  fontSize={"sm"}
+                  onClick={onOpenMultiple}
+                >
                   Agregar Multiples Casos
                 </MenuItem>
-                <MenuItem fontSize={"sm"} onClick={onOpenLayout}>
+                <MenuDivider />
+                <MenuItem
+                  icon={<BsReverseLayoutTextSidebarReverse />}
+                  fontSize={"sm"}
+                  onClick={onOpenLayout}
+                >
                   Layout
                 </MenuItem>
-                <MenuItem fontSize={"sm"} onClick={onOpenLoadAll}>
+                <MenuItem
+                  icon={<CgLayoutList />}
+                  fontSize={"sm"}
+                  onClick={onOpenLoadAll}
+                >
                   Cargar Layout en todos los Casos
                 </MenuItem>
+                {/*<MenuDivider />*/}
+                {/*<MenuItem fontSize={"sm"} onClick={onOpenLoadAll}>*/}
+                {/*  Seleccionar*/}
+                {/*</MenuItem>*/}
               </MenuList>
             </Menu>
             <Add isOpen={isOpenAdd} onClose={onCloseAdd} />

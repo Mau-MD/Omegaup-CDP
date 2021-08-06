@@ -19,6 +19,7 @@ import {
 import { AiFillEdit } from "react-icons/ai";
 import { useRef, useState } from "react";
 import { useStoreActions, useStoreState } from "../Redux/Store";
+import { AddIcon, DownloadIcon, TriangleDownIcon } from "@chakra-ui/icons";
 
 const Header = () => {
   const titleText = useStoreState((state) => state.title.titleName);
@@ -60,11 +61,18 @@ const Header = () => {
             <AiFillEdit />
           </span>
           <Spacer />
-          <Button size={"sm"}> Cargar Problema </Button>
-          <Button size={"sm"} colorScheme={"blue"}>
+          <Button leftIcon={<TriangleDownIcon />} size={"sm"}>
+            Cargar Problema{" "}
+          </Button>
+          <Button leftIcon={<DownloadIcon />} size={"sm"} colorScheme={"blue"}>
             Guardar Problema
           </Button>
-          <Button size={"sm"} colorScheme={"orange"} onClick={onOpen}>
+          <Button
+            leftIcon={<AddIcon />}
+            size={"sm"}
+            colorScheme={"orange"}
+            onClick={onOpen}
+          >
             Nuevo Problema
           </Button>
           <AlertDialog

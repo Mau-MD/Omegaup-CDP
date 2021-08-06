@@ -14,7 +14,7 @@ const Navigation = () => {
 
   return (
     <>
-      <Box mt={2}>
+      <Box mt={2} mb={10}>
         {caseState.map((group) => (
           <GroupItem {...group} key={group.groupId} />
         ))}

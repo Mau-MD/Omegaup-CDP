@@ -24,7 +24,12 @@ import { motion } from "framer-motion";
 import EditGroup from "./EditGroup";
 import { IGroup } from "../../../Redux/Models/CasesModel";
 import DeleteGroup from "./DeleteGroup";
-import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
+import {
+  ChevronDownIcon,
+  ChevronUpIcon,
+  DeleteIcon,
+  EditIcon,
+} from "@chakra-ui/icons";
 
 interface PropTypes extends IGroup {}
 
@@ -97,10 +102,18 @@ const GroupItem = (props: PropTypes) => {
                   syle={{ zIndex: 99 }}
                 />
                 <MenuList>
-                  <MenuItem fontSize={"sm"} onClick={onOpenEdit}>
+                  <MenuItem
+                    icon={<EditIcon />}
+                    fontSize={"sm"}
+                    onClick={onOpenEdit}
+                  >
                     Editar Grupo
                   </MenuItem>
-                  <MenuItem fontSize={"sm"} onClick={onOpenRemove}>
+                  <MenuItem
+                    icon={<DeleteIcon />}
+                    fontSize={"sm"}
+                    onClick={onOpenRemove}
+                  >
                     Eliminar Grupo
                   </MenuItem>
                 </MenuList>
