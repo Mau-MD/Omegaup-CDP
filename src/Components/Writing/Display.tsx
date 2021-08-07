@@ -25,106 +25,38 @@ import markdownMath from "markdown-it-texmath";
 import katex from "katex";
 import ReactMde from "react-mde";
 import "./Markdown/EditorStyles/react-mde-all.css";
-
-const defaultMarkdown = `
-# Descripción
-
-# Entrada 
-
-# Salida 
-
-# Ejemplo 
-||input
-1
-2
-||output
-Case #1: 3
-||description
-Explicación
-||input 
-5
-10
-||output
-Case #2: 15
-Case #3: 15
-14
-||description 
-hola
-||end
-
-# Limites
-
-
-`;
-const markdownHtml = parse(`
-# Descripción
-
-Esta es la descripción del problema. Inventa una historia creativa. 
-Puedes utilizar matemáticas inline para hacer $x_i, y_i$, o $z_i$ o incluso:
-$$x=\\frac{b\\pm \\sqrt{b^2 -4ac}}{2a}$$
-
-# Entrada
-
-Aquí va la descripción de la entrada del problema.
-
-# Salida
-
-Esta es la descripción de la salida esperada.
-
-# Ejemplo
-
-||input
-1
-2
-||output
-Case #1: 3
-||description
-Explicación
-||input 
-5
-10
-||output
-Case #2: 15
-Case #3: 15
-14
-||description 
-hola
-||input
-3
-4
-||output
-3
-||description
-hola
-||end
-
-# Límites
-
-* Aquí
-* Van
-* Los
-* Límites`);
+import MarkdownEditor from "./MarkdownEditor";
+import { useWriting } from "../../Hooks/useWriting";
+import { useStoreActions } from "../../Redux/Store";
 
 const Display = () => {
-  const [markdown, setMarkdown] = useState(defaultMarkdown);
+  const markdownElements = useWriting();
+
+  const [markdown, setMarkdown] = useState(markdownElements[0]);
   const [showEditor, setShowEditor] = useState(true);
 
   const divRef = useRef<HTMLDivElement>(null);
   const generateRef = useRef<HTMLButtonElement>(null);
   const hideRef = useRef<HTMLButtonElement>(null);
+  const tabIndexRef = useRef(0);
 
   useEffect(() => {
-    if (divRef.current != null)
-      divRef.current.innerHTML = parse(defaultMarkdown);
     document.addEventListener("keydown", (key) => handleKeyPress(key));
     return () =>
       document.removeEventListener("keydown", (key) => handleKeyPress(key));
   }, []);
 
+  useEffect(() => {
+    console.log(markdownElements);
+    if (divRef.current != null)
+      divRef.current.innerHTML = parse(markdownElements[0]);
+    setMarkdown(markdownElements[tabIndexRef.current]);
+  }, [markdownElements]);
+
   const style = useColorModeValue("light", "dark");
+  const setStoreMarkdown = useStoreActions((actions) => actions.writing.set);
 
   function handleKeyPress(key: KeyboardEvent) {
-    console.log(key);
     if (key.ctrlKey && key.which === 83 && generateRef.current !== null) {
       generateRef.current.click();
       generateRef.current.focus();
@@ -136,14 +68,25 @@ const Display = () => {
   }
 
   function generateMarkdown() {
-    console.log(markdown);
-    if (divRef.current != null) divRef.current.innerHTML = parse(markdown);
+    setStoreMarkdown({
+      markdown,
+      index: tabIndexRef.current,
+    });
+    // if (divRef.current != null) divRef.current.innerHTML = parse(markdown);
   }
 
   return (
     <>
       <Flex direction={"column"} w={"100%"}>
-        <Tabs size={"sm"} isFitted w={"100%"}>
+        <Tabs
+          size={"sm"}
+          isFitted
+          w={"100%"}
+          onChange={(index) => {
+            setMarkdown(markdownElements[index]);
+            tabIndexRef.current = index;
+          }}
+        >
           <TabList>
             <Tab>Todo</Tab>
             <Tab>Descripción</Tab>
@@ -152,34 +95,16 @@ const Display = () => {
             <Tab>Ejemplo</Tab>
             <Tab>Limites</Tab>
           </TabList>
-          <TabPanels>
-            <TabPanel>
-              <Flex>
-                {showEditor && (
-                  <ReactMde
-                    value={markdown}
-                    onChange={setMarkdown}
-                    generateMarkdownPreview={(markdown) =>
-                      Promise.resolve(parse(markdown))
-                    }
-                  />
-                )}
-                <Box
-                  ml={5}
-                  w={"50%"}
-                  ref={divRef}
-                  className={style + " markdown"}
-                />
-              </Flex>
-            </TabPanel>
-            <TabPanel>
-              <p>two!</p>
-            </TabPanel>
-            <TabPanel>
-              <p>three!</p>
-            </TabPanel>
-          </TabPanels>
         </Tabs>
+        <Flex mt={5}>
+          {showEditor && <ReactMde value={markdown} onChange={setMarkdown} />}
+          <Box
+            ml={5}
+            w={showEditor ? "50%" : "100%"}
+            ref={divRef}
+            className={style + " markdown"}
+          />
+        </Flex>
       </Flex>
       <Box pos={"fixed"} right={10} bottom={5}>
         <Button
