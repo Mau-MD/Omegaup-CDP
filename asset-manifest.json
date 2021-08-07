@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/Omegaup-CDP/static/css/main.0d4b3e25.chunk.css",
-    "main.js": "/Omegaup-CDP/static/js/main.fb019791.chunk.js",
-    "main.js.map": "/Omegaup-CDP/static/js/main.fb019791.chunk.js.map",
+    "main.css": "/Omegaup-CDP/static/css/main.b5bfd982.chunk.css",
+    "main.js": "/Omegaup-CDP/static/js/main.77f97424.chunk.js",
+    "main.js.map": "/Omegaup-CDP/static/js/main.77f97424.chunk.js.map",
     "runtime-main.js": "/Omegaup-CDP/static/js/runtime-main.66fdfa16.js",
     "runtime-main.js.map": "/Omegaup-CDP/static/js/runtime-main.66fdfa16.js.map",
     "static/css/2.0c7a55a1.chunk.css": "/Omegaup-CDP/static/css/2.0c7a55a1.chunk.css",
@@ -10,7 +10,7 @@
     "static/js/2.226e8ca1.chunk.js.map": "/Omegaup-CDP/static/js/2.226e8ca1.chunk.js.map",
     "index.html": "/Omegaup-CDP/index.html",
     "static/css/2.0c7a55a1.chunk.css.map": "/Omegaup-CDP/static/css/2.0c7a55a1.chunk.css.map",
-    "static/css/main.0d4b3e25.chunk.css.map": "/Omegaup-CDP/static/css/main.0d4b3e25.chunk.css.map",
+    "static/css/main.b5bfd982.chunk.css.map": "/Omegaup-CDP/static/css/main.b5bfd982.chunk.css.map",
     "static/js/2.226e8ca1.chunk.js.LICENSE.txt": "/Omegaup-CDP/static/js/2.226e8ca1.chunk.js.LICENSE.txt",
     "static/media/katex.min.css": "/Omegaup-CDP/static/media/KaTeX_Typewriter-Regular.b6a56b14.woff",
     "static/media/logoDark.406064cb.png": "/Omegaup-CDP/static/media/logoDark.406064cb.png",
@@ -21,7 +21,7 @@
     "static/js/runtime-main.66fdfa16.js",
     "static/css/2.0c7a55a1.chunk.css",
     "static/js/2.226e8ca1.chunk.js",
-    "static/css/main.0d4b3e25.chunk.css",
-    "static/js/main.fb019791.chunk.js"
+    "static/css/main.b5bfd982.chunk.css",
+    "static/js/main.77f97424.chunk.js"
   ]
 }
