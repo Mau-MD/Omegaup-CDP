@@ -1,5 +1,6 @@
 import * as React from "react";
 import {
+  Box,
   Button,
   FormControl,
   FormHelperText,
@@ -22,7 +23,9 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  Text,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 import AddCaseModal from "./AddCaseModal";
 import AddGroupModal from "./AddGroupModal";
@@ -30,6 +33,8 @@ import { FormEvent, useRef, useState } from "react";
 import ReactSelectDark from "../../External/ReactSelectDark";
 import { useStoreActions, useStoreState } from "../../../Redux/Store";
 import { uuid } from "uuidv4";
+import { CheckIcon } from "@chakra-ui/icons";
+import { IGroup } from "../../../Redux/Models/CasesModel";
 
 interface PropTypes {
   isOpen: boolean;
@@ -44,11 +49,12 @@ const AddMultipleCasesModal = (props: PropTypes) => {
   const groupData = useStoreState((state) => state.cases.data);
 
   const caseNumberRef = useRef(0);
+  const idsToDelete = useRef<string[]>([]);
 
   const darkTheme = useColorModeValue(false, true);
 
   const addCase = useStoreActions((actions) => actions.cases.addCase);
-
+  const removeCase = useStoreActions((actions) => actions.cases.removeCase);
   const options = groupData.map((groupElement) => {
     return {
       value: groupElement.groupId,
@@ -56,7 +62,11 @@ const AddMultipleCasesModal = (props: PropTypes) => {
     };
   });
 
+  const toastBgColor = useColorModeValue("green.500", "green.200");
+  const toastColor = useColorModeValue("white", "black");
   const [selectedValue, setSelectedValue] = useState(options[0].value);
+
+  const toast = useToast();
 
   function handleSelectChange(event: any) {
     setSelectedValue(event.value);
@@ -67,7 +77,7 @@ const AddMultipleCasesModal = (props: PropTypes) => {
     const selectedGroupData = groupData.find(
       (groupElement) => groupElement.groupId === selectedValue
     );
-
+    let ids: string[] = [];
     if (selectedGroupData !== undefined) {
       let caseNumber = 0;
       for (let i = 0; i < caseNumberRef.current; i++) {
@@ -78,8 +88,10 @@ const AddMultipleCasesModal = (props: PropTypes) => {
             (caseElement) => caseElement.name === name
           );
           if (caseExist === undefined) {
+            const newId = uuid();
+            ids.push(newId);
             addCase({
-              caseId: uuid(),
+              caseId: newId,
               name: name,
               groupId: selectedGroupData.groupId,
               defined: false,
@@ -89,8 +101,41 @@ const AddMultipleCasesModal = (props: PropTypes) => {
           }
         } while (true);
       }
+      idsToDelete.current = ids;
+      console.log(ids);
     }
+    toast({
+      render: () => (
+        <Box
+          bg={toastBgColor}
+          color={toastColor}
+          rounded={"md"}
+          p={4}
+          onClick={undoCreation}
+          cursor={"pointer"}
+        >
+          <HStack>
+            <CheckIcon />
+            <Text fontWeight={"bold"}> Creado multiples casos!</Text>
+          </HStack>
+          {"    "}Click para deshacer
+        </Box>
+      ),
+    });
     onClose();
+  }
+
+  function undoCreation() {
+    const selectedGroupData = groupData.find(
+      (groupElement) => groupElement.groupId === selectedValue
+    );
+    console.log(idsToDelete);
+    if (selectedGroupData !== undefined) {
+      idsToDelete.current.forEach((id) => {
+        removeCase({ caseId: id, groupId: selectedGroupData.groupId });
+      });
+    }
+    toast.closeAll();
   }
 
   return (

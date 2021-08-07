@@ -25,6 +25,8 @@ interface caseIndentifier {
 export interface ICasesModel {
   data: IGroup[];
   selected: caseIndentifier;
+  lastState: IGroup[];
+  setData: Action<ICasesModel, IGroup[]>;
   selectedData: Computed<
     ICasesModel,
     (groupId: string, caseId: string) => { groupName: string; caseData: ICase }
@@ -97,6 +99,7 @@ const CasesModel = {
     groupId: "None",
     caseId: "None",
   },
+  lastState: [],
   selectedData: computed((state) => {
     return (groupId, caseId) => {
       const groupState = state.data.find(
@@ -111,6 +114,9 @@ const CasesModel = {
 
       if (caseState) return { groupName: groupName, caseData: caseState };
     };
+  }),
+  setData: action((state, payload) => {
+    state.data = payload;
   }),
   addGroup: action((state, payload) => {
     state.data.push(payload);
