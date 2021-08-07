@@ -1,0 +1,19 @@
+@import "variables";
+
+.mde-textarea-wrapper textarea{
+  height:100vh !important;
+}
+
+.mde-textarea-wrapper {
+  position: relative;
+  height: 100%;
+
+  textarea.mde-text {
+    width: 100%;
+    border: 0;
+    padding: $mde-editor-padding;
+    vertical-align: top;
+    resize: vertical;
+    overflow-y: auto;
+  }
+}

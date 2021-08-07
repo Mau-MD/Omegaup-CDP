@@ -71,7 +71,6 @@ export const parse = (input: string) => {
     html: true,
   }).use(markdownMath, { engine: katex, delimiters: "dollars" });
   const sanitizedInput = sanitizeMarkdown(input, { allowedTags: ["br"] });
-  console.log(sanitizedInput);
   const { inputTable, index } = getLines(sanitizedInput);
   const finalTableOutput: string[] = [];
   inputTable.forEach((row) => {
@@ -86,6 +85,5 @@ export const parse = (input: string) => {
   // |-|-|-|
   const finalArray = [...firstPart, ...finalTableOutput, ...secondPart];
   const finalString = finalArray.join("\n");
-  console.log(finalString);
   return parser.render(finalString.replaceAll("$$", "\n$$$$\n"));
 };

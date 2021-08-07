@@ -10635,6 +10635,11 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
 
+react-mde@^11.5.0:
+  version "11.5.0"
+  resolved "https://registry.yarnpkg.com/react-mde/-/react-mde-11.5.0.tgz#3e81a505071aa80287fb23a1c0ce5e8b34c82055"
+  integrity sha512-CH/VK6d+tpVjJ8rTXfh1dDt6GWedTgCU0668p8toqhAc3vy0Lu872O2RKYDSpkUrlbHI08fjUPTl++nExp6gag==
+
 react-media-hook@^0.4.9:
   version "0.4.9"
   resolved "https://registry.yarnpkg.com/react-media-hook/-/react-media-hook-0.4.9.tgz#7e57092f5800c53787dc9e912ad09e749dfb7bc7"

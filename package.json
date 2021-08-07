@@ -36,6 +36,7 @@
     "react-hook-form": "^7.8.4",
     "react-icons": "^3.0.0",
     "react-id-generator": "^3.0.1",
+    "react-mde": "^11.5.0",
     "react-media-hook": "^0.4.9",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
