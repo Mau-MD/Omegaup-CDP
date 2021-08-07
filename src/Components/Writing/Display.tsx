@@ -88,7 +88,7 @@ const Display = () => {
 
   return (
     <>
-      <Flex direction={"column"} w={"100%"}>
+      <Flex direction={"column"} w={"100%"} mb={10}>
         <Tabs
           size={"sm"}
           isFitted
@@ -108,7 +108,11 @@ const Display = () => {
           </TabList>
         </Tabs>
         <Flex mt={5}>
-          {showEditor && <ReactMde value={markdown} onChange={setMarkdown} />}
+          {showEditor && (
+            <Box className={style}>
+              <ReactMde value={markdown} onChange={setMarkdown} />{" "}
+            </Box>
+          )}
           <Box
             ml={5}
             w={showEditor ? "50%" : "100%"}
@@ -119,7 +123,23 @@ const Display = () => {
       </Flex>
       <Box pos={"fixed"} left={10} bottom={5}>
         <Button
-          colorScheme={"orange"}
+          ref={hideRef}
+          size={"sm"}
+          colorScheme={"twitter"}
+          onClick={() => setShowEditor(!showEditor)}
+        >
+          <HStack>
+            <Text> Ocultar Editor</Text>
+            <Text fontSize={"smaller"} opacity={"0.5"}>
+              Ctrl + H
+            </Text>
+          </HStack>
+        </Button>
+      </Box>
+      <Box pos={"fixed"} right={10} bottom={5}>
+        <Button
+          mr={4}
+          colorScheme={"blue"}
           size={"sm"}
           ref={showAllRef}
           onClick={() => setShowAll(!showAll)}
@@ -129,22 +149,6 @@ const Display = () => {
             <Text> {showAll ? "Ocultar Todo" : "Mostrar Todo"}</Text>
             <Text fontSize={"smaller"} opacity={"0.5"}>
               Ctrl + M
-            </Text>
-          </HStack>
-        </Button>
-      </Box>
-      <Box pos={"fixed"} right={10} bottom={5}>
-        <Button
-          mr={4}
-          ref={hideRef}
-          size={"sm"}
-          colorScheme={"blue"}
-          onClick={() => setShowEditor(!showEditor)}
-        >
-          <HStack>
-            <Text> Ocultar Editor</Text>
-            <Text fontSize={"smaller"} opacity={"0.5"}>
-              Ctrl + H
             </Text>
           </HStack>
         </Button>
