@@ -66,11 +66,14 @@ function getLines(input: string) {
   };
 }
 
-export const parse = (input: string) => {
+export const parse = (input: string, includeTable = true) => {
   const parser = new MarkdownIt({
     html: true,
   }).use(markdownMath, { engine: katex, delimiters: "dollars" });
   const sanitizedInput = sanitizeMarkdown(input, { allowedTags: ["br"] });
+  if (!includeTable) {
+    return parser.render(sanitizedInput.replaceAll("$$", "\n$$$$\n"));
+  }
   const { inputTable, index } = getLines(sanitizedInput);
   const finalTableOutput: string[] = [];
   inputTable.forEach((row) => {

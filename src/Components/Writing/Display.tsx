@@ -34,10 +34,12 @@ const Display = () => {
 
   const [markdown, setMarkdown] = useState(markdownElements[0]);
   const [showEditor, setShowEditor] = useState(true);
+  const [showAll, setShowAll] = useState(false);
 
   const divRef = useRef<HTMLDivElement>(null);
   const generateRef = useRef<HTMLButtonElement>(null);
   const hideRef = useRef<HTMLButtonElement>(null);
+  const showAllRef = useRef<HTMLButtonElement>(null);
   const tabIndexRef = useRef(0);
 
   useEffect(() => {
@@ -49,21 +51,30 @@ const Display = () => {
   useEffect(() => {
     console.log(markdownElements);
     if (divRef.current != null)
-      divRef.current.innerHTML = parse(markdownElements[0]);
+      divRef.current.innerHTML = showAll
+        ? parse(markdownElements[0])
+        : parse(
+            markdownElements[tabIndexRef.current],
+            tabIndexRef.current === 4 || tabIndexRef.current === 0
+          );
+
     setMarkdown(markdownElements[tabIndexRef.current]);
-  }, [markdownElements]);
+  }, [markdownElements, showAll, tabIndexRef.current]);
 
   const style = useColorModeValue("light", "dark");
   const setStoreMarkdown = useStoreActions((actions) => actions.writing.set);
 
   function handleKeyPress(key: KeyboardEvent) {
+    console.log(key);
     if (key.ctrlKey && key.which === 83 && generateRef.current !== null) {
       generateRef.current.click();
-      generateRef.current.focus();
     }
     if (key.ctrlKey && key.which === 72 && hideRef.current !== null) {
       hideRef.current.click();
       hideRef.current.focus();
+    }
+    if (key.ctrlKey && key.which === 77 && showAllRef.current !== null) {
+      showAllRef.current.click();
     }
   }
 
@@ -106,6 +117,22 @@ const Display = () => {
           />
         </Flex>
       </Flex>
+      <Box pos={"fixed"} left={10} bottom={5}>
+        <Button
+          colorScheme={"orange"}
+          size={"sm"}
+          ref={showAllRef}
+          onClick={() => setShowAll(!showAll)}
+          disabled={tabIndexRef.current === 0}
+        >
+          <HStack>
+            <Text> {showAll ? "Ocultar Todo" : "Mostrar Todo"}</Text>
+            <Text fontSize={"smaller"} opacity={"0.5"}>
+              Ctrl + M
+            </Text>
+          </HStack>
+        </Button>
+      </Box>
       <Box pos={"fixed"} right={10} bottom={5}>
         <Button
           mr={4}

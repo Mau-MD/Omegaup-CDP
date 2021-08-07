@@ -1,22 +1,27 @@
 import { action, Action } from "easy-peasy";
 
 function makeAll(state: any) {
-  return `
-  # Descripción
-  ${state.description}
-  
-  # Entrada
-  ${state.input}
-  
-  # Salida
-  ${state.output}
-  
-  # Ejemplo 
-  ${state.example}
-  
-  # Límites
-  ${state.limits}
-  `;
+  return (
+    state.description +
+    "\n" +
+    state.input +
+    "\n" +
+    state.output +
+    "\n" +
+    state.example +
+    "\n" +
+    state.limits
+  );
+  // ${state.description}
+  //
+  // ${state.input}
+  //
+  // ${state.output}
+  //
+  // ${state.example}
+  //
+  // ${state.limits}
+  // `;
 }
 
 export interface IWritingModel {
@@ -45,9 +50,7 @@ Esta es la descripción del problema. Inventa una historia creativa.
 Puedes utilizar matemáticas inline para hacer $x_i, y_i$, o $z_i$ o incluso:
 $$x=\\frac{b\\pm \\sqrt{b^2 -4ac}}{2a}$$
 
-
 # Entrada
-
 
 Aquí va la descripción de la entrada del problema.
 
@@ -80,13 +83,23 @@ hola
 * Los
 * Límites
 `,
-  description: `Esta es la descripción del problema. Inventa una historia creativa.
+  description: `# Descripción
+  
+Esta es la descripción del problema. Inventa una historia creativa.
 Puedes utilizar matemáticas inline para hacer $x_i, y_i$, o $z_i$ o incluso:
 $$x=\\frac{b\\pm \\sqrt{b^2 -4ac}}{2a}$$
 `,
-  input: `Aquí va la descripción de la entrada del problema.`,
-  output: `Esta es la descripción de la salida esperada.`,
-  example: `||input
+  input: `# Entrada
+
+Aquí va la descripción de la entrada del problema.
+`,
+  output: `# Salida
+
+Esta es la descripción de la salida esperada.
+`,
+  example: `# Ejemplo 
+
+||input
 1
 2
 ||output
@@ -100,11 +113,15 @@ Explicación
 Case #2: 15
 ||description
 hola
-||end`,
-  limits: `* Aquí
+||end
+`,
+  limits: `# Límites
+
+* Aquí
 * Van
 * Los
-* Límites`,
+* Límites
+`,
 
   set: action((state, payload) => {
     switch (payload.index) {
@@ -128,6 +145,7 @@ hola
         break;
     }
     state.all = makeAll(state);
+    console.log(state.all);
   }),
   setAll: action((state, payload) => {
     state.all = payload;
