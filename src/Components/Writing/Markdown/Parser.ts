@@ -5,17 +5,19 @@ import katex from "katex";
 // @ts-ignore
 import markdownMath from "markdown-it-texmath";
 
-function splitBetweenTwo(
+export function splitBetweenTwo(
   input: string[],
   firstOccurrence: string,
-  secondOccurrence: string
+  secondOccurrence: string,
+  auxOccurrence: string
 ) {
-  const startIndex = input.findIndex(
-    (element) => element.trim() === firstOccurrence
-  );
+  const startIndex = input.findIndex((element) => {
+    console.log(element.trim(), firstOccurrence);
+    return element.trim() === firstOccurrence;
+  });
   const endIndex = input.findIndex(
     (element) =>
-      element.trim() === secondOccurrence || element.trim() === "||end"
+      element.trim() === secondOccurrence || element.trim() === auxOccurrence
   );
 
   return {
@@ -43,7 +45,8 @@ function getLines(input: string) {
     const { result, index } = splitBetweenTwo(
       lines,
       firstOccurrence,
-      secondOccurrence
+      secondOccurrence,
+      "||end"
     );
     if (index.startIndex === -1 || index.endIndex === -1) break;
     lines = lines.slice(index.endIndex);
@@ -53,7 +56,6 @@ function getLines(input: string) {
     }
     row.push(
       result.reduce((text, line) => (text += "<pre>" + line + "</pre>"), "")
-      // "<pre>" + result.join("") + "</pre>"
     );
     iterator++;
   } while (iterator < 1000);

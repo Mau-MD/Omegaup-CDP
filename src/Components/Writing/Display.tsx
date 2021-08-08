@@ -49,7 +49,6 @@ const Display = () => {
   }, []);
 
   useEffect(() => {
-    console.log(markdownElements);
     if (
       divRef.current != null &&
       markdownElements[tabIndexRef.current] !== undefined
@@ -68,7 +67,6 @@ const Display = () => {
   const setStoreMarkdown = useStoreActions((actions) => actions.writing.set);
 
   function handleKeyPress(key: KeyboardEvent) {
-    console.log(key);
     if (key.ctrlKey && key.which === 83 && generateRef.current !== null) {
       generateRef.current.click();
     }

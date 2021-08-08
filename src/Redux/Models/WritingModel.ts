@@ -1,4 +1,5 @@
 import { action, Action } from "easy-peasy";
+import { splitBetweenTwo } from "../../Components/Writing/Markdown/Parser";
 
 function makeAll(state: any) {
   return (
@@ -22,6 +23,29 @@ function makeAll(state: any) {
   //
   // ${state.limits}
   // `;
+}
+
+function findSections(markdown: string[]) {
+  const sections = [
+    "# Descripción",
+    "# Entrada",
+    "# Salida",
+    "# Ejemplo",
+    "# Límites",
+  ];
+  let sectionInfo: string[][] = [];
+  let info: string[] = [];
+  let sectionIndex = 0;
+  markdown.forEach((line) => {
+    if (line.trim() === sections[sectionIndex]) {
+      sectionInfo.push(info);
+      sectionIndex++;
+      info = [];
+    }
+    info.push(line);
+  });
+  sectionInfo.push(info);
+  return sectionInfo;
 }
 
 export interface IWritingModel {
@@ -127,7 +151,14 @@ hola
     switch (payload.index) {
       case 0:
         state.all = payload.markdown;
-        break;
+        const sectionData = findSections(payload.markdown.split("\n"));
+        console.log(sectionData);
+        state.description = sectionData[1].join("\n");
+        state.input = sectionData[2].join("\n");
+        state.output = sectionData[3].join("\n");
+        state.example = sectionData[4].join("\n");
+        state.limits = sectionData[5].join("\n");
+        return;
       case 1:
         state.description = payload.markdown;
         break;
