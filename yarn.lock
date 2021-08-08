@@ -3479,11 +3479,6 @@ assign-symbols@^1.0.0:
   resolved "https://registry.yarnpkg.com/assign-symbols/-/assign-symbols-1.0.0.tgz#59667f41fadd4f20ccbc2bb96b8d4f7f78ec0367"
   integrity sha1-WWZ/QfrdTyDMvCu5a41Pf3jsA2c=
 
-assignment@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/assignment/-/assignment-2.0.0.tgz#ffd17b21bf5d6b22e777b989681a815456a3dd3e"
-  integrity sha1-/9F7Ib9dayLnd7mJaBqBVFaj3T4=
-
 ast-types-flow@^0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/ast-types-flow/-/ast-types-flow-0.0.7.tgz#f70b735c6bca1a5c9c22d982c3e39e7feba3bdad"
@@ -11344,13 +11339,6 @@ sane@^4.0.3:
     micromatch "^3.1.4"
     minimist "^1.1.1"
     walker "~1.0.5"
-
-sanitize-markdown@^2.6.7:
-  version "2.6.7"
-  resolved "https://registry.yarnpkg.com/sanitize-markdown/-/sanitize-markdown-2.6.7.tgz#335d7627fe15339cf5be5a0ae78590c097007e33"
-  integrity sha512-w0exIpQ6Zk/q4yUZNgYcxz5sO1o+y3zYeJlHXp+AGKUPOy9wUoKUpu6/+qVlW6oGMvQ72N/6Gx8q/tZG/CKxSA==
-  dependencies:
-    assignment "2.0.0"
 
 sanitize.css@^10.0.0:
   version "10.0.0"

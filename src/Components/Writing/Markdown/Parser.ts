@@ -1,5 +1,3 @@
-import sanitizeMarkdown from "sanitize-markdown";
-import { getFirstHidden } from "web-vitals/dist/lib/getFirstHidden";
 import MarkdownIt from "markdown-it";
 
 // @ts-ignore
@@ -70,16 +68,15 @@ export const parse = (input: string, includeTable = true) => {
   const parser = new MarkdownIt({
     html: true,
   }).use(markdownMath, { engine: katex, delimiters: "dollars" });
-  const sanitizedInput = sanitizeMarkdown(input, { allowedTags: ["br"] });
   if (!includeTable) {
-    return parser.render(sanitizedInput.replaceAll("$$", "\n$$$$\n"));
+    return parser.render(input.replaceAll("$$", "\n$$$$\n"));
   }
-  const { inputTable, index } = getLines(sanitizedInput);
+  const { inputTable, index } = getLines(input);
   const finalTableOutput: string[] = [];
   inputTable.forEach((row) => {
     finalTableOutput.push("|" + row.join("|") + "|");
   });
-  const sanitizedArray = sanitizedInput.split("\n");
+  const sanitizedArray = input.split("\n");
   const firstPart = sanitizedArray.slice(0, index.startIndex);
   firstPart.push("| Entrada | Salida | Descripcion| ");
   firstPart.push("| - | - | -| ");

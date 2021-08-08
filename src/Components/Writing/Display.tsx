@@ -50,7 +50,10 @@ const Display = () => {
 
   useEffect(() => {
     console.log(markdownElements);
-    if (divRef.current != null)
+    if (
+      divRef.current != null &&
+      markdownElements[tabIndexRef.current] !== undefined
+    )
       divRef.current.innerHTML = showAll
         ? parse(markdownElements[0])
         : parse(
@@ -129,7 +132,7 @@ const Display = () => {
           onClick={() => setShowEditor(!showEditor)}
         >
           <HStack>
-            <Text> Ocultar Editor</Text>
+            <Text> {showEditor ? "Ocultar Editor" : "Mostrar Editor"}</Text>
             <Text fontSize={"smaller"} opacity={"0.5"}>
               Ctrl + H
             </Text>
