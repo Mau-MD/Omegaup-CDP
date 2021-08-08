@@ -7,6 +7,7 @@ import { IoMdCheckmarkCircleOutline as CheckIcon } from "react-icons/io";
 import Sidebar from "./Cases/Sidebar/Sidebar";
 import Main from "./Cases/Main";
 import WritingWindow from "./Writing/WritingWindow";
+import SolutionMainWindow from "./Solution/SolutionMainWindow";
 
 const MainWindow = () => {
   return (
@@ -34,7 +35,9 @@ const MainWindow = () => {
             </Tab>
           </TabList>
           <TabPanels>
-            <TabPanel>1</TabPanel>
+            <TabPanel>
+              <SolutionMainWindow />
+            </TabPanel>
             <TabPanel>
               <Main />
             </TabPanel>
