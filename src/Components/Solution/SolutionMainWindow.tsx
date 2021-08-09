@@ -21,6 +21,8 @@ import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/theme-tomorrow";
 import "ace-builds/src-noconflict/theme-monokai";
+import "ace-builds/src-min-noconflict/ext-searchbox";
+import "ace-builds/src-min-noconflict/ext-language_tools";
 
 import "../Writing/Markdown/EditorStyles/react-mde-all.css";
 import "./AceStyles/darkTheme.css";
@@ -28,11 +30,39 @@ import "./AceStyles/darkTheme.css";
 import ReactMde from "react-mde";
 import { useRef, useState, useEffect, useLayoutEffect } from "react";
 
+// <option value={"C"}>C</option>
+// <option value={"Cpp"}>C++</option>
+// <option value={"Cpp14"}>C++ 14</option>
+// <option value={"Csharp"}>C#</option>
+// <option value={"Java"}>Java</option>
+// <option value={"Perl"}>Perl</option>
+// <option value={"Php"}>PHP</option>
+// <option value={"Python"}>Python</option>
+// <option value={"Python3"}>Python 3</option>
+
+const languages = [
+  { ide: "C", ace: "c_cpp" },
+  { ide: "Cpp", ace: "c_cpp" },
+  { ide: "Cpp14", ace: "c_cpp" },
+  { ide: "Java", ace: "java" },
+  { ide: "Python", ace: "python" },
+  { ide: "Python3", ace: "python" },
+  { ide: "Csharp", ace: "csharp" },
+];
+
+languages.forEach((language) => {
+  require(`ace-builds/src-noconflict/mode-${language.ace}`);
+  require(`ace-builds/src-noconflict/snippets/${language.ace}`);
+});
+
 const SolutionMainWindow = () => {
   const [markdown, setMarkdown] = useState(
     "Escribe aquí la solución de tu problema"
   );
   const [mdEditorHeight, setMdEditorHeight] = useState(695);
+  const [fontSize, setFontSize] = useState(14);
+  const [language, setLanguage] = useState(languages[0].ace);
+
   const mdEditorRef = useRef(null);
 
   const editorStyle = useColorModeValue("light", "dark");
@@ -55,6 +85,11 @@ const SolutionMainWindow = () => {
       );
     }
   }
+
+  function handleFontSize(e: number) {
+    setFontSize(e);
+  }
+
   return (
     <Flex>
       <Box>
@@ -68,32 +103,48 @@ const SolutionMainWindow = () => {
           >
             <HStack>
               <Text fontSize={"smaller"}> Lenguaje</Text>
-              <Select size={"sm"} fontSize={"13px"} h={"21.5px"}>
-                <option value={"C"}>C</option>
-                <option value={"Cpp"}>C++</option>
-                <option value={"Cpp14"}>C++ 14</option>
-                <option value={"Csharp"}>C#</option>
-                <option value={"Java"}>Java</option>
-                <option value={"Perl"}>Perl</option>
-                <option value={"Php"}>PHP</option>
-                <option value={"Python"}>Python</option>
-                <option value={"Python3"}>Python 3</option>
+              <Select
+                size={"sm"}
+                fontSize={"13px"}
+                h={"21.5px"}
+                onChange={(e) => setLanguage(e.target.value)}
+              >
+                {languages.map((language, index) => (
+                  <option key={language.ace + index} value={language.ace}>
+                    {language.ide}
+                  </option>
+                ))}
               </Select>
               <Text fontSize={"smaller"}> Tamaño</Text>
-              <NumberInput max={1} min={50} size={"small"} fontSize={"13px"}>
+              <NumberInput
+                min={1}
+                max={50}
+                defaultValue={14}
+                size={"small"}
+                fontSize={"13px"}
+                onChange={(valueAsString, valueAsNumber) =>
+                  handleFontSize(valueAsNumber)
+                }
+              >
                 <NumberInputField />
               </NumberInput>
             </HStack>
           </Box>
           <AceEditor
             placeholder={"Ingresa el código que soluciona el problema aquí"}
-            mode={"javascript"}
+            mode={language}
             theme={codeStyle}
+            fontSize={fontSize}
             name={"SOLUTIONEDITOR"}
             height={mdEditorHeight + "px"}
             enableBasicAutocompletion={true}
             enableLiveAutocompletion={true}
             enableSnippets={true}
+            setOptions={{
+              enableBasicAutocompletion: true,
+              enableLiveAutocompletion: true,
+              enableSnippets: true,
+            }}
           />
         </Box>
       </Box>
