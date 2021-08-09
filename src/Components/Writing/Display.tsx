@@ -125,6 +125,7 @@ const Display = () => {
       <Box pos={"fixed"} left={10} bottom={5}>
         <Button
           ref={hideRef}
+          mr={4}
           size={"sm"}
           colorScheme={"twitter"}
           onClick={() => setShowEditor(!showEditor)}
@@ -136,10 +137,7 @@ const Display = () => {
             </Text>
           </HStack>
         </Button>
-      </Box>
-      <Box pos={"fixed"} right={10} bottom={5}>
         <Button
-          mr={4}
           colorScheme={"blue"}
           size={"sm"}
           ref={showAllRef}
@@ -153,6 +151,8 @@ const Display = () => {
             </Text>
           </HStack>
         </Button>
+      </Box>
+      <Box pos={"fixed"} right={10} bottom={5}>
         <Button
           ref={generateRef}
           size={"sm"}
