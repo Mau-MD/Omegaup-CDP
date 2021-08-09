@@ -26,15 +26,35 @@ import "../Writing/Markdown/EditorStyles/react-mde-all.css";
 import "./AceStyles/darkTheme.css";
 
 import ReactMde from "react-mde";
-import { useState } from "react";
+import { useRef, useState, useEffect, useLayoutEffect } from "react";
 
 const SolutionMainWindow = () => {
   const [markdown, setMarkdown] = useState(
     "Escribe aquí la solución de tu problema"
   );
+  const [mdEditorHeight, setMdEditorHeight] = useState(695);
+  const mdEditorRef = useRef(null);
+
   const editorStyle = useColorModeValue("light", "dark");
   const codeStyle = useColorModeValue("tomorrow", "monokai");
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [window.innerHeight]);
   // 48 y 10 de padding
+
+  useEffect(() => {
+    handleResize();
+  }, []);
+
+  function handleResize() {
+    if (mdEditorRef.current !== null) {
+      setMdEditorHeight(
+        mdEditorRef.current.finalRefs.textarea.current.scrollHeight
+      );
+    }
+  }
   return (
     <Flex>
       <Box>
@@ -49,12 +69,15 @@ const SolutionMainWindow = () => {
             <HStack>
               <Text fontSize={"smaller"}> Lenguaje</Text>
               <Select size={"sm"} fontSize={"13px"} h={"21.5px"}>
-                <option> C++</option>
-                <option> C</option>
-                <option> C#</option>
-                <option> Javascript</option>
-                <option> Javascript</option>
-                <option> Javascript</option>
+                <option value={"C"}>C</option>
+                <option value={"Cpp"}>C++</option>
+                <option value={"Cpp14"}>C++ 14</option>
+                <option value={"Csharp"}>C#</option>
+                <option value={"Java"}>Java</option>
+                <option value={"Perl"}>Perl</option>
+                <option value={"Php"}>PHP</option>
+                <option value={"Python"}>Python</option>
+                <option value={"Python3"}>Python 3</option>
               </Select>
               <Text fontSize={"smaller"}> Tamaño</Text>
               <NumberInput max={1} min={50} size={"small"} fontSize={"13px"}>
@@ -67,7 +90,7 @@ const SolutionMainWindow = () => {
             mode={"javascript"}
             theme={codeStyle}
             name={"SOLUTIONEDITOR"}
-            height={"695px"}
+            height={mdEditorHeight + "px"}
             enableBasicAutocompletion={true}
             enableLiveAutocompletion={true}
             enableSnippets={true}
@@ -77,7 +100,13 @@ const SolutionMainWindow = () => {
       <Box ml={5}>
         <Text>Redacción</Text>
         <Box className={editorStyle}>
-          <ReactMde value={markdown} onChange={setMarkdown} />{" "}
+          <ReactMde
+            ref={mdEditorRef}
+            value={markdown}
+            minEditorHeight={695}
+            minPreviewHeight={695}
+            onChange={setMarkdown}
+          />{" "}
         </Box>
       </Box>
     </Flex>
