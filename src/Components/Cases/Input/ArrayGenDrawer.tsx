@@ -178,17 +178,17 @@ const ArrayGenDrawer = (props: PropTypes) => {
             }}
           >
             <DrawerBody>
-              <FormControl isRequired>
-                <FormLabel> Tamaño del Arreglo</FormLabel>
-                <NumberInput defaultValue={arrayData?.size}>
-                  <NumberInputField ref={sizeRef} required />
-                  <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                  </NumberInputStepper>
-                </NumberInput>
-              </FormControl>
-              <HStack mt={5}>
+              <HStack h={"100%"}>
+                <FormControl isRequired>
+                  <FormLabel> Tamaño </FormLabel>
+                  <NumberInput defaultValue={arrayData?.size}>
+                    <NumberInputField ref={sizeRef} required />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+                </FormControl>
                 <FormControl isRequired>
                   <FormLabel> Valor Mínimo</FormLabel>
                   <NumberInput defaultValue={arrayData?.minValue}>
@@ -230,11 +230,12 @@ const ArrayGenDrawer = (props: PropTypes) => {
                     </Link>
                   </HStack>
                 </FormLabel>
+                {/*72 */}
                 <Textarea
-                  h={valid !== "none" ? "170px" : "195px"}
+                  h={"300px"}
                   value={arrayValue}
                   onChange={(e) => checkValidity(e)}
-                ></Textarea>
+                />
                 <FormErrorMessage>
                   {valid === "size" && (
                     <span>El tamaño del arreglo no coincide</span>
@@ -248,7 +249,6 @@ const ArrayGenDrawer = (props: PropTypes) => {
                 </FormErrorMessage>
               </FormControl>
             </DrawerBody>
-
             <DrawerFooter>
               <VStack w={"100%"}>
                 <HStack w={"100%"}>
@@ -264,25 +264,27 @@ const ArrayGenDrawer = (props: PropTypes) => {
                     Ver Layout
                   </Button>
                 </HStack>
-                <Button
-                  isFullWidth
-                  colorScheme="red"
-                  size={"sm"}
-                  onClick={() => {
-                    setValid("none");
-                    setArrayValue("");
-                  }}
-                >
-                  Reiniciar
-                </Button>
-                <Button
-                  type="submit"
-                  isFullWidth
-                  colorScheme="green"
-                  // onClick={() => handleGenerateArray()}
-                >
-                  Generar
-                </Button>
+                <HStack w={"100%"}>
+                  <Button
+                    isFullWidth
+                    colorScheme="red"
+                    size={"sm"}
+                    onClick={() => {
+                      setValid("none");
+                      setArrayValue("");
+                    }}
+                  >
+                    Reiniciar
+                  </Button>
+                  <Button
+                    size={"sm"}
+                    type="submit"
+                    isFullWidth
+                    colorScheme="green"
+                  >
+                    Generar
+                  </Button>
+                </HStack>
               </VStack>
             </DrawerFooter>
           </form>

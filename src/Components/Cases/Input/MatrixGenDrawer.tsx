@@ -285,24 +285,26 @@ const ArrayGenDrawer = (props: PropTypes) => {
                     Ver Layout
                   </Button>
                 </HStack>
-                <Button
-                  isFullWidth
-                  colorScheme="red"
-                  size={"sm"}
-                  onClick={() => {
-                    setMatrixValue("");
-                  }}
-                >
-                  Reiniciar
-                </Button>
-                <Button
-                  type="submit"
-                  isFullWidth
-                  colorScheme="green"
-                  // onClick={() => handleGenerateArray()}
-                >
-                  Generar
-                </Button>
+                <HStack w={"100%"}>
+                  <Button
+                    isFullWidth
+                    colorScheme="red"
+                    size={"sm"}
+                    onClick={() => {
+                      setMatrixValue("");
+                    }}
+                  >
+                    Reiniciar
+                  </Button>
+                  <Button
+                    type="submit"
+                    isFullWidth
+                    colorScheme="green"
+                    size={"sm"}
+                  >
+                    Generar
+                  </Button>
+                </HStack>
               </VStack>
             </DrawerFooter>
           </form>
