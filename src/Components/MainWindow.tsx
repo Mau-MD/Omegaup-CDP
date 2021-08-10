@@ -9,10 +9,17 @@ import Main from "./Cases/Main";
 import WritingWindow from "./Writing/WritingWindow";
 import SolutionMainWindow from "./Solution/SolutionMainWindow";
 import { useStoreActions, useStoreState } from "../Redux/Store";
+import { useEffect, useState } from "react";
 
 const MainWindow = () => {
+  const [localTab, setLocalTab] = useState(0);
+
   const setTab = useStoreActions((actions) => actions.tabs.setTab);
   const tabIndex = useStoreState((state) => state.tabs.tabIndex);
+
+  useEffect(() => {
+    setLocalTab(tabIndex);
+  }, []);
 
   return (
     <>
@@ -20,10 +27,11 @@ const MainWindow = () => {
         <Tabs
           variant={"enclosed"}
           size={"sm"}
-          index={tabIndex}
+          index={localTab}
           onChange={(e) => {
             console.log(e);
             setTab(e);
+            setLocalTab(e);
           }}
         >
           <TabList>
