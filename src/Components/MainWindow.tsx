@@ -8,12 +8,22 @@ import Sidebar from "./Cases/Sidebar/Sidebar";
 import Main from "./Cases/Main";
 import WritingWindow from "./Writing/WritingWindow";
 import SolutionMainWindow from "./Solution/SolutionMainWindow";
+import { useStoreActions } from "../Redux/Store";
 
 const MainWindow = () => {
+  const setTab = useStoreActions((actions) => actions.tabs.setTab);
+
   return (
     <>
       <Container maxW={"container.lg"} mt={3} h={"80vh"} padding={"0"}>
-        <Tabs variant={"enclosed"} size={"sm"}>
+        <Tabs
+          variant={"enclosed"}
+          size={"sm"}
+          onChange={(e) => {
+            console.log(e);
+            setTab(e);
+          }}
+        >
           <TabList>
             <Tab>
               <HStack>

@@ -17,6 +17,7 @@ import {
   SelectField,
   Text,
   useColorModeValue,
+  useToast,
   VStack,
 } from "@chakra-ui/react";
 import AceEditor from "react-ace";
@@ -35,7 +36,7 @@ import ReactMde from "react-mde";
 import { useRef, useState, useEffect, useLayoutEffect } from "react";
 import sloth from "../../Assets/Images/slothSad.png";
 import { useSolution } from "../../Hooks/useSolution";
-import { useStoreActions } from "../../Redux/Store";
+import { useStoreActions, useStoreState } from "../../Redux/Store";
 
 export const languages = [
   { ide: "C", ace: "c_cpp" },
@@ -71,9 +72,13 @@ const SolutionMainWindow = () => {
   const codeToolbarStyle = useColorModeValue("#F9F9F9", "#2C323D");
 
   const { code, lang, text } = useSolution();
+  const tabIndex = useStoreState((state) => state.tabs.tabIndex);
   const setCode = useStoreActions((actions) => actions.solution.setCode);
   const setLang = useStoreActions((actions) => actions.solution.setLanguage);
   const setText = useStoreActions((actions) => actions.solution.setText);
+  const setTab = useStoreActions((actions) => actions.tabs.setTab);
+
+  const toast = useToast();
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
@@ -83,6 +88,7 @@ const SolutionMainWindow = () => {
 
   useEffect(() => {
     handleResize();
+    setTab(0);
     document.addEventListener("keyup", handleKeyPress);
     return () => document.removeEventListener("keypress", handleKeyPress);
   }, []);
@@ -121,9 +127,17 @@ const SolutionMainWindow = () => {
   }
 
   function handleSave() {
+    if (tabIndex !== 0) return;
     setLang(languageIndex);
     setText(markdown);
     setCode(codeValueRef.current);
+    toast({
+      title: "Solución salvada!",
+      status: "success",
+      variant: "left-accent",
+      duration: 2000,
+      isClosable: true,
+    });
   }
 
   return (
@@ -230,7 +244,9 @@ const SolutionMainWindow = () => {
           size={"sm"}
           colorScheme={"twitter"}
           mr={5}
-          onClick={() => setShowCode(!showCode)}
+          onClick={() => {
+            tabIndex === 0 && setShowCode(!showCode);
+          }}
         >
           <HStack>
             <Text> {showCode ? "Ocultar Código" : "Mostrar Código"}</Text>
@@ -244,7 +260,9 @@ const SolutionMainWindow = () => {
           mr={4}
           colorScheme={"blue"}
           size={"sm"}
-          onClick={() => setShowSolution(!showSolution)}
+          onClick={() => {
+            tabIndex === 0 && setShowSolution(!showSolution);
+          }}
         >
           <HStack>
             <Text>
@@ -261,7 +279,9 @@ const SolutionMainWindow = () => {
           ref={saveRef}
           size={"sm"}
           colorScheme={"green"}
-          onClick={() => handleSave()}
+          onClick={() => {
+            tabIndex === 0 && handleSave();
+          }}
         >
           <HStack>
             <Text> Salvar </Text>

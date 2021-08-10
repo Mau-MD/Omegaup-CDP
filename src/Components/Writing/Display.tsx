@@ -13,6 +13,7 @@ import {
   TabPanels,
   Tabs,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react"; // `rehype-katex` does not import the CSS for you
 import { parse } from "./Markdown/Parser";
 import "./Markdown/MarkdownDark.css";
@@ -27,7 +28,7 @@ import ReactMde from "react-mde";
 import "./Markdown/EditorStyles/react-mde-all.css";
 import MarkdownEditor from "./MarkdownEditor";
 import { useWriting } from "../../Hooks/useWriting";
-import { useStoreActions } from "../../Redux/Store";
+import { useStoreActions, useStoreState } from "../../Redux/Store";
 
 const Display = () => {
   const markdownElements = useWriting();
@@ -41,6 +42,8 @@ const Display = () => {
   const hideRef = useRef<HTMLButtonElement>(null);
   const showAllRef = useRef<HTMLButtonElement>(null);
   const tabIndexRef = useRef(0);
+
+  const tabIndex = useStoreState((state) => state.tabs.tabIndex);
 
   useEffect(() => {
     document.addEventListener("keydown", (key) => handleKeyPress(key));
@@ -66,6 +69,8 @@ const Display = () => {
   const style = useColorModeValue("light", "dark");
   const setStoreMarkdown = useStoreActions((actions) => actions.writing.set);
 
+  const toast = useToast();
+
   function handleKeyPress(key: KeyboardEvent) {
     if (key.ctrlKey && key.which === 83 && generateRef.current !== null) {
       generateRef.current.click();
@@ -83,6 +88,13 @@ const Display = () => {
     setStoreMarkdown({
       markdown,
       index: tabIndexRef.current,
+    });
+    toast({
+      title: "Markdown generado!",
+      status: "success",
+      variant: "left-accent",
+      duration: 2000,
+      isClosable: true,
     });
     // if (divRef.current != null) divRef.current.innerHTML = parse(markdown);
   }
@@ -128,7 +140,9 @@ const Display = () => {
           mr={4}
           size={"sm"}
           colorScheme={"twitter"}
-          onClick={() => setShowEditor(!showEditor)}
+          onClick={() => {
+            tabIndex === 2 && setShowEditor(!showEditor);
+          }}
         >
           <HStack>
             <Text> {showEditor ? "Ocultar Editor" : "Mostrar Editor"}</Text>
@@ -141,7 +155,9 @@ const Display = () => {
           colorScheme={"blue"}
           size={"sm"}
           ref={showAllRef}
-          onClick={() => setShowAll(!showAll)}
+          onClick={() => {
+            tabIndex === 2 && setShowAll(!showAll);
+          }}
           disabled={tabIndexRef.current === 0}
         >
           <HStack>
@@ -157,7 +173,9 @@ const Display = () => {
           ref={generateRef}
           size={"sm"}
           colorScheme={"green"}
-          onClick={() => generateMarkdown()}
+          onClick={() => {
+            tabIndex === 2 && generateMarkdown();
+          }}
         >
           <HStack>
             <Text> Generar </Text>
