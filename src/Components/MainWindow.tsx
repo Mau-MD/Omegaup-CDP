@@ -8,10 +8,11 @@ import Sidebar from "./Cases/Sidebar/Sidebar";
 import Main from "./Cases/Main";
 import WritingWindow from "./Writing/WritingWindow";
 import SolutionMainWindow from "./Solution/SolutionMainWindow";
-import { useStoreActions } from "../Redux/Store";
+import { useStoreActions, useStoreState } from "../Redux/Store";
 
 const MainWindow = () => {
   const setTab = useStoreActions((actions) => actions.tabs.setTab);
+  const tabIndex = useStoreState((state) => state.tabs.tabIndex);
 
   return (
     <>
@@ -19,6 +20,7 @@ const MainWindow = () => {
         <Tabs
           variant={"enclosed"}
           size={"sm"}
+          index={tabIndex}
           onChange={(e) => {
             console.log(e);
             setTab(e);

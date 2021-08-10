@@ -88,7 +88,6 @@ const SolutionMainWindow = () => {
 
   useEffect(() => {
     handleResize();
-    setTab(0);
     document.addEventListener("keyup", handleKeyPress);
     return () => document.removeEventListener("keypress", handleKeyPress);
   }, []);
