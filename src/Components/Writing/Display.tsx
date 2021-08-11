@@ -44,11 +44,17 @@ const Display = () => {
   const tabIndexRef = useRef(0);
 
   const tabIndex = useStoreState((state) => state.tabs.tabIndex);
+  const saveError = useStoreState((state) => state.writing.error);
+
+  const style = useColorModeValue("light", "dark");
+  const setStoreMarkdown = useStoreActions((actions) => actions.writing.set);
+  const toast = useToast();
 
   useEffect(() => {
     document.addEventListener("keydown", (key) => handleKeyPress(key));
-    return () =>
+    return () => {
       document.removeEventListener("keydown", (key) => handleKeyPress(key));
+    };
   }, []);
 
   useEffect(() => {
@@ -66,10 +72,19 @@ const Display = () => {
     setMarkdown(markdownElements[tabIndexRef.current]);
   }, [markdownElements, showAll, tabIndexRef.current]);
 
-  const style = useColorModeValue("light", "dark");
-  const setStoreMarkdown = useStoreActions((actions) => actions.writing.set);
-
-  const toast = useToast();
+  useEffect(() => {
+    if (saveError) {
+      toast({
+        title: "Borraste una de las 5 seccciones",
+        description:
+          "No podras usar la edición indivudal de secciones. Para activarla otra vez, agrega todas las secciones y vuelve a generar el Markdown. Ejemplo: # Descripción.",
+        status: "warning",
+        variant: "left-accent",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  }, [saveError]);
 
   function handleKeyPress(key: KeyboardEvent) {
     if (key.ctrlKey && key.which === 83 && generateRef.current !== null) {
@@ -113,11 +128,11 @@ const Display = () => {
         >
           <TabList>
             <Tab>Todo</Tab>
-            <Tab>Descripción</Tab>
-            <Tab>Entrada</Tab>
-            <Tab>Salida</Tab>
-            <Tab>Ejemplo</Tab>
-            <Tab>Limites</Tab>
+            <Tab isDisabled={saveError}>Descripción</Tab>
+            <Tab isDisabled={saveError}>Entrada</Tab>
+            <Tab isDisabled={saveError}>Salida</Tab>
+            <Tab isDisabled={saveError}>Ejemplo</Tab>
+            <Tab isDisabled={saveError}>Limites</Tab>
           </TabList>
         </Tabs>
         <Flex mt={5}>

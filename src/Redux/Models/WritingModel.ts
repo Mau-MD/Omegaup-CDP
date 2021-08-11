@@ -55,6 +55,7 @@ export interface IWritingModel {
   output: string;
   example: string;
   limits: string;
+  error: boolean;
 
   set: Action<IWritingModel, { markdown: string; index: number }>;
   setAll: Action<IWritingModel, string>;
@@ -63,6 +64,7 @@ export interface IWritingModel {
   setOutput: Action<IWritingModel, string>;
   setExample: Action<IWritingModel, string>;
   setLimits: Action<IWritingModel, string>;
+  setError: Action<IWritingModel, boolean>;
 
   handleAll: () => string;
 }
@@ -146,13 +148,18 @@ hola
 * Los
 * Límites
 `,
+  error: false,
 
   set: action((state, payload) => {
     switch (payload.index) {
       case 0:
         state.all = payload.markdown;
         const sectionData = findSections(payload.markdown.split("\n"));
-        console.log(sectionData);
+        if (sectionData.length < 6) {
+          state.error = true;
+          return;
+        }
+        state.error = false;
         state.description = sectionData[1].join("\n");
         state.input = sectionData[2].join("\n");
         state.output = sectionData[3].join("\n");
@@ -201,6 +208,9 @@ hola
   setLimits: action((state, payload) => {
     state.limits = payload;
     makeAll(state);
+  }),
+  setError: action((state, payload) => {
+    state.error = payload;
   }),
 } as IWritingModel;
 
