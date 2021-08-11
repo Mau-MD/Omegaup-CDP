@@ -12,6 +12,7 @@ import {
   VStack,
   Center,
   Flex,
+  useDisclosure,
 } from "@chakra-ui/react";
 import _ from "lodash";
 import * as React from "react";
@@ -19,6 +20,7 @@ import { uuid } from "uuidv4";
 import { useStoreActions, useStoreState } from "../../../Redux/Store";
 import LayoutLines from "./LayoutLines";
 import { useRef } from "react";
+import WritingDrawer from "./WritingDrawer";
 
 interface PropTypes {
   isOpen: boolean;
@@ -42,6 +44,12 @@ const LayoutDrawer = (props: PropTypes) => {
     )
   );
 
+  const {
+    isOpen: isOpenWriting,
+    onOpen: onOpenWriting,
+    onClose: onCloseWriting,
+  } = useDisclosure();
+
   function loadCurrentLayout() {
     if (selectedInputData !== undefined) {
       const mappedLines = selectedInputData.lines.map((inputElement) => {
@@ -60,45 +68,55 @@ const LayoutDrawer = (props: PropTypes) => {
   }
 
   return (
-    <Drawer isOpen={isOpen} placement={placement} onClose={onClose}>
-      <DrawerOverlay />
-      <DrawerContent>
-        <DrawerCloseButton />
-        <DrawerHeader>Layout</DrawerHeader>
+    <>
+      <Drawer isOpen={isOpen} placement={placement} onClose={onClose}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Layout</DrawerHeader>
 
-        <DrawerBody>
-          <LayoutLines isLeft={!displayWritingButton} />
-        </DrawerBody>
+          <DrawerBody>
+            <LayoutLines isLeft={!displayWritingButton} />
+          </DrawerBody>
 
-        <DrawerFooter>
-          <VStack w={"100%"}>
-            {displayWritingButton && (
-              <Button isFullWidth size={"sm"} colorScheme="blue">
-                Ver Reddacción
+          <DrawerFooter>
+            <VStack w={"100%"}>
+              {displayWritingButton && (
+                <Button
+                  isFullWidth
+                  size={"sm"}
+                  colorScheme="blue"
+                  onClick={() => onOpenWriting()}
+                >
+                  Ver Reddacción
+                </Button>
+              )}
+              <Button
+                isFullWidth
+                colorScheme="red"
+                size={"sm"}
+                onClick={() => setLayout([])}
+              >
+                Borrar Layout
               </Button>
-            )}
-            <Button
-              isFullWidth
-              colorScheme="red"
-              size={"sm"}
-              onClick={() => setLayout([])}
-            >
-              Borrar Layout
-            </Button>
-            <Button
-              isFullWidth
-              p={7}
-              whiteSpace={"normal"}
-              overflowWrap={"break-word"}
-              colorScheme="green"
-              onClick={() => loadCurrentLayout()}
-            >
-              Crear Layout a partir del caso seleccionado
-            </Button>
-          </VStack>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
+              <Button
+                isFullWidth
+                p={7}
+                whiteSpace={"normal"}
+                overflowWrap={"break-word"}
+                colorScheme="green"
+                onClick={() => loadCurrentLayout()}
+              >
+                Crear Layout a partir del caso seleccionado
+              </Button>
+            </VStack>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+      {isOpenWriting && (
+        <WritingDrawer isOpen={isOpenWriting} onClose={onCloseWriting} />
+      )}
+    </>
   );
 };
 
