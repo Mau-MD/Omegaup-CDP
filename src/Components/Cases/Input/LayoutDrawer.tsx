@@ -113,9 +113,7 @@ const LayoutDrawer = (props: PropTypes) => {
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
-      {isOpenWriting && (
-        <WritingDrawer isOpen={isOpenWriting} onClose={onCloseWriting} />
-      )}
+      <WritingDrawer isOpen={isOpenWriting} onClose={onCloseWriting} />
     </>
   );
 };

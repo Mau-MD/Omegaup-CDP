@@ -37,6 +37,13 @@ import {
 import { useStoreActions } from "../../../Redux/Store";
 import LayoutLines from "./LayoutLines";
 import LayoutDrawer from "./LayoutDrawer";
+import WritingDrawer from "./WritingDrawer";
+import {
+  AiOutlineEye,
+  AiOutlineLayout,
+  IoMdCreate,
+  RiRestartLine,
+} from "react-icons/all";
 
 interface PropTypes {
   isOpen: boolean;
@@ -131,6 +138,12 @@ const ArrayGenDrawer = (props: PropTypes) => {
     isOpen: isOpenLayout,
     onClose: onCloseLayout,
     onOpen: onOpenLayout,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenWriting,
+    onClose: onCloseWriting,
+    onOpen: onOpenWriting,
   } = useDisclosure();
 
   function handleGenerateArray() {
@@ -273,11 +286,18 @@ const ArrayGenDrawer = (props: PropTypes) => {
             <DrawerFooter>
               <VStack w={"100%"}>
                 <HStack w={"100%"}>
-                  <Button isFullWidth size={"sm"} colorScheme="blue">
+                  <Button
+                    isFullWidth
+                    leftIcon={<AiOutlineEye />}
+                    size={"sm"}
+                    colorScheme="blue"
+                    onClick={onOpenWriting}
+                  >
                     Ver Redacción
                   </Button>
                   <Button
                     isFullWidth
+                    leftIcon={<AiOutlineLayout />}
                     size={"sm"}
                     colorScheme="blue"
                     onClick={onOpenLayout}
@@ -288,6 +308,7 @@ const ArrayGenDrawer = (props: PropTypes) => {
                 <HStack w={"100%"}>
                   <Button
                     isFullWidth
+                    leftIcon={<RiRestartLine />}
                     colorScheme="red"
                     size={"sm"}
                     onClick={() => {
@@ -298,6 +319,7 @@ const ArrayGenDrawer = (props: PropTypes) => {
                   </Button>
                   <Button
                     type="submit"
+                    leftIcon={<IoMdCreate />}
                     isFullWidth
                     colorScheme="green"
                     size={"sm"}
@@ -315,6 +337,7 @@ const ArrayGenDrawer = (props: PropTypes) => {
         onClose={onCloseLayout}
         placement={"left"}
       />
+      <WritingDrawer isOpen={isOpenWriting} onClose={onCloseWriting} />
     </>
   );
 };

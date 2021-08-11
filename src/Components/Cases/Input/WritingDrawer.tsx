@@ -34,15 +34,18 @@ interface PropTypes {
 const WritingDrawer = (props: PropTypes) => {
   const { isOpen, onClose } = props;
 
-  const writingRef = useCallback((node) => {
-    if (node !== null) {
-      node.innerHTML = parse(markdownState);
-    }
-  }, []);
-
   const markdownState = useStoreState((state) => state.writing.all);
 
   const style = useColorModeValue("light", "dark");
+
+  const writingRef = useCallback(
+    (node) => {
+      if (node !== null) {
+        node.innerHTML = parse(markdownState);
+      }
+    },
+    [markdownState]
+  );
 
   return (
     <Drawer isOpen={isOpen} size={"sm"} placement={"left"} onClose={onClose}>
