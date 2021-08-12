@@ -79,7 +79,6 @@ const Display = () => {
         description:
           "No podras usar la edición indivudal de secciones. Para activarla otra vez, agrega todas las secciones y vuelve a generar el Markdown. Ejemplo: # Descripción.",
         status: "warning",
-        variant: "left-accent",
         duration: 5000,
         isClosable: true,
       });

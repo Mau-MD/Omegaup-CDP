@@ -23,11 +23,12 @@ import { HiOutlineDotsVertical as Dots } from "react-icons/hi";
 import LayoutDrawer from "../Input/LayoutDrawer";
 import AddMultipleCasesModal from "./AddMultipleCasesModal";
 import LoadLayoutToAllModal from "./LoadLayoutToAllModal";
-import { AddIcon } from "@chakra-ui/icons";
+import { AddIcon, DownloadIcon } from "@chakra-ui/icons";
 import {
   BsReverseLayoutTextSidebarReverse,
   CgLayoutList,
 } from "react-icons/all";
+import DownloadModal from "./DownloadModal";
 
 const Sidebar = () => {
   const divBorderColor = useColorModeValue("gray.200", "gray.600");
@@ -54,6 +55,12 @@ const Sidebar = () => {
     isOpen: isOpenMultiple,
     onOpen: onOpenMultiple,
     onClose: onCloseMultiple,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenDownload,
+    onOpen: onOpenDownload,
+    onClose: onCloseDownload,
   } = useDisclosure();
 
   const isLargeScreen = useMediaPredicate("(min-width: 830px)");
@@ -110,10 +117,14 @@ const Sidebar = () => {
                 >
                   Cargar Layout en todos los Casos
                 </MenuItem>
-                {/*<MenuDivider />*/}
-                {/*<MenuItem fontSize={"sm"} onClick={onOpenLoadAll}>*/}
-                {/*  Seleccionar*/}
-                {/*</MenuItem>*/}
+                <MenuDivider />
+                <MenuItem
+                  icon={<DownloadIcon />}
+                  fontSize={"sm"}
+                  onClick={onOpenDownload}
+                >
+                  Generar .out manual
+                </MenuItem>
               </MenuList>
             </Menu>
             <Add isOpen={isOpenAdd} onClose={onCloseAdd} />
@@ -130,6 +141,7 @@ const Sidebar = () => {
               isOpen={isOpenLoadAll}
               onClose={onCloseLoadAll}
             />
+            <DownloadModal isOpen={isOpenDownload} onClose={onCloseDownload} />
           </Flex>
           <Divider />
           <Navigation />
