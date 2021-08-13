@@ -5,6 +5,7 @@ import {
   AlertIcon,
   AlertTitle,
   Box,
+  Button,
   CloseButton,
   Code,
   FormControl,
@@ -24,13 +25,14 @@ import { useState } from "react";
 import ReactAce from "react-ace";
 import "ace-builds/src-noconflict/theme-tomorrow";
 import "ace-builds/src-noconflict/theme-monokai";
+import { useStoreState } from "../../../Redux/Store";
+import { downloadInFiles } from "../../../Util/FileIO/download";
 
 languages.forEach((language) => {
   require(`ace-builds/src-noconflict/mode-${language.ace}`);
 });
 
-const languagesCode = {
-  c: `#include <stdio.h>
+const c = `#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
@@ -44,8 +46,8 @@ int main() {
   freopen(dirIN, "r", stdin);
   freopen(dirOUT, "w", stdout);
 }
-  `,
-  cpp: `#include <iostream>
+  `;
+const cpp = `#include <iostream>
 #include <fstream>
 #include <string>
 
@@ -67,14 +69,16 @@ int main() {
   cout.rdbuf(out.rdbuf()); 
   
   restoDelCodigo();
-}`,
-  python: `
-import sys
+}`;
+const python = `import sys
 
-sys.stdin = open('1.in', 'r')
-sys.stdout = open('1.out', 'w')
-  `,
-  java: `import java.io.*;
+GRUPO = 'sin_grupo/' # sin_grupo/, easy/, ...
+CASO = '1'
+
+sys.stdin = open(GRUPO + CASO + '.in', 'r')
+sys.stdout = open(GRUPO + CASO + '.out', 'w')
+  `;
+const java = `import java.io.*;
 import java.util.Scanner;
 
 public class Main {
@@ -90,8 +94,9 @@ public class Main {
 
   }
 }
-  `,
-};
+  `;
+
+const languagesCode = [c, cpp, cpp, java, python, python];
 
 interface PropTypes {
   isOpen: boolean;
@@ -103,13 +108,20 @@ const DownloadModal = (props: PropTypes) => {
 
   const [languageIndex, setLanguage] = useState(0);
 
+  const groupData = useStoreState((state) => state.cases.data);
+  const inputData = useStoreState((state) => state.input.data);
+
   const codeStyle = useColorModeValue("tomorrow", "monokai");
+
+  function downloadFiles() {
+    downloadInFiles(inputData, groupData);
+  }
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader> Descargar .in </ModalHeader>
+        <ModalHeader> Generar .out / Descargar .in </ModalHeader>
         <ModalCloseButton />
         <ModalBody mb={5}>
           <FormControl>
@@ -118,15 +130,18 @@ const DownloadModal = (props: PropTypes) => {
               size={"sm"}
               onChange={(e) => setLanguage(parseInt(e.target.value))}
             >
-              {languages.map((language, index) => (
-                <option
-                  key={language.ace + index}
-                  value={index}
-                  selected={index === languageIndex}
-                >
-                  {language.ide}
-                </option>
-              ))}
+              {languages.map(
+                (language, index) =>
+                  language.ide !== "Csharp" && (
+                    <option
+                      key={language.ace + index}
+                      value={index}
+                      selected={index === languageIndex}
+                    >
+                      {language.ide}
+                    </option>
+                  )
+              )}
             </Select>
           </FormControl>
           <Text mt={5}>
@@ -142,16 +157,24 @@ const DownloadModal = (props: PropTypes) => {
               fontSize={14}
               width={"100%"}
               height={"280px"}
-              value={languagesCode["cpp"]}
+              value={languagesCode[languageIndex]}
               readOnly
             />
           </Box>
           <Alert status="error" mt={2}>
             <AlertIcon />
             <AlertTitle mr={2}>
-              No cambies el nombre ni muevas ningún archivo
+              No cambies el nombre ni muevas ningún archivo/carpeta
             </AlertTitle>
           </Alert>
+          <Button
+            isFullWidth
+            colorScheme={"green"}
+            mt={3}
+            onClick={() => downloadFiles()}
+          >
+            Descargar .in's
+          </Button>
         </ModalBody>
       </ModalContent>
     </Modal>
