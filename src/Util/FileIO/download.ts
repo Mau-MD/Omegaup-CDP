@@ -1,12 +1,17 @@
 import { IInput, IInputModel } from "../../Redux/Models/InputModel";
 import { IGroup } from "../../Redux/Models/CasesModel";
 import { saveAs } from "file-saver";
+import JSZip from "jszip";
 
 export const downloadInFiles = (cases: IInput[], groups: IGroup[]) => {
   // Primero necesito agruparlo por grupos
   // Buscar cuantos grupos hay
+  let zip = new JSZip(); // Crear nuevo zip
   groups.forEach((group) => {
     // Todos los cases que tengan el mismo grupo
+
+    const groupName = group.name.toLowerCase().replaceAll(" ", "_");
+    let folder = zip.folder(groupName); // Crear folder del grupo
     const groupCases = cases.filter(
       (caseElement) => caseElement.id.groupId === group.groupId
     );
@@ -24,14 +29,14 @@ export const downloadInFiles = (cases: IInput[], groups: IGroup[]) => {
           return prev + curr.matrixData?.value + "\n";
         }, "");
         console.log(result);
-        const blob = new Blob([result], { type: "text/plain:charset=utf-8" });
-        // Necesito el nombre del caso
         const caseName = group.cases.find(
           (caseToFind) => caseToFind.caseId === caseElement.id.caseId
         )?.name;
-        const groupName = group.name.toLowerCase().replaceAll(" ", "_");
-        saveAs(blob, groupName + "-" + caseName + ".in");
+        folder?.file(caseName + ".in", result);
       });
     }
+  });
+  zip.generateAsync({ type: "blob" }).then((content) => {
+    saveAs(content, "test.zip");
   });
 };
