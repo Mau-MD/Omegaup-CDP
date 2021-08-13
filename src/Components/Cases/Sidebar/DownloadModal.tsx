@@ -30,6 +30,21 @@ languages.forEach((language) => {
 });
 
 const languagesCode = {
+  c: `#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+int main() {
+  const char *GRUPO = "sin_grupo/"; // sin_grupo, easy, ...
+  const char *CASO = "1";
+
+  char *dirIN = strcat(strcat(strcpy(malloc(strlen(GRUPO) + strlen(CASO) + 4), GRUPO), CASO), ".in");
+  char *dirOUT = strcat(strcat(strcpy(malloc(strlen(GRUPO) + strlen(CASO) + 4), GRUPO), CASO), ".out");
+
+  freopen(dirIN, "r", stdin);
+  freopen(dirOUT, "w", stdout);
+}
+  `,
   cpp: `#include <iostream>
 #include <fstream>
 #include <string>
@@ -58,6 +73,23 @@ import sys
 
 sys.stdin = open('1.in', 'r')
 sys.stdout = open('1.out', 'w')
+  `,
+  java: `import java.io.*;
+import java.util.Scanner;
+
+public class Main {
+
+  public static void main(String[] args) throws FileNotFoundException {
+    final String GRUPO = "sin_grupo/"; // sin_grupo/, easy/, ...
+    final String CASO = "1";
+
+    PrintStream outStream = new PrintStream(new File(GRUPO + CASO + ".out"));
+    System.setOut(outStream);
+
+    Scanner input = new Scanner(new File(GRUPO + CASO + ".in"));
+
+  }
+}
   `,
 };
 
