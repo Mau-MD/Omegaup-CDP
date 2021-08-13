@@ -10,6 +10,7 @@ import {
   Code,
   FormControl,
   FormLabel,
+  HStack,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -17,8 +18,13 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
+  Tab,
+  TabList,
+  TabPanel,
+  Tabs,
   Text,
   useColorModeValue,
+  TabPanels,
 } from "@chakra-ui/react";
 import { languages } from "../../Solution/SolutionMainWindow";
 import { useState } from "react";
@@ -110,71 +116,112 @@ const DownloadModal = (props: PropTypes) => {
 
   const groupData = useStoreState((state) => state.cases.data);
   const inputData = useStoreState((state) => state.input.data);
-
+  const problemName = useStoreState((state) => state.title.titleName);
   const codeStyle = useColorModeValue("tomorrow", "monokai");
 
-  function downloadFiles() {
-    downloadInFiles(inputData, groupData);
+  function downloadFiles(txt: boolean) {
+    downloadInFiles(inputData, groupData, problemName, { txt: txt });
   }
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader> Generar .out / Descargar .in </ModalHeader>
+        <ModalHeader>Descargar Salida</ModalHeader>
         <ModalCloseButton />
         <ModalBody mb={5}>
-          <FormControl>
-            <FormLabel> Lenguaje</FormLabel>
-            <Select
-              size={"sm"}
-              onChange={(e) => setLanguage(parseInt(e.target.value))}
+          <Tabs size={"sm"}>
+            <TabList>
+              <Tab>
+                Usando
+                <Code>.in</Code>
+              </Tab>
+              <Tab>
+                Usando
+                <Code>.txt</Code>
+              </Tab>
+            </TabList>
+            <TabPanels>
+              <TabPanel>
+                <FormControl>
+                  <FormLabel> Lenguaje</FormLabel>
+                  <Select
+                    size={"sm"}
+                    onChange={(e) => setLanguage(parseInt(e.target.value))}
+                  >
+                    {languages.map(
+                      (language, index) =>
+                        language.ide !== "Csharp" && (
+                          <option
+                            key={language.ace + index}
+                            value={index}
+                            selected={index === languageIndex}
+                          >
+                            {language.ide}
+                          </option>
+                        )
+                    )}
+                  </Select>
+                </FormControl>
+                <Text mt={5}>
+                  Agrega esto a <Code>codigo_solucion</Code>. Por cada grupo,
+                  cambia <Code>GRUPO</Code> por el{" "}
+                  <strong> nombre de la carpeta</strong> del grupo. Por cada
+                  caso, cambia <Code>CASO</Code> por el nombre del archivo{" "}
+                  <Code>.in</Code>, ejecuta el programa y repite.
+                </Text>
+                <Box mt={2}>
+                  <ReactAce
+                    mode={languages[languageIndex].ace}
+                    theme={codeStyle}
+                    fontSize={14}
+                    width={"100%"}
+                    height={"280px"}
+                    value={languagesCode[languageIndex]}
+                    readOnly
+                  />
+                </Box>
+                <Text my={5}>
+                  Despues, comprime la carpeta que descargaste y regresa a{" "}
+                  <Code> OmegaupCDP </Code> y sube tus <Code>.out</Code>{" "}
+                  generados dentro de <Code>Subir .out's</Code>
+                </Text>
+                <Alert status="error" mt={2}>
+                  <AlertIcon />
+                  <AlertTitle mr={2}>
+                    No cambies el nombre ni muevas ningún archivo/carpeta
+                  </AlertTitle>
+                </Alert>
+              </TabPanel>
+              <TabPanel>
+                <Text mt={5}>
+                  Copia y pega el contenido de cada <Code>.txt</Code> a tu
+                  código como si hicieras una entrada normal.
+                </Text>
+                <Text mt={5}>
+                  Despues, por cada salida generada, regresa a{" "}
+                  <Code>OmegaupCDP</Code> y agrega tu salida manualmente desde
+                  cada caso individual dentro de <Code>Editar Salida</Code>.
+                </Text>
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
+          <HStack mt={3}>
+            <Button
+              isFullWidth
+              colorScheme={"green"}
+              onClick={() => downloadFiles(false)}
             >
-              {languages.map(
-                (language, index) =>
-                  language.ide !== "Csharp" && (
-                    <option
-                      key={language.ace + index}
-                      value={index}
-                      selected={index === languageIndex}
-                    >
-                      {language.ide}
-                    </option>
-                  )
-              )}
-            </Select>
-          </FormControl>
-          <Text mt={5}>
-            Agrega esto a <Code>codigo_solucion</Code>. Por cada grupo, cambia{" "}
-            <Code>GRUPO</Code> por el <strong> nombre de la carpeta</strong> del
-            grupo. Por cada caso, cambia <Code>CASO</Code> por el nombre del
-            archivo <Code>.in</Code>, ejecuta el programa y repite.
-          </Text>
-          <Box mt={2}>
-            <ReactAce
-              mode={languages[languageIndex].ace}
-              theme={codeStyle}
-              fontSize={14}
-              width={"100%"}
-              height={"280px"}
-              value={languagesCode[languageIndex]}
-              readOnly
-            />
-          </Box>
-          <Alert status="error" mt={2}>
-            <AlertIcon />
-            <AlertTitle mr={2}>
-              No cambies el nombre ni muevas ningún archivo/carpeta
-            </AlertTitle>
-          </Alert>
-          <Button
-            isFullWidth
-            colorScheme={"green"}
-            mt={3}
-            onClick={() => downloadFiles()}
-          >
-            Descargar .in's
-          </Button>
+              Descargar .in's
+            </Button>
+            <Button
+              isFullWidth
+              colorScheme={"green"}
+              onClick={() => downloadFiles(true)}
+            >
+              Descargar .txt's
+            </Button>
+          </HStack>
         </ModalBody>
       </ModalContent>
     </Modal>

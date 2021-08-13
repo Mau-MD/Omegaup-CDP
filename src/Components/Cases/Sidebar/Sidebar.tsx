@@ -123,7 +123,7 @@ const Sidebar = () => {
                   fontSize={"sm"}
                   onClick={onOpenDownload}
                 >
-                  Generar .out manual
+                  Descargar Entrada
                 </MenuItem>
               </MenuList>
             </Menu>
