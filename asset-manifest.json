@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/Omegaup-CDP/static/css/main.9afdcd88.chunk.css",
-    "main.js": "/Omegaup-CDP/static/js/main.5bea3c1a.chunk.js",
-    "main.js.map": "/Omegaup-CDP/static/js/main.5bea3c1a.chunk.js.map",
+    "main.css": "/Omegaup-CDP/static/css/main.21a24fc4.chunk.css",
+    "main.js": "/Omegaup-CDP/static/js/main.0f4ee7ee.chunk.js",
+    "main.js.map": "/Omegaup-CDP/static/js/main.0f4ee7ee.chunk.js.map",
     "runtime-main.js": "/Omegaup-CDP/static/js/runtime-main.66fdfa16.js",
     "runtime-main.js.map": "/Omegaup-CDP/static/js/runtime-main.66fdfa16.js.map",
-    "static/css/2.0c7a55a1.chunk.css": "/Omegaup-CDP/static/css/2.0c7a55a1.chunk.css",
-    "static/js/2.1ea0f369.chunk.js": "/Omegaup-CDP/static/js/2.1ea0f369.chunk.js",
-    "static/js/2.1ea0f369.chunk.js.map": "/Omegaup-CDP/static/js/2.1ea0f369.chunk.js.map",
+    "static/css/2.d5be1d10.chunk.css": "/Omegaup-CDP/static/css/2.d5be1d10.chunk.css",
+    "static/js/2.c2ea3d07.chunk.js": "/Omegaup-CDP/static/js/2.c2ea3d07.chunk.js",
+    "static/js/2.c2ea3d07.chunk.js.map": "/Omegaup-CDP/static/js/2.c2ea3d07.chunk.js.map",
     "index.html": "/Omegaup-CDP/index.html",
-    "static/css/2.0c7a55a1.chunk.css.map": "/Omegaup-CDP/static/css/2.0c7a55a1.chunk.css.map",
-    "static/css/main.9afdcd88.chunk.css.map": "/Omegaup-CDP/static/css/main.9afdcd88.chunk.css.map",
-    "static/js/2.1ea0f369.chunk.js.LICENSE.txt": "/Omegaup-CDP/static/js/2.1ea0f369.chunk.js.LICENSE.txt",
+    "static/css/2.d5be1d10.chunk.css.map": "/Omegaup-CDP/static/css/2.d5be1d10.chunk.css.map",
+    "static/css/main.21a24fc4.chunk.css.map": "/Omegaup-CDP/static/css/main.21a24fc4.chunk.css.map",
+    "static/js/2.c2ea3d07.chunk.js.LICENSE.txt": "/Omegaup-CDP/static/js/2.c2ea3d07.chunk.js.LICENSE.txt",
     "static/media/katex.min.css": "/Omegaup-CDP/static/media/KaTeX_Typewriter-Regular.b6a56b14.woff",
     "static/media/logoDark.406064cb.png": "/Omegaup-CDP/static/media/logoDark.406064cb.png",
     "static/media/logoLight.d4263283.png": "/Omegaup-CDP/static/media/logoLight.d4263283.png",
@@ -20,9 +20,9 @@
   },
   "entrypoints": [
     "static/js/runtime-main.66fdfa16.js",
-    "static/css/2.0c7a55a1.chunk.css",
-    "static/js/2.1ea0f369.chunk.js",
-    "static/css/main.9afdcd88.chunk.css",
-    "static/js/main.5bea3c1a.chunk.js"
+    "static/css/2.d5be1d10.chunk.css",
+    "static/js/2.c2ea3d07.chunk.js",
+    "static/css/main.21a24fc4.chunk.css",
+    "static/js/main.0f4ee7ee.chunk.js"
   ]
 }
