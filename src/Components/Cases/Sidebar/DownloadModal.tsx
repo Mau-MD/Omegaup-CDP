@@ -32,7 +32,7 @@ import ReactAce from "react-ace";
 import "ace-builds/src-noconflict/theme-tomorrow";
 import "ace-builds/src-noconflict/theme-monokai";
 import { useStoreState } from "../../../Redux/Store";
-import { downloadInFiles } from "../../../Util/FileIO/download";
+import { downloadAllGroups } from "../../../Util/FileIO/download";
 
 languages.forEach((language) => {
   require(`ace-builds/src-noconflict/mode-${language.ace}`);
@@ -120,7 +120,7 @@ const DownloadModal = (props: PropTypes) => {
   const codeStyle = useColorModeValue("tomorrow", "monokai");
 
   function downloadFiles(txt: boolean) {
-    downloadInFiles(inputData, groupData, problemName, { txt: txt });
+    downloadAllGroups(inputData, groupData, problemName, { txt: txt });
   }
 
   return (

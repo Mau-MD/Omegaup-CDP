@@ -12,6 +12,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  MenuDivider,
 } from "@chakra-ui/react";
 import EditCase from "../Sidebar/EditCase";
 import { HiOutlineDotsVertical as Dots } from "react-icons/hi";
@@ -20,6 +21,7 @@ import { useSelectedData } from "../../../Hooks/useSelectedData";
 import { ICase } from "../../../Redux/Models/CasesModel";
 import {
   BiDuplicate,
+  BiUpload,
   BsEye,
   BsFillEyeSlashFill,
   FaFileDownload,
@@ -32,7 +34,8 @@ import DeleteLinesModal from "./DeleteLinesModal";
 import LayoutDrawer from "./LayoutDrawer";
 import { uuid } from "uuidv4";
 import _ from "lodash";
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { DeleteIcon, DownloadIcon, EditIcon } from "@chakra-ui/icons";
+import { downloadSingleFile } from "../../../Util/FileIO/download";
 
 interface PropTypes {
   groupName: string;
@@ -76,6 +79,7 @@ const TopBar = (props: PropTypes) => {
       (groupElement) => groupElement.groupId === caseData.groupId
     )
   );
+  const inputData = useStoreState((state) => state.input.data);
 
   function handleHidden(event: ChangeEvent<HTMLInputElement>) {
     setHidden(event.target.checked);
@@ -124,6 +128,12 @@ const TopBar = (props: PropTypes) => {
     }
   }
 
+  function handleDownload(txt: boolean) {
+    downloadSingleFile(caseData.name, inputData, caseData.caseId, {
+      txt: txt,
+    });
+  }
+
   return (
     <Box mb={2}>
       <HStack h={"20%"} w={"100%"} pl={5}>
@@ -152,6 +162,17 @@ const TopBar = (props: PropTypes) => {
           />
           <MenuList>
             <MenuItem
+              icon={<BsEye />}
+              fontSize={"sm"}
+              onClick={handleLayoutLoad}
+            >
+              Ver Salida
+            </MenuItem>
+            <MenuItem icon={<FiDelete />} fontSize={"sm"} onClick={onOpenLines}>
+              Borrar Lineas
+            </MenuItem>
+            <MenuDivider />
+            <MenuItem
               icon={<FaFileDownload />}
               fontSize={"sm"}
               onClick={handleLayoutLoad}
@@ -165,8 +186,27 @@ const TopBar = (props: PropTypes) => {
             >
               Duplicar Caso
             </MenuItem>
-            <MenuItem icon={<FiDelete />} fontSize={"sm"} onClick={onOpenLines}>
-              Borrar Lineas
+            <MenuDivider />
+            <MenuItem
+              icon={<DownloadIcon />}
+              fontSize={"sm"}
+              onClick={() => handleDownload(false)}
+            >
+              Descargar Caso .in
+            </MenuItem>
+            <MenuItem
+              icon={<DownloadIcon />}
+              fontSize={"sm"}
+              onClick={() => handleDownload(true)}
+            >
+              Descargar Caso .txt
+            </MenuItem>
+            <MenuItem
+              icon={<BiUpload />}
+              fontSize={"sm"}
+              onClick={handleLayoutLoad}
+            >
+              Subir Salida
             </MenuItem>
           </MenuList>
         </Menu>

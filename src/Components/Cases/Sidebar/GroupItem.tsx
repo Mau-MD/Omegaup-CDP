@@ -14,6 +14,7 @@ import {
   useColorModeValue,
   useDisclosure,
   Flex,
+  MenuDivider,
 } from "@chakra-ui/react";
 import { HiOutlineDotsVertical as Dots } from "react-icons/hi";
 import { useMediaPredicate } from "react-media-hook";
@@ -28,8 +29,10 @@ import {
   ChevronDownIcon,
   ChevronUpIcon,
   DeleteIcon,
+  DownloadIcon,
   EditIcon,
 } from "@chakra-ui/icons";
+import { downloadSingleGroup } from "../../../Util/FileIO/download";
 
 interface PropTypes extends IGroup {}
 
@@ -39,8 +42,11 @@ const GroupItem = (props: PropTypes) => {
 
   const borderColor = useColorModeValue("gray.200", "gray.600");
   const caseState = useStoreState((state) => {
-    return state.cases.data.find((element) => element.name === name);
+    return state.cases.data.find((element) => element.groupId === groupId);
   });
+
+  const inputData = useStoreState((state) => state.input.data);
+  const problemName = useStoreState((state) => state.title.titleName);
 
   const isLargeScreen = useMediaPredicate("(min-width: 830px)");
 
@@ -60,6 +66,12 @@ const GroupItem = (props: PropTypes) => {
       ((event.pageX - event.currentTarget.offsetLeft) * 100) /
       event.currentTarget.clientWidth;
     if (percentage < 80) setShowCases(!showCases);
+  }
+
+  function handleDownload(txt: boolean) {
+    if (caseState !== undefined) {
+      downloadSingleGroup(inputData, caseState, problemName, { txt: txt });
+    }
   }
 
   return (
@@ -115,6 +127,21 @@ const GroupItem = (props: PropTypes) => {
                     onClick={onOpenRemove}
                   >
                     Eliminar Grupo
+                  </MenuItem>
+                  <MenuDivider />
+                  <MenuItem
+                    icon={<DownloadIcon />}
+                    fontSize={"sm"}
+                    onClick={() => handleDownload(false)}
+                  >
+                    Descargar Grupo .in
+                  </MenuItem>
+                  <MenuItem
+                    icon={<DownloadIcon />}
+                    fontSize={"sm"}
+                    onClick={() => handleDownload(true)}
+                  >
+                    Descargar Grupo .txt
                   </MenuItem>
                 </MenuList>
               </Menu>
