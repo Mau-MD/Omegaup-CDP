@@ -27,8 +27,10 @@ import { AddIcon, DownloadIcon } from "@chakra-ui/icons";
 import {
   BsReverseLayoutTextSidebarReverse,
   CgLayoutList,
+  FaUpload,
 } from "react-icons/all";
 import DownloadModal from "./DownloadModal";
+import UploadOutputModal from "./UploadOutputModal";
 
 const Sidebar = () => {
   const divBorderColor = useColorModeValue("gray.200", "gray.600");
@@ -61,6 +63,12 @@ const Sidebar = () => {
     isOpen: isOpenDownload,
     onOpen: onOpenDownload,
     onClose: onCloseDownload,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenUpload,
+    onOpen: onOpenUpload,
+    onClose: onCloseUpload,
   } = useDisclosure();
 
   const isLargeScreen = useMediaPredicate("(min-width: 830px)");
@@ -125,6 +133,13 @@ const Sidebar = () => {
                 >
                   Descargar Entrada
                 </MenuItem>
+                <MenuItem
+                  icon={<FaUpload />}
+                  fontSize={"sm"}
+                  onClick={onOpenUpload}
+                >
+                  Subir Salida
+                </MenuItem>
               </MenuList>
             </Menu>
             <Add isOpen={isOpenAdd} onClose={onCloseAdd} />
@@ -142,6 +157,7 @@ const Sidebar = () => {
               onClose={onCloseLoadAll}
             />
             <DownloadModal isOpen={isOpenDownload} onClose={onCloseDownload} />
+            <UploadOutputModal isOpen={isOpenUpload} onClose={onCloseUpload} />
           </Flex>
           <Divider />
           <Navigation />
