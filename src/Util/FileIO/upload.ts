@@ -1,5 +1,6 @@
 import JSZip from "jszip";
 
+// Use a hashmap instead
 interface IOutGroup {
   groupId: string;
   outData: IOutData[];
@@ -11,12 +12,26 @@ interface IOutData {
 }
 
 const getDirNames = (zip: JSZip) => {
-  const dirs = Object.keys(zip.files).filter((filename, index) => {
-    return (
+  return Object.keys(zip.files).filter(
+    (filename, index) =>
       index !== 0 && !filename.startsWith("__MACOSX") && zip.files[filename].dir
-    );
-  });
-  return dirs;
+  );
+};
+
+const getGroupIds = (zip: JSZip) => {
+  const groupIdsFileName = Object.keys(zip.files).find(
+    (filename) => filename.split("/")[1] === "ids.json"
+  );
+  if (groupIdsFileName !== undefined) {
+    return zip.files[groupIdsFileName];
+  }
+  return zip.files[""];
+};
+
+export const readJSON = async (JSONFile: JSZip.JSZipObject, zip: JSZip) => {
+  const groupIds = await JSONFile.async("string");
+  const JSONData = JSON.parse(groupIds);
+  return JSONData;
 };
 
 export const readOutputZip = (zip: any) => {
@@ -28,13 +43,28 @@ export const readOutputZip = (zip: any) => {
   // First I need to create an array with all the .out with their respective IDS
 
   return new Promise((resolve, reject) => {
-    const outGroups: IOutGroup[] = [];
+    // const outGroups: IOutGroup[] = [];
+    const outGroups = new Map(); // Mapa con llaves como id y array como lo demas
     JSZip.loadAsync(zip)
       .then((zip) => {
-        const dirs = getDirNames(zip);
-        console.log(zip);
-        dirs.forEach((dir) => {});
-        console.log(dirs);
+        const dirs = getDirNames(zip); // Solo contienen el nombre del objetozip
+        readJSON(getGroupIds(zip), zip).then((JSONData) => {
+          Object.values(zip.files).forEach((fileObject) => {
+            // Tengo que primero encontrar el id del grupo que pertenece
+            const fileFullPath = fileObject.name;
+            if (fileFullPath.startsWith("__MACOSX") || fileObject.dir) return;
+            const fileGroupName = fileFullPath.split("/")[1];
+            // Ahora puedo buscar el id en el json con el nombre
+            const groupId = JSONData[fileGroupName];
+            console.log(fileFullPath, groupId);
+          });
+          // Ya tengo los IDs
+          // Iterar una vez por todos los archivos e ir guardando
+        });
+        // dirs.forEach((dir) => {
+        //   const dirName = dir.split("/")[1];
+        //   console.log(dirName);
+        // });
         resolve("Yay");
       })
       .catch((err) => reject(Error(err)));
