@@ -58,8 +58,10 @@ const UploadOutputModal = (props: PropTypes) => {
         <ModalHeader>Subir salida</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          Comprime en un solo <Code> zip </Code> los casos de prueba con sus
-          respectivos <Code>.out</Code> generados. Arrastra el zip aquí.
+          Comprime en un solo <Code> zip </Code> las{" "}
+          <strong>carpetas de los grupos </strong>que continenen los casos de
+          prueba con sus respectivos <Code>.out</Code> generados. Arrastra el
+          zip aquí.
           <Box
             mt={5}
             h={"300px"}

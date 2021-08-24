@@ -28,21 +28,28 @@ const downloadGroup = (
 ) => {
   const groupName = group.name.toLowerCase().replaceAll(" ", "_");
   let folder = zip.folder(groupName); // Crear folder del grupo
-  folder?.file(groupName + ".id", group.groupId);
   const groupCases = cases.filter(
     (caseElement) => caseElement.id.groupId === group.groupId
   );
-
+  let ids: any = {};
+  ids[groupName] = group.groupId;
   if (groupCases !== undefined) {
     // Ya tengo todos los casos del grupo. Ahora necesito sacar la string que ira a .out
+    // Create a json that contains all ids
     groupCases.forEach((caseElement) => {
       const caseContent = getCaseContent(caseElement.lines);
-      const caseName = group.cases.find(
+      const caseData = group.cases.find(
         (caseToFind) => caseToFind.caseId === caseElement.id.caseId
-      )?.name;
-      folder?.file(caseName + (options.txt ? ".txt" : ".in"), caseContent);
+      );
+      const caseName = caseData?.name;
+      const caseId = caseData?.caseId;
+      if (caseName !== undefined && caseId !== undefined) {
+        folder?.file(caseName + (options.txt ? ".txt" : ".in"), caseContent);
+        ids[caseName] = caseId;
+      }
     });
   }
+  folder?.file("ids.json", JSON.stringify(ids));
 };
 
 export const downloadAllGroups = (
