@@ -32,7 +32,6 @@ const downloadGroup = (
     (caseElement) => caseElement.id.groupId === group.groupId
   );
   let ids: any = {};
-  ids[groupName] = group.groupId;
   if (groupCases !== undefined) {
     // Ya tengo todos los casos del grupo. Ahora necesito sacar la string que ira a .out
     // Create a json that contains all ids
@@ -61,10 +60,13 @@ export const downloadAllGroups = (
   // Primero necesito agruparlo por grupos
   // Buscar cuantos grupos hay
   let zip = new JSZip();
+  let ids: any = {};
   groups.forEach((group) => {
     // Todos los cases que tengan el mismo grupo
+    ids[group.name.toLowerCase().replaceAll(" ", "_")] = group.groupId;
     downloadGroup(group, cases, problemName, options, zip);
   });
+  zip.file("ids.json", JSON.stringify(ids));
   zip.generateAsync({ type: "blob" }).then((content) => {
     saveAs(
       content,

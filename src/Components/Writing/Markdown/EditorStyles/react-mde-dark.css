@@ -1,0 +1,8 @@
+.dark textarea.mde-text {
+  background-color: #1A202C !important; }
+.dark .mde-header {
+  background: #2C323D !important; }
+  .dark .mde-header .svg-icon {
+    color: white !important; }
+
+/*# sourceMappingURL=react-mde-dark.css.map */
