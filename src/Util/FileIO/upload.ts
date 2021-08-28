@@ -1,22 +1,5 @@
 import JSZip, { JSZipObject } from "jszip";
-
-// Use a hashmap instead
-interface IOutGroup {
-  groupId: string;
-  outData: IOutData[];
-}
-
-interface IOutData {
-  caseId: string;
-  outData: string;
-}
-
-const getDirNames = (zip: JSZip) => {
-  return Object.keys(zip.files).filter(
-    (filename, index) =>
-      index !== 0 && !filename.startsWith("__MACOSX") && zip.files[filename].dir
-  );
-};
+import { asyncForEach, readJSON } from "../asyncFunctions";
 
 const getGroupIds = (zip: JSZip) => {
   const groupIdsFileName = Object.keys(zip.files).find(
@@ -28,22 +11,11 @@ const getGroupIds = (zip: JSZip) => {
   return zip.files[""];
 };
 
-export const readJSON = async (JSONFile: JSZip.JSZipObject) => {
-  const JSONData = await JSONFile.async("string");
-  return JSON.parse(JSONData);
-};
-
-export const asyncForEach = async (array: any, callback: any) => {
-  for (let index = 0; index < array.length; index++) {
-    await callback(array[index], index, array);
-  }
-};
-
 const getGroupCasesIds = async (
   groupsIds: any,
   zipFilesArray: JSZip.JSZipObject[]
 ) => {
-  const casesIds = new Map();
+  const casesIds: Map<string, []> = new Map();
   await asyncForEach(zipFilesArray, async (fileObject: JSZip.JSZipObject) => {
     // Tengo que saber si es el json del grupo
     const fileFullPath = fileObject.name;
@@ -57,13 +29,13 @@ const getGroupCasesIds = async (
   return casesIds;
 };
 
-const separateFilesInGroups = (
+const separateFilesInGroups = async (
   groupsIds: any,
   casesIds: Map<any, any>,
   zipFilesArray: JSZipObject[]
 ) => {
   const outGroups = new Map();
-  zipFilesArray.forEach((fileObject) => {
+  await asyncForEach(zipFilesArray, async (fileObject: JSZip.JSZipObject) => {
     const fileFullPath = fileObject.name;
     // Realmente solo queremos .outs
     if (fileObject.dir || fileFullPath.endsWith(".json")) return;
@@ -71,30 +43,30 @@ const separateFilesInGroups = (
     const fileGroupName = splittedFileFullPath[1];
     const fileNameExtension = splittedFileFullPath[2];
     const fileName = fileNameExtension.slice(0, fileNameExtension.length - 3);
-    console.log(fileName);
 
     // Ahora puedo buscar el id en el json con el nombre
     const groupId = groupsIds[fileGroupName];
     const caseId = casesIds.get(groupId)[fileName];
-    // Group id sera la llave del grupo y el objeto sera parte del array del mapa
+    const caseData = await fileObject.async("string");
+    // TODO: Realmente necesito los .out
     const casesArray = outGroups.get(groupId);
     if (casesArray === undefined) {
       outGroups.set(groupId, [
         {
           caseId,
-          fileObject,
+          caseData,
         },
       ]);
       return;
     }
-    outGroups.set(groupId, [...casesArray, { caseId, fileObject }]);
+    outGroups.set(groupId, [...casesArray, { caseId, caseData }]);
   });
   return outGroups;
 };
 
 export const readOutputZip = async (zip: any) => {
-  // const outGroups = new Map(); // Mapa con llaves como id y array como lo demas
-  // Otro mapa donde este guardado los ids de los grupos, pero que tenga almacenado su archivo con ids ya parseado
+  // TODO: Comprobar si es un zip valido
+
   const zipData = await JSZip.loadAsync(zip);
   const JSONData = await readJSON(getGroupIds(zipData));
   const zipFilesArray = Object.values(zipData.files).filter(
@@ -102,9 +74,11 @@ export const readOutputZip = async (zip: any) => {
   );
 
   const casesIds = await getGroupCasesIds(JSONData, zipFilesArray);
-  const outGroups = separateFilesInGroups(JSONData, casesIds, zipFilesArray);
-  // Tambien ya debo de buscar el id del caso
+  const outGroups = await separateFilesInGroups(
+    JSONData,
+    casesIds,
+    zipFilesArray
+  );
 
-  console.log(casesIds);
   console.log(outGroups);
 };
