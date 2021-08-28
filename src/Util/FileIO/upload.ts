@@ -52,12 +52,26 @@ export const readOutputZip = (zip: any) => {
           Object.values(zip.files).forEach((fileObject) => {
             // Tengo que primero encontrar el id del grupo que pertenece
             const fileFullPath = fileObject.name;
-            if (fileFullPath.startsWith("__MACOSX") || fileObject.dir) return;
+            // Realmente solo queremos .outs
+            if (
+              fileFullPath.startsWith("__MACOSX") ||
+              fileObject.dir ||
+              fileFullPath.endsWith(".json")
+            )
+              return;
             const fileGroupName = fileFullPath.split("/")[1];
             // Ahora puedo buscar el id en el json con el nombre
             const groupId = JSONData[fileGroupName];
             console.log(fileFullPath, groupId);
+            // Group id sera la llave del grupo y el objeto sera parte del array del mapa
+            const casesArray = outGroups.get(groupId);
+            if (casesArray === undefined) {
+              outGroups.set(groupId, [fileObject]);
+              return;
+            }
+            outGroups.set(groupId, [...casesArray, fileObject]);
           });
+          console.log(outGroups);
           // Ya tengo los IDs
           // Iterar una vez por todos los archivos e ir guardando
         });
