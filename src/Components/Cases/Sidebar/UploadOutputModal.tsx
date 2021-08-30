@@ -16,6 +16,7 @@ import {
   Spacer,
   Text,
   useCallbackRef,
+  useToast,
   VStack,
 } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
@@ -31,7 +32,6 @@ interface PropTypes {
 const UploadOutputModal = (props: PropTypes) => {
   const { isOpen, onClose } = props;
 
-  const onDrop = useCallback((acceptedFiles) => {}, []);
   const [, forceRender] = useState({});
   const [isUploading, setIsUploading] = useState(false);
 
@@ -39,6 +39,8 @@ const UploadOutputModal = (props: PropTypes) => {
     accept: ".zip",
     maxFiles: 1,
   });
+
+  const toast = useToast();
 
   function deleteFile() {
     acceptedFiles.length = 0;
@@ -48,7 +50,17 @@ const UploadOutputModal = (props: PropTypes) => {
   function handleZipInput() {
     if (acceptedFiles.length > 0) {
       setIsUploading(true);
-      readOutputZip(acceptedFiles[0]).then(() => setIsUploading(false));
+      readOutputZip(acceptedFiles[0]).then(() => {
+        setIsUploading(false);
+        toast({
+          title: "¡Operación Completa!",
+          description:
+            "Todos los `.out` han sido importados correctamente a sus respectivos casos.",
+          status: "success",
+          isClosable: true,
+        });
+        onClose();
+      });
     }
   }
   return (
