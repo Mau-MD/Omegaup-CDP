@@ -4,6 +4,7 @@ import input, { IInputModel } from "./Models/InputModel";
 import writing, { IWritingModel } from "./Models/WritingModel";
 import solution, { ISolutionModel } from "./Models/SolutionModel";
 import tabs, { ITabsModel } from "./Models/TabsModel";
+import util, { IUtilModel } from "./Models/UtilModel";
 
 import { createStore, createTypedHooks, persist } from "easy-peasy";
 
@@ -14,6 +15,7 @@ const globalModel = {
   writing,
   solution,
   tabs,
+  util,
 };
 
 interface IGlobalModel {
@@ -23,6 +25,7 @@ interface IGlobalModel {
   writing: IWritingModel;
   solution: ISolutionModel;
   tabs: ITabsModel;
+  util: IUtilModel;
 }
 
 const GlobalStore = createStore(persist(globalModel));

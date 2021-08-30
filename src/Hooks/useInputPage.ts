@@ -27,11 +27,11 @@ export const useInputPage = (caseData: ICase) => {
           layoutElement.lineId = uuid();
           return layoutElement;
         });
-        addInputPage({ id: caseIdentifier, lines: layoutNewIds });
+        addInputPage({ id: caseIdentifier, lines: layoutNewIds, outData: "" });
         console.log("Created New", layoutNewIds);
         setPageData(layoutNewIds);
       } else {
-        addInputPage({ id: caseIdentifier, lines: [] });
+        addInputPage({ id: caseIdentifier, lines: [], outData: "" });
         setPageData([]);
       }
     } else {

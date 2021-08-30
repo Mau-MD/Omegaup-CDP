@@ -86,6 +86,7 @@ const Display = () => {
   }, [saveError]);
 
   function handleKeyPress(key: KeyboardEvent) {
+    if (tabIndex !== 2) return;
     if (key.ctrlKey && key.which === 83 && generateRef.current !== null) {
       generateRef.current.click();
     }

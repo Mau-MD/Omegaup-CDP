@@ -124,6 +124,7 @@ const TopBar = (props: PropTypes) => {
       addPage({
         id: { groupId: caseData.groupId, caseId: newCaseId },
         lines: newIdLines,
+        outData: "",
       });
     }
   }
