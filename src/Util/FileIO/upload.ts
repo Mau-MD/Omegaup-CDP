@@ -1,5 +1,8 @@
 import JSZip, { JSZipObject } from "jszip";
 import { asyncForEach, readJSON } from "../asyncFunctions";
+import Store from "../../Redux/Store";
+
+type IOutGroups = Map<string, { caseId: string; caseData: string }[]>;
 
 const getGroupIds = (zip: JSZip) => {
   const groupIdsFileName = Object.keys(zip.files).find(
@@ -15,7 +18,7 @@ const getGroupCasesIds = async (
   groupsIds: any,
   zipFilesArray: JSZip.JSZipObject[]
 ) => {
-  const casesIds: Map<string, []> = new Map();
+  const casesIds: Map<string, object> = new Map();
   await asyncForEach(zipFilesArray, async (fileObject: JSZip.JSZipObject) => {
     // Tengo que saber si es el json del grupo
     const fileFullPath = fileObject.name;
@@ -23,7 +26,7 @@ const getGroupCasesIds = async (
       return;
     const fileGroupName = fileFullPath.split("/")[1];
     const groupId = groupsIds[fileGroupName];
-    const groupIdsJSONData = await readJSON(fileObject);
+    const groupIdsJSONData: object = await readJSON(fileObject);
     casesIds.set(groupId, groupIdsJSONData);
   });
   return casesIds;
@@ -34,7 +37,7 @@ const separateFilesInGroups = async (
   casesIds: Map<any, any>,
   zipFilesArray: JSZipObject[]
 ) => {
-  const outGroups = new Map();
+  const outGroups: IOutGroups = new Map();
   await asyncForEach(zipFilesArray, async (fileObject: JSZip.JSZipObject) => {
     const fileFullPath = fileObject.name;
     // Realmente solo queremos .outs
@@ -64,11 +67,24 @@ const separateFilesInGroups = async (
   return outGroups;
 };
 
+const setStoreOutData = (outGroups: IOutGroups) => {
+  const setOutData = Store.getActions().input.setOutData;
+
+  outGroups.forEach((value, groupId) => {
+    value.forEach((caseElement) => {
+      setOutData({
+        caseIdentifier: { caseId: caseElement.caseId, groupId: groupId },
+        outData: caseElement.caseData,
+      });
+    });
+  });
+};
+
 export const readOutputZip = async (zip: any) => {
   // TODO: Comprobar si es un zip valido
 
   const zipData = await JSZip.loadAsync(zip);
-  const JSONData = await readJSON(getGroupIds(zipData));
+  const JSONData: object = await readJSON(getGroupIds(zipData));
   const zipFilesArray = Object.values(zipData.files).filter(
     (fileObject) => !fileObject.name.startsWith("__MACOSX")
   );
@@ -79,6 +95,6 @@ export const readOutputZip = async (zip: any) => {
     casesIds,
     zipFilesArray
   );
-
+  setStoreOutData(outGroups);
   console.log(outGroups);
 };

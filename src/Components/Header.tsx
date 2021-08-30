@@ -64,7 +64,7 @@ const Header = () => {
           <Button leftIcon={<TriangleDownIcon />} size={"sm"}>
             Cargar Problema{" "}
           </Button>
-          <Button leftIcon={<DownloadIcon />} size={"sm"} colorScheme={"blue"}>
+          <Button  leftIcon={<DownloadIcon />} size={"sm"} colorScheme={"blue"}>
             Guardar Problema
           </Button>
           <Button

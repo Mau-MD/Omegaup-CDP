@@ -30,6 +30,7 @@ export interface ILine {
 export interface IInput {
   id: caseIdentifier;
   lines: ILine[];
+  outData: string;
 }
 
 export interface caseIdentifier {
@@ -45,6 +46,11 @@ export interface IInputModel {
 
   addData: Action<IInputModel, IInput>;
   removeData: Action<IInputModel, caseIdentifier>;
+
+  setOutData: Action<
+    IInputModel,
+    { caseIdentifier: caseIdentifier; outData: string }
+  >;
 
   addLine: Action<IInputModel, { caseIdentifier: caseIdentifier; line: ILine }>;
   setLines: Action<
@@ -101,6 +107,14 @@ const InputModel = {
     state.data.filter((inputElement) => {
       return inputElement.id !== id;
     });
+  }),
+  setOutData: action((state, payload) => {
+    const lineGroup = state.data.find((inputElement) =>
+      _.isEqual(inputElement.id, payload.caseIdentifier)
+    );
+    if (lineGroup !== undefined) {
+      lineGroup.outData = payload.outData;
+    }
   }),
   addLine: action((state, payload) => {
     const lineGroup = state.data.find((inputElement) =>
