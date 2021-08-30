@@ -162,13 +162,6 @@ const TopBar = (props: PropTypes) => {
             syle={{ zIndex: 99 }}
           />
           <MenuList>
-            <MenuItem
-              icon={<BsEye />}
-              fontSize={"sm"}
-              onClick={handleLayoutLoad}
-            >
-              Ver Salida
-            </MenuItem>
             <MenuItem icon={<FiDelete />} fontSize={"sm"} onClick={onOpenLines}>
               Borrar Lineas
             </MenuItem>
@@ -201,13 +194,6 @@ const TopBar = (props: PropTypes) => {
               onClick={() => handleDownload(true)}
             >
               Descargar Caso .txt
-            </MenuItem>
-            <MenuItem
-              icon={<BiUpload />}
-              fontSize={"sm"}
-              onClick={handleLayoutLoad}
-            >
-              Subir Salida
             </MenuItem>
           </MenuList>
         </Menu>
