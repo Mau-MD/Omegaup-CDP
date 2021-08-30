@@ -96,5 +96,4 @@ export const readOutputZip = async (zip: any) => {
     zipFilesArray
   );
   setStoreOutData(outGroups);
-  console.log(outGroups);
 };

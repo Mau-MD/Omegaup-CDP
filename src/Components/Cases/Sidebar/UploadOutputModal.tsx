@@ -50,17 +50,27 @@ const UploadOutputModal = (props: PropTypes) => {
   function handleZipInput() {
     if (acceptedFiles.length > 0) {
       setIsUploading(true);
-      readOutputZip(acceptedFiles[0]).then(() => {
-        setIsUploading(false);
-        toast({
-          title: "¡Operación Completa!",
-          description:
-            "Todos los `.out` han sido importados correctamente a sus respectivos casos.",
-          status: "success",
-          isClosable: true,
+      readOutputZip(acceptedFiles[0])
+        .then(() => {
+          setIsUploading(false);
+          toast({
+            title: "¡Operación Completa!",
+            description:
+              "Todos los `.out` han sido importados correctamente a sus respectivos casos.",
+            status: "success",
+            isClosable: true,
+          });
+          onClose();
+        })
+        .catch(() => {
+          setIsUploading(false);
+          toast({
+            title: "Zip Invalido",
+            description: "Asegúrate que estás comprimiendo la carpeta raíz",
+            status: "error",
+            isClosable: true,
+          });
         });
-        onClose();
-      });
     }
   }
   return (
@@ -74,6 +84,9 @@ const UploadOutputModal = (props: PropTypes) => {
           <strong>carpetas de los grupos </strong>que continenen los casos de
           prueba con sus respectivos <Code>.out</Code> generados. Arrastra el
           zip aquí.
+          <Code mt={2}>
+            zip {"->"} Carpeta raíz {"->"} Carpetas con los grupos
+          </Code>
           <Box
             mt={5}
             h={"300px"}
