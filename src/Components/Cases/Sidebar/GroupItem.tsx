@@ -37,7 +37,7 @@ import { downloadSingleGroup } from "../../../Util/FileIO/download";
 interface PropTypes extends IGroup {}
 
 const GroupItem = (props: PropTypes) => {
-  const { name, defined, points, groupId } = props;
+  const { name, defined, points, groupId, cases } = props;
   const [showCases, setShowCases] = useState(name === "Sin Grupo");
 
   const borderColor = useColorModeValue("gray.200", "gray.600");
@@ -74,6 +74,7 @@ const GroupItem = (props: PropTypes) => {
     }
   }
 
+  if (name === "Sin Grupo" && cases.length === 0) return <></>;
   return (
     <Flex direction={"column"}>
       <Box my={2}>

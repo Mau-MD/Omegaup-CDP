@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Box, Center, HStack, IconButton, Textarea } from "@chakra-ui/react";
-import { LockIcon } from "@chakra-ui/icons";
+import { LockIcon, UnlockIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
 import { useStoreActions, useStoreState } from "../../Redux/Store";
 import _ from "lodash";
@@ -43,7 +43,7 @@ const Out = () => {
           <strong>Salida</strong>
           <IconButton
             aria-label={"Block Out"}
-            icon={<LockIcon />}
+            icon={locked ? <LockIcon /> : <UnlockIcon />}
             size={"sm"}
             colorScheme={locked ? "red" : undefined}
             onClick={() => handleLockText()}
