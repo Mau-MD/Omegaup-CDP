@@ -161,6 +161,7 @@ const CasesModel = {
     if (groupData !== undefined) {
       groupData.cases = [];
     }
+    state.data = calculatePoints(state.data);
   }),
   removeGroupCases: thunk((actions, payload, helper) => {
     const groupData = helper
