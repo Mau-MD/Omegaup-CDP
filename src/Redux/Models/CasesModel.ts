@@ -1,5 +1,6 @@
-import { action, Action, Computed, computed } from "easy-peasy";
+import { action, Action, Computed, computed, thunk, Thunk } from "easy-peasy";
 import { uuid } from "uuidv4";
+import Store from "../Store";
 
 export interface IGroup {
   groupId: string;
@@ -34,12 +35,12 @@ export interface ICasesModel {
 
   addGroup: Action<ICasesModel, IGroup>;
   editGroup: Action<ICasesModel, IGroup>;
-  removeGroup: Action<ICasesModel, string>;
+  removedGroup: Action<ICasesModel, string>;
 
   addCase: Action<ICasesModel, ICase>;
   editCase: Action<ICasesModel, { case: ICase; lastId: string }>;
-  removeCase: Action<ICasesModel, caseIndentifier>;
-
+  removedCase: Action<ICasesModel, caseIndentifier>;
+  removeCase: Thunk<ICasesModel, caseIndentifier>;
   setSelected: Action<ICasesModel, caseIndentifier>;
 }
 
@@ -131,8 +132,17 @@ const CasesModel = {
 
     state.data = calculatePoints(state.data);
   }),
-  removeGroup: action((state, payload) => {
+  removedGroup: action((state, payload) => {
     state.data = state.data.filter((element) => {
+      // Eliminamos del InputStore todos los hijos del grupo
+      if (element.groupId === payload) {
+        element.cases.forEach((caseToBeDeleted) => {
+          Store.getActions().input.removeData({
+            caseId: caseToBeDeleted.caseId,
+            groupId: caseToBeDeleted.groupId,
+          });
+        });
+      }
       return element.groupId !== payload;
     });
     state.data = calculatePoints(state.data);
@@ -178,7 +188,7 @@ const CasesModel = {
     state.data = calculatePoints(state.data);
   }),
 
-  removeCase: action((state, payload) => {
+  removedCase: action((state, payload) => {
     const groupState = state.data.find(
       (groupElement) => groupElement.groupId === payload.groupId
     );
@@ -189,6 +199,15 @@ const CasesModel = {
       );
     }
     state.data = calculatePoints(state.data);
+    // Eliminar el input
+    // Store.getActions().input.removeData(payload);
+  }),
+  removeCase: thunk((actions, payload, helper) => {
+    actions.removedCase(payload);
+    // @ts-ignore
+    // const a = helper.getStoreActions().input;
+    // console.log(a);
+    helper.getStoreActions().input.removeData(payload);
   }),
   setSelected: action((state, payload) => {
     state.selected = payload;

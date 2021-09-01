@@ -23,7 +23,7 @@ const DeleteGroup = (props: PropTypes) => {
 
   const toast = useToast();
 
-  const removeGroup = useStoreActions((actions) => actions.cases.removeGroup);
+  const removeGroup = useStoreActions((actions) => actions.cases.removedGroup);
 
   function deleteGroup() {
     toast({

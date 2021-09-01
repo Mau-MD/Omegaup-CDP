@@ -54,7 +54,7 @@ const AddMultipleCasesModal = (props: PropTypes) => {
   const darkTheme = useColorModeValue(false, true);
 
   const addCase = useStoreActions((actions) => actions.cases.addCase);
-  const removeCase = useStoreActions((actions) => actions.cases.removeCase);
+  const removeCase = useStoreActions((actions) => actions.cases.removedCase);
   const options = groupData.map((groupElement) => {
     return {
       value: groupElement.groupId,
