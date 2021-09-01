@@ -1,10 +1,20 @@
 import * as React from "react";
 import Sidebar from "./Sidebar/Sidebar";
-import { HStack, Flex, Box, Button, Text } from "@chakra-ui/react";
+import {
+  HStack,
+  Flex,
+  Box,
+  Button,
+  Text,
+  IconButton,
+  Center,
+  Tooltip,
+} from "@chakra-ui/react";
 import Input from "./Input/Input";
 import { useEffect, useRef, useState } from "react";
 import { useStoreState } from "../../Redux/Store";
 import Out from "./Out";
+import { ChevronUpIcon, UpDownIcon } from "@chakra-ui/icons";
 
 const Main = () => {
   const [showOut, setShowOut] = useState(false);
@@ -28,6 +38,9 @@ const Main = () => {
     }
   }
 
+  function handleGoUp() {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }
   return (
     <>
       <Flex>
@@ -40,7 +53,15 @@ const Main = () => {
             showOut && <Out />}
         </HStack>
       </Flex>
-      <Box pos={"fixed"} right={10} bottom={5}>
+      <HStack pos={"fixed"} right={10} bottom={5}>
+        <Tooltip label={"Ir hacia arriba | Ctrl + T"} mr={2}>
+          <IconButton
+            onClick={() => handleGoUp()}
+            aria-label={"Go-up"}
+            icon={<ChevronUpIcon />}
+            size={"sm"}
+          />
+        </Tooltip>
         <Button
           disabled={selected.caseId === "None" || selected.caseId === "None"}
           ref={showOutRef}
@@ -55,7 +76,7 @@ const Main = () => {
             </Text>
           </HStack>
         </Button>
-      </Box>
+      </HStack>
     </>
   );
 };
