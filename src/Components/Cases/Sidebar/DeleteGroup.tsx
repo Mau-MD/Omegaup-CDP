@@ -23,7 +23,8 @@ const DeleteGroup = (props: PropTypes) => {
 
   const toast = useToast();
 
-  const removeGroup = useStoreActions((actions) => actions.cases.removedGroup);
+  const removeGroup = useStoreActions((actions) => actions.cases.removeGroup);
+  const setSelected = useStoreActions((actions) => actions.cases.setSelected);
 
   function deleteGroup() {
     toast({
@@ -34,6 +35,7 @@ const DeleteGroup = (props: PropTypes) => {
     });
 
     removeGroup(groupId);
+    setSelected({ caseId: "None", groupId: "None" });
     onClose();
   }
 

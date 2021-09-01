@@ -36,6 +36,7 @@ export interface ICasesModel {
   addGroup: Action<ICasesModel, IGroup>;
   editGroup: Action<ICasesModel, IGroup>;
   removedGroup: Action<ICasesModel, string>;
+  removeGroup: Thunk<ICasesModel, string>;
 
   addCase: Action<ICasesModel, ICase>;
   editCase: Action<ICasesModel, { case: ICase; lastId: string }>;
@@ -135,17 +136,24 @@ const CasesModel = {
   removedGroup: action((state, payload) => {
     state.data = state.data.filter((element) => {
       // Eliminamos del InputStore todos los hijos del grupo
-      if (element.groupId === payload) {
-        element.cases.forEach((caseToBeDeleted) => {
-          Store.getActions().input.removeData({
-            caseId: caseToBeDeleted.caseId,
-            groupId: caseToBeDeleted.groupId,
-          });
-        });
-      }
       return element.groupId !== payload;
     });
     state.data = calculatePoints(state.data);
+  }),
+  removeGroup: thunk((actions, payload, helper) => {
+    const groupData = helper
+      .getState()
+      .data.find((element) => element.groupId === payload);
+
+    groupData?.cases.forEach((caseToBeDeleted) => {
+      console.log("Executing...", caseToBeDeleted);
+      //@ts-ignore
+      helper.getStoreActions().input.removeData({
+        caseId: caseToBeDeleted.caseId,
+        groupId: caseToBeDeleted.groupId,
+      });
+    });
+    actions.removedGroup(payload);
   }),
   addCase: action((state, payload) => {
     const groupState = state.data.find(
@@ -199,14 +207,10 @@ const CasesModel = {
       );
     }
     state.data = calculatePoints(state.data);
-    // Eliminar el input
-    // Store.getActions().input.removeData(payload);
   }),
   removeCase: thunk((actions, payload, helper) => {
     actions.removedCase(payload);
     // @ts-ignore
-    // const a = helper.getStoreActions().input;
-    // console.log(a);
     helper.getStoreActions().input.removeData(payload);
   }),
   setSelected: action((state, payload) => {
