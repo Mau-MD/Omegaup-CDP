@@ -31,7 +31,7 @@ const RawArray = () => {
   const { hasCopied, onCopy } = useClipboard(
     arrayData !== undefined ? arrayData.value : ""
   );
-  console.log(arrayData);
+  //console.log(arrayData);
 
   return (
     <Container maxW="container.lg">

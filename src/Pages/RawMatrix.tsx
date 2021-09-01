@@ -31,7 +31,7 @@ const RawMatrix = () => {
   const { hasCopied, onCopy } = useClipboard(
     matrixData !== undefined ? matrixData.value : ""
   );
-  console.log(matrixData);
+  //console.log(matrixData);
 
   return (
     <Container maxW="container.lg">

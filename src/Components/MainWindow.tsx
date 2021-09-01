@@ -29,7 +29,7 @@ const MainWindow = () => {
           size={"sm"}
           index={localTab}
           onChange={(e) => {
-            console.log(e);
+            //console.log(e);
             setTab(e);
             setLocalTab(e);
           }}

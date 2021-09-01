@@ -31,8 +31,8 @@ export const useInputPage = (caseData: ICase) => {
           return layoutElement;
         });
         addInputPage({ id: caseIdentifier, lines: layoutNewIds, outData: "" });
-        console.log("Created New", layoutNewIds);
-        console.log("Created Id", caseIdentifier);
+        //console.log("Created New", layoutNewIds);
+        //console.log("Created Id", caseIdentifier);
         setPageData(layoutNewIds);
       } else {
         addInputPage({ id: caseIdentifier, lines: [], outData: "" });

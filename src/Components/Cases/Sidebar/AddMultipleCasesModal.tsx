@@ -102,7 +102,7 @@ const AddMultipleCasesModal = (props: PropTypes) => {
         } while (true);
       }
       idsToDelete.current = ids;
-      console.log(ids);
+      ////console.log(ids);
     }
     toast({
       render: () => (
@@ -129,7 +129,7 @@ const AddMultipleCasesModal = (props: PropTypes) => {
     const selectedGroupData = groupData.find(
       (groupElement) => groupElement.groupId === selectedValue
     );
-    console.log(idsToDelete);
+    //console.log(idsToDelete);
     if (selectedGroupData !== undefined) {
       idsToDelete.current.forEach((id) => {
         removeCase({ caseId: id, groupId: selectedGroupData.groupId });

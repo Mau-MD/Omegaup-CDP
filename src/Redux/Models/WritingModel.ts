@@ -183,7 +183,7 @@ hola
         break;
     }
     state.all = makeAll(state);
-    console.log(state.all);
+    //console.log(state.all);
   }),
   setAll: action((state, payload) => {
     state.all = payload;

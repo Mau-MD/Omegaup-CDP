@@ -107,7 +107,7 @@ const InputModel = {
     state.data = state.data.filter(
       (inputElement) => !_.isEqual(inputElement.id, id)
     );
-    // console.log(state.data);
+    // //console.log(state.data);
   }),
   setOutData: action((state, payload) => {
     const lineGroup = state.data.find((inputElement) =>

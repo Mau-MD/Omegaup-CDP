@@ -12,7 +12,7 @@ export const useWriting = () => {
   const limits = useStoreState((state) => state.writing.limits);
 
   useEffect(() => {
-    console.log("Changed");
+    //console.log("Changed");
     setMarkdownState([all, description, input, output, example, limits]);
   }, [all, description, input, output, example, limits]);
 

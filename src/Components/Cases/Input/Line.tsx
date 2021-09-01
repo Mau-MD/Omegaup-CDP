@@ -236,6 +236,6 @@ const Line = (props: PropTypes) => {
 
 // export default Line;
 export default React.memo(Line, (prevState, nextState) => {
-  console.log(_.isEqual(prevState, nextState));
+  //console.log(_.isEqual(prevState, nextState));
   return _.isEqual(prevState, nextState);
 });

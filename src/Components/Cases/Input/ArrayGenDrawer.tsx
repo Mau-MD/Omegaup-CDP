@@ -162,7 +162,7 @@ const ArrayGenDrawer = (props: PropTypes) => {
       setValid("size");
       anyFails = true;
     }
-    console.log(arraySplitted);
+    //console.log(arraySplitted);
     if (!anyFails) setValid("none");
     setArrayValue(e.target.value);
     if (arrayData !== undefined)

@@ -12,7 +12,7 @@ export function splitBetweenTwo(
   auxOccurrence: string
 ) {
   const startIndex = input.findIndex((element) => {
-    console.log(element.trim(), firstOccurrence);
+    //console.log(element.trim(), firstOccurrence);
     return element.trim() === firstOccurrence;
   });
   const endIndex = input.findIndex(
