@@ -12,6 +12,7 @@ const Main = () => {
   const showOutRef = useRef<HTMLButtonElement>(null);
 
   const tabIndex = useStoreState((state) => state.tabs.tabIndex);
+  const selected = useStoreState((state) => state.cases.selected);
 
   useEffect(() => {
     document.addEventListener("keydown", (key) => handleKeyPress(key));
@@ -35,11 +36,13 @@ const Main = () => {
         </Box>
         <HStack w={"100%"}>
           <Input />
-          {showOut && <Out />}
+          {!(selected.caseId === "None" || selected.caseId === "None") &&
+            showOut && <Out />}
         </HStack>
       </Flex>
       <Box pos={"fixed"} right={10} bottom={5}>
         <Button
+          disabled={selected.caseId === "None" || selected.caseId === "None"}
           ref={showOutRef}
           size={"sm"}
           colorScheme={"green"}
