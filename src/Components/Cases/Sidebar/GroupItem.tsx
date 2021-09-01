@@ -16,7 +16,10 @@ import {
   Flex,
   MenuDivider,
 } from "@chakra-ui/react";
-import { HiOutlineDotsVertical as Dots } from "react-icons/hi";
+import {
+  HiOutlineDocumentRemove,
+  HiOutlineDotsVertical as Dots,
+} from "react-icons/hi";
 import { useMediaPredicate } from "react-media-hook";
 import CaseItem from "./CaseItem";
 import { useStoreState } from "../../../Redux/Store";
@@ -33,6 +36,7 @@ import {
   EditIcon,
 } from "@chakra-ui/icons";
 import { downloadSingleGroup } from "../../../Util/FileIO/download";
+import DeleteGroupCases from "./DeleteGroupCases";
 
 interface PropTypes extends IGroup {}
 
@@ -59,6 +63,11 @@ const GroupItem = (props: PropTypes) => {
     isOpen: isOpenRemove,
     onOpen: onOpenRemove,
     onClose: onCloseRemove,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenRemoveCases,
+    onOpen: onOpenRemoveCases,
+    onClose: onCloseRemoveCases,
   } = useDisclosure();
 
   function handleCasesToggleClick(event: React.MouseEvent<HTMLDivElement>) {
@@ -132,9 +141,16 @@ const GroupItem = (props: PropTypes) => {
                   >
                     Eliminar Grupo
                   </MenuItem>
-                  <MenuDivider />
                 </>
               )}
+              <MenuItem
+                icon={<HiOutlineDocumentRemove />}
+                fontSize={"sm"}
+                onClick={onOpenRemoveCases}
+              >
+                Borrar todos los casos
+              </MenuItem>
+              <MenuDivider />
               <MenuItem
                 icon={<DownloadIcon />}
                 fontSize={"sm"}
@@ -156,6 +172,12 @@ const GroupItem = (props: PropTypes) => {
             isOpen={isOpenRemove}
             onClose={onCloseRemove}
             groupId={groupId}
+          />
+          <DeleteGroupCases
+            isOpen={isOpenRemoveCases}
+            onClose={onCloseRemoveCases}
+            groupId={groupId}
+            groupName={name}
           />
         </HStack>
         <Divider />
