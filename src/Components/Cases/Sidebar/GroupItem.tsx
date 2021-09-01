@@ -91,7 +91,7 @@ const GroupItem = (props: PropTypes) => {
         >
           <Box>{name}</Box>
           <Spacer />
-          {name !== "Sin Grupo" ? (
+          {name !== "Sin Grupo" && (
             <>
               <Tooltip
                 label={
@@ -106,15 +106,18 @@ const GroupItem = (props: PropTypes) => {
                   )}
                 </Badge>
               </Tooltip>
-
-              <Menu isLazy>
-                <MenuButton
-                  as={IconButton}
-                  icon={<Dots />}
-                  size={"sm"}
-                  syle={{ zIndex: 99 }}
-                />
-                <MenuList>
+            </>
+          )}
+          <Menu isLazy>
+            <MenuButton
+              as={IconButton}
+              icon={<Dots />}
+              size={"sm"}
+              syle={{ zIndex: 99 }}
+            />
+            <MenuList>
+              {name !== "Sin Grupo" && (
+                <>
                   <MenuItem
                     icon={<EditIcon />}
                     fontSize={"sm"}
@@ -130,34 +133,30 @@ const GroupItem = (props: PropTypes) => {
                     Eliminar Grupo
                   </MenuItem>
                   <MenuDivider />
-                  <MenuItem
-                    icon={<DownloadIcon />}
-                    fontSize={"sm"}
-                    onClick={() => handleDownload(false)}
-                  >
-                    Descargar Grupo .in
-                  </MenuItem>
-                  <MenuItem
-                    icon={<DownloadIcon />}
-                    fontSize={"sm"}
-                    onClick={() => handleDownload(true)}
-                  >
-                    Descargar Grupo .txt
-                  </MenuItem>
-                </MenuList>
-              </Menu>
-              <EditGroup {...props} isOpen={isOpenEdit} onClose={onCloseEdit} />
-              <DeleteGroup
-                isOpen={isOpenRemove}
-                onClose={onCloseRemove}
-                groupId={groupId}
-              />
-            </>
-          ) : showCases ? (
-            <ChevronDownIcon />
-          ) : (
-            <ChevronUpIcon />
-          )}
+                </>
+              )}
+              <MenuItem
+                icon={<DownloadIcon />}
+                fontSize={"sm"}
+                onClick={() => handleDownload(false)}
+              >
+                Descargar Grupo .in
+              </MenuItem>
+              <MenuItem
+                icon={<DownloadIcon />}
+                fontSize={"sm"}
+                onClick={() => handleDownload(true)}
+              >
+                Descargar Grupo .txt
+              </MenuItem>
+            </MenuList>
+          </Menu>
+          <EditGroup {...props} isOpen={isOpenEdit} onClose={onCloseEdit} />
+          <DeleteGroup
+            isOpen={isOpenRemove}
+            onClose={onCloseRemove}
+            groupId={groupId}
+          />
         </HStack>
         <Divider />
       </Box>
