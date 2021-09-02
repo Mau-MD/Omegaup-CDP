@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Container, HStack } from "@chakra-ui/react";
+import { Container, HStack, Kbd } from "@chakra-ui/react";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { BiCodeBlock as CodeIcon } from "react-icons/bi";
 import { BsPencil as EditIcon } from "react-icons/bs";
@@ -21,6 +21,28 @@ const MainWindow = () => {
     setLocalTab(tabIndex);
   }, []);
 
+  useEffect(() => {
+    window.addEventListener("keyup", handleShorcuts);
+    return () => {
+      window.removeEventListener("keyup", handleShorcuts);
+    };
+  }, []);
+
+  function handleShorcuts(key: KeyboardEvent) {
+    console.log(key.which); // 81 87 69
+    if (key.ctrlKey) {
+      if (key.which === 81) {
+        setLocalTab(0);
+      }
+      if (key.which === 87) {
+        setLocalTab(1);
+      }
+      if (key.which === 69) {
+        setLocalTab(2);
+      }
+    }
+  }
+
   return (
     <>
       <Container maxW={"container.lg"} mt={3} h={"80vh"} padding={"0"}>
@@ -39,18 +61,27 @@ const MainWindow = () => {
               <HStack>
                 <CodeIcon />
                 <p>Código Solución</p>
+                <span>
+                  <Kbd>Ctrl</Kbd>+<Kbd>Q</Kbd>
+                </span>
               </HStack>
             </Tab>
             <Tab>
               <HStack>
                 <CheckIcon />
                 <p>Casos de Prueba</p>
+                <span>
+                  <Kbd>Ctrl</Kbd>+<Kbd>W</Kbd>
+                </span>
               </HStack>
             </Tab>
             <Tab>
               <HStack>
                 <EditIcon />
                 <p>Redacción</p>
+                <span>
+                  <Kbd>Ctrl</Kbd>+<Kbd>E</Kbd>
+                </span>
               </HStack>
             </Tab>
           </TabList>

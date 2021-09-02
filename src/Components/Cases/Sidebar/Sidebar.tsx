@@ -12,6 +12,7 @@ import {
   MenuList,
   Spacer,
   Text,
+  Tooltip,
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
