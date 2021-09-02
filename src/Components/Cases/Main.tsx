@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import Input from "./Input/Input";
 import { useEffect, useRef, useState } from "react";
-import { useStoreState } from "../../Redux/Store";
+import { useStoreActions, useStoreState } from "../../Redux/Store";
 import Out from "./Out";
 import { ChevronUpIcon, UpDownIcon } from "@chakra-ui/icons";
 
@@ -20,9 +20,13 @@ const Main = () => {
   const [showOut, setShowOut] = useState(false);
 
   const showOutRef = useRef<HTMLButtonElement>(null);
+  const nextCaseRef = useRef<HTMLButtonElement>(null);
+  const lastCaseRef = useRef<HTMLButtonElement>(null);
 
   const tabIndex = useStoreState((state) => state.tabs.tabIndex);
   const selected = useStoreState((state) => state.cases.selected);
+  const nextCase = useStoreActions((actions) => actions.cases.nextIndex);
+  const lastCase = useStoreActions((actions) => actions.cases.lastIndex);
 
   useEffect(() => {
     document.addEventListener("keydown", (key) => handleKeyPress(key));
@@ -32,13 +36,32 @@ const Main = () => {
   }, []);
 
   function handleKeyPress(key: KeyboardEvent) {
-    if (key.ctrlKey && key.which === 72 && showOutRef.current !== null) {
-      showOutRef.current.click();
+    if (key.ctrlKey) {
+      if (key.which === 72 && showOutRef.current !== null) {
+        showOutRef.current.click();
+      }
+      // next
+      if (key.which === 78 && nextCaseRef.current !== null) {
+        nextCaseRef.current.click();
+      }
+      // back
+      if (key.which === 66 && lastCaseRef.current !== null) {
+        lastCaseRef.current.click();
+      }
     }
+    // 78 next 66 back
   }
 
   function handleGoUp() {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }
+
+  function handleNextCase() {
+    nextCase();
+  }
+
+  function handleLastCase() {
+    lastCase();
   }
   return (
     <>
@@ -52,6 +75,34 @@ const Main = () => {
             showOut && <Out />}
         </HStack>
       </Flex>
+      <HStack pos={"fixed"} zIndex={5} left={10} bottom={5}>
+        <Button
+          ref={lastCaseRef}
+          size={"sm"}
+          colorScheme={"twitter"}
+          onClick={() => tabIndex === 1 && handleLastCase()}
+        >
+          <HStack>
+            <Text> Anterior</Text>
+            <Text fontSize={"smaller"} opacity={"0.5"}>
+              Ctrl + B
+            </Text>
+          </HStack>
+        </Button>
+        <Button
+          ref={nextCaseRef}
+          size={"sm"}
+          colorScheme={"twitter"}
+          onClick={() => tabIndex === 1 && handleNextCase()}
+        >
+          <HStack>
+            <Text> Siguiente</Text>
+            <Text fontSize={"smaller"} opacity={"0.5"}>
+              Ctrl + N
+            </Text>
+          </HStack>
+        </Button>
+      </HStack>
       <HStack pos={"fixed"} right={10} bottom={5}>
         <Tooltip label={"Ir hacia arriba | Ctrl + T"} mr={2}>
           <IconButton

@@ -23,10 +23,18 @@ interface caseIndentifier {
   caseId: string;
 }
 
+interface Index {
+  groupIndex: number;
+  caseIndex: number;
+}
+
 export interface ICasesModel {
   data: IGroup[];
   selected: caseIndentifier;
+  selectedIndex: Index;
   lastState: IGroup[];
+  lastIndex: Action<ICasesModel>;
+  nextIndex: Action<ICasesModel>;
   setData: Action<ICasesModel, IGroup[]>;
   selectedData: Computed<
     ICasesModel,
@@ -103,7 +111,61 @@ const CasesModel = {
     groupId: "None",
     caseId: "None",
   },
+  selectedIndex: {
+    groupIndex: 0,
+    caseIndex: -1,
+  },
   lastState: [],
+  setSelected: action((state, payload) => {
+    state.selected = payload;
+    if (payload.caseId === "None" || payload.groupId === "None") {
+      state.selectedIndex = { groupIndex: 0, caseIndex: -1 };
+      return;
+    }
+    // Tengo que buscar su index
+    const groupIndex = state.data.findIndex(
+      (groupElement) => groupElement.groupId === payload.groupId
+    );
+    const caseIndex = state.data[groupIndex].cases.findIndex(
+      (caseElement) => caseElement.caseId === payload.caseId
+    );
+    state.selectedIndex = { groupIndex, caseIndex };
+  }),
+  lastIndex: action((state) => {
+    let { groupIndex, caseIndex } = state.selectedIndex;
+    console.log(groupIndex, caseIndex);
+    caseIndex--;
+    // Ensure that we are not selecting a case that doesn't exist in that group
+    if (caseIndex < 0) {
+      groupIndex--;
+      if (groupIndex < 0) {
+        groupIndex = state.data.length - 1;
+      }
+      caseIndex = state.data[groupIndex].cases.length - 1;
+    }
+    // Ensure we are not selecting a group that doens't exist
+    const { groupId, caseId } = state.data[groupIndex].cases[caseIndex];
+    state.selected = { groupId, caseId };
+    state.selectedIndex = { groupIndex, caseIndex };
+  }),
+  nextIndex: action((state) => {
+    let { groupIndex, caseIndex } = state.selectedIndex;
+    console.log(groupIndex, caseIndex);
+    caseIndex++;
+    // Ensure that we are not selecting a case that doesn't exist in that group
+    if (caseIndex >= state.data[groupIndex].cases.length) {
+      groupIndex++;
+      caseIndex = 0;
+    }
+    // Ensure we are not selecting a group that doens't exist
+    if (groupIndex >= state.data.length) {
+      groupIndex = 0;
+      caseIndex = 0;
+    }
+    const { groupId, caseId } = state.data[groupIndex].cases[caseIndex];
+    state.selected = { groupId, caseId };
+    state.selectedIndex = { groupIndex, caseIndex };
+  }),
   selectedData: computed((state) => {
     return (groupId, caseId) => {
       const groupState = state.data.find(
@@ -234,9 +296,6 @@ const CasesModel = {
     actions.removedCase(payload);
     // @ts-ignore
     helper.getStoreActions().input.removeData(payload);
-  }),
-  setSelected: action((state, payload) => {
-    state.selected = payload;
   }),
 } as ICasesModel;
 
