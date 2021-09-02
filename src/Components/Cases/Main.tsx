@@ -32,7 +32,6 @@ const Main = () => {
   }, []);
 
   function handleKeyPress(key: KeyboardEvent) {
-    if (tabIndex !== 1) return;
     if (key.ctrlKey && key.which === 72 && showOutRef.current !== null) {
       showOutRef.current.click();
     }

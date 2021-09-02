@@ -14,6 +14,7 @@ import {
   Tabs,
   useColorModeValue,
   useToast,
+  Kbd,
 } from "@chakra-ui/react"; // `rehype-katex` does not import the CSS for you
 import { parse } from "./Markdown/Parser";
 import "./Markdown/MarkdownDark.css";
@@ -36,6 +37,7 @@ const Display = () => {
   const [markdown, setMarkdown] = useState(markdownElements[0]);
   const [showEditor, setShowEditor] = useState(true);
   const [showAll, setShowAll] = useState(false);
+  const [localTab, setLocalTab] = useState(0);
 
   const divRef = useRef<HTMLDivElement>(null);
   const generateRef = useRef<HTMLButtonElement>(null);
@@ -70,7 +72,7 @@ const Display = () => {
           );
 
     setMarkdown(markdownElements[tabIndexRef.current]);
-  }, [markdownElements, showAll, tabIndexRef.current]);
+  }, [markdownElements, showAll, localTab]);
 
   useEffect(() => {
     if (saveError) {
@@ -86,19 +88,36 @@ const Display = () => {
   }, [saveError]);
 
   function handleKeyPress(key: KeyboardEvent) {
-    if (tabIndex !== 2) return;
-    if (key.ctrlKey && key.which === 83 && generateRef.current !== null) {
-      generateRef.current.click();
+    // console.log(key.which);
+    if (key.ctrlKey) {
+      if (key.which === 83 && generateRef.current !== null) {
+        generateRef.current.click();
+      }
+      if (key.which === 72 && hideRef.current !== null) {
+        hideRef.current.click();
+        hideRef.current.focus();
+      }
+      if (key.which === 77 && showAllRef.current !== null) {
+        showAllRef.current.click();
+      }
+      // Local Tabs
+      if (key.which >= 49 && key.which <= 54) {
+        handleShorcutTabChange(key.which);
+      }
     }
-    if (key.ctrlKey && key.which === 72 && hideRef.current !== null) {
-      hideRef.current.click();
-      hideRef.current.focus();
-    }
-    if (key.ctrlKey && key.which === 77 && showAllRef.current !== null) {
-      showAllRef.current.click();
-    }
+    // 49 es uno
+    // 55 es el max
   }
 
+  function handleShorcutTabChange(key: number) {
+    const index = key - 49;
+    // console.log("index shorcut", index);
+    // console.log(markdownElements[index]);
+
+    setMarkdown(markdownElements[index]);
+    tabIndexRef.current = index;
+    setLocalTab(index);
+  }
   function generateMarkdown() {
     setStoreMarkdown({
       markdown,
@@ -121,18 +140,63 @@ const Display = () => {
           size={"sm"}
           isFitted
           w={"100%"}
+          index={localTab}
           onChange={(index) => {
+            console.log("index", index);
+            setLocalTab(index);
             setMarkdown(markdownElements[index]);
             tabIndexRef.current = index;
           }}
         >
           <TabList>
-            <Tab>Todo</Tab>
-            <Tab isDisabled={saveError}>Descripción</Tab>
-            <Tab isDisabled={saveError}>Entrada</Tab>
-            <Tab isDisabled={saveError}>Salida</Tab>
-            <Tab isDisabled={saveError}>Ejemplo</Tab>
-            <Tab isDisabled={saveError}>Limites</Tab>
+            <Tab>
+              <HStack>
+                <Text>Todo</Text>
+                <Text fontSize={"xs"} opacity={0.5}>
+                  Ctrl + 1
+                </Text>
+              </HStack>
+            </Tab>
+            <Tab isDisabled={saveError}>
+              <HStack>
+                <Text>Descripción</Text>
+                <Text fontSize={"xs"} opacity={0.5}>
+                  Ctrl + 2
+                </Text>
+              </HStack>
+            </Tab>
+            <Tab isDisabled={saveError}>
+              <HStack>
+                <Text>Entrada</Text>
+                <Text fontSize={"xs"} opacity={0.5}>
+                  Ctrl + 3
+                </Text>
+              </HStack>
+            </Tab>
+            <Tab isDisabled={saveError}>
+              <HStack>
+                <Text>Salida</Text>
+                <Text fontSize={"xs"} opacity={0.5}>
+                  Ctrl + 4
+                </Text>
+              </HStack>
+            </Tab>
+            <Tab isDisabled={saveError}>
+              <HStack>
+                <Text>Ejemplo</Text>
+                <Text fontSize={"xs"} opacity={0.5}>
+                  Ctrl + 5
+                </Text>
+              </HStack>
+            </Tab>
+            <Tab isDisabled={saveError}>
+              <HStack>
+                <Text>Límites</Text>
+                <Text fontSize={"xs"} opacity={0.5}>
+                  Ctrl + 6
+                </Text>
+              </HStack>
+            </Tab>
           </TabList>
         </Tabs>
         <Flex mt={5}>

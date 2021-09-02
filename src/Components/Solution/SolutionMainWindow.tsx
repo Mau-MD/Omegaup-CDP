@@ -110,7 +110,6 @@ const SolutionMainWindow = () => {
   }
 
   function handleKeyPress(key: KeyboardEvent) {
-    if (tabIndex !== 0) return;
     if (key.ctrlKey && key.which === 83 && saveRef.current !== null) {
       saveRef.current.click();
     }
