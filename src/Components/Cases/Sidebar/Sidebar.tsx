@@ -32,9 +32,16 @@ import {
 } from "react-icons/all";
 import DownloadModal from "./DownloadModal";
 import UploadOutputModal from "./UploadOutputModal";
+import { useStoreState } from "../../../Redux/Store";
 
-const Sidebar = () => {
+interface PropTypes {
+  addRef: React.RefObject<HTMLButtonElement>;
+}
+const Sidebar = (props: PropTypes) => {
+  const { addRef } = props;
+
   const divBorderColor = useColorModeValue("gray.200", "gray.600");
+  const tabIndex = useStoreState((state) => state.tabs.tabIndex);
 
   const {
     isOpen: isOpenAdd,
@@ -88,14 +95,17 @@ const Sidebar = () => {
               Grupos
             </Text>
             <Spacer />
-            <Button
-              size={"sm"}
-              colorScheme={"green"}
-              onClick={onOpenAdd}
-              mr={2}
-            >
-              {isLargeScreen ? <p> Agregar</p> : <p> + </p>}
-            </Button>
+            <Tooltip label={"Ctrl + A"}>
+              <Button
+                ref={addRef}
+                size={"sm"}
+                colorScheme={"green"}
+                onClick={() => tabIndex === 1 && onOpenAdd()}
+                mr={2}
+              >
+                {isLargeScreen ? <p> Agregar</p> : <p> + </p>}
+              </Button>
+            </Tooltip>
             <Menu>
               <MenuButton
                 as={IconButton}

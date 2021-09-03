@@ -22,6 +22,7 @@ const Main = () => {
   const showOutRef = useRef<HTMLButtonElement>(null);
   const nextCaseRef = useRef<HTMLButtonElement>(null);
   const lastCaseRef = useRef<HTMLButtonElement>(null);
+  const addCaseRef = useRef<HTMLButtonElement>(null);
 
   const tabIndex = useStoreState((state) => state.tabs.tabIndex);
   const selected = useStoreState((state) => state.cases.selected);
@@ -48,6 +49,10 @@ const Main = () => {
       if (key.which === 66 && lastCaseRef.current !== null) {
         lastCaseRef.current.click();
       }
+      if (key.which === 65 && addCaseRef.current !== null) {
+        // A
+        addCaseRef.current.click();
+      }
     }
     // 78 next 66 back
   }
@@ -67,7 +72,7 @@ const Main = () => {
     <>
       <Flex>
         <Box w={"30%"}>
-          <Sidebar />
+          <Sidebar addRef={addCaseRef} />
         </Box>
         <HStack w={"100%"}>
           <Input />
