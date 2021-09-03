@@ -43,10 +43,18 @@ const Main = () => {
       }
       // next
       if (key.which === 78 && nextCaseRef.current !== null) {
+        if (document.activeElement !== null) {
+          // @ts-ignore
+          document.activeElement.blur();
+        }
         nextCaseRef.current.click();
       }
       // back
       if (key.which === 66 && lastCaseRef.current !== null) {
+        if (document.activeElement !== null) {
+          // @ts-ignore
+          document.activeElement.blur();
+        }
         lastCaseRef.current.click();
       }
       if (key.which === 65 && addCaseRef.current !== null) {
