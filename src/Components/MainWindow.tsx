@@ -12,14 +12,14 @@ import { useStoreActions, useStoreState } from "../Redux/Store";
 import { useEffect, useState } from "react";
 
 const MainWindow = () => {
-  const [localTab, setLocalTab] = useState(0);
+  // const [localTab, setLocalTab] = useState(0);
 
   const setTab = useStoreActions((actions) => actions.tabs.setTab);
   const tabIndex = useStoreState((state) => state.tabs.tabIndex);
 
-  useEffect(() => {
-    setLocalTab(tabIndex);
-  }, []);
+  // useEffect(() => {
+  //   // setLocalTab(tabIndex);
+  // }, []);
 
   useEffect(() => {
     window.addEventListener("keyup", handleShorcuts);
@@ -32,13 +32,16 @@ const MainWindow = () => {
     console.log(key.which); // 81 87 69
     if (key.ctrlKey) {
       if (key.which === 81) {
-        setLocalTab(0);
+        // setLocalTab(0);
+        setTab(0);
       }
       if (key.which === 87) {
-        setLocalTab(1);
+        // setLocalTab(1);
+        setTab(1);
       }
       if (key.which === 69) {
-        setLocalTab(2);
+        // setLocalTab(2);
+        setTab(2);
       }
     }
   }
@@ -49,11 +52,11 @@ const MainWindow = () => {
         <Tabs
           variant={"enclosed"}
           size={"sm"}
-          index={localTab}
+          index={tabIndex}
           onChange={(e) => {
             //console.log(e);
             setTab(e);
-            setLocalTab(e);
+            // setLocalTab(e);
           }}
         >
           <TabList>
