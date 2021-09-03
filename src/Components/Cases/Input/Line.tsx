@@ -28,6 +28,7 @@ import MatrixGenDrawer from "./MatrixGenDrawer";
 // TODO: Al borrar caso/grupo deberia ir al modo no seleccionado
 
 interface PropTypes extends ILine {
+  firstOrLast: "first" | "last" | "both" | "none";
   caseIdentifier: ICaseIdentifier;
   addLine: () => void;
   hide?: boolean;
@@ -37,6 +38,7 @@ interface PropTypes extends ILine {
 
 const Line = (props: PropTypes) => {
   const {
+    firstOrLast,
     hide = false,
     lineId,
     type,
@@ -56,7 +58,9 @@ const Line = (props: PropTypes) => {
 
   const updateLine = useStoreActions((actions) => actions.input.updateLine);
   const deleteLine = useStoreActions((actions) => actions.input.removeLine);
+
   const lastCreated = useStoreState((state) => state.input.lastCreated);
+  const selectedCase = useStoreState((state) => state.cases.selected);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -69,6 +73,14 @@ const Line = (props: PropTypes) => {
       inputRef.current.focus();
     }
   }, [lastCreated]);
+
+  // Un use effect para cuando se cambie de caso
+  useEffect(() => {
+    // TODO: Settings
+    if (firstOrLast === "last" || firstOrLast === "both") {
+      inputRef.current.focus();
+    }
+  }, [selectedCase]);
 
   function handleUpdateLine() {
     const label =

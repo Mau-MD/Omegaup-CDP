@@ -60,6 +60,13 @@ const InputWindow = (props: PropTypes) => {
     });
   }
 
+  function getFirstOrLast(index: number, dataLength: number) {
+    if (dataLength === 1) return "both";
+    if (index === 0) return "first";
+    if (index === dataLength - 1) return "last";
+    return "none";
+  }
+
   return (
     <VStack ml={5}>
       <DragDropContext onDragEnd={(result) => handleDragEnd(result)}>
@@ -85,6 +92,7 @@ const InputWindow = (props: PropTypes) => {
                     >
                       <Line
                         {...line}
+                        firstOrLast={getFirstOrLast(index, pageData.length)}
                         provided={provided}
                         key={line.lineId}
                         hide={hidden}
