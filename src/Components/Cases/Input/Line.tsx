@@ -61,6 +61,7 @@ const Line = (props: PropTypes) => {
 
   const lastCreated = useStoreState((state) => state.input.lastCreated);
   const selectedCase = useStoreState((state) => state.cases.selected);
+  const config = useStoreState((state) => state.config.caseConfig);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -76,8 +77,8 @@ const Line = (props: PropTypes) => {
 
   // Un use effect para cuando se cambie de caso
   useEffect(() => {
-    // TODO: Settings
-    if (firstOrLast === "last" || firstOrLast === "both") {
+    if (config.focus === "none") return;
+    if (firstOrLast === config.focus || firstOrLast === "both") {
       inputRef.current.focus();
     }
   }, [selectedCase]);

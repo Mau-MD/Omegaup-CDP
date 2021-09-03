@@ -12,10 +12,19 @@ const CaseItem = (props: PropTypes) => {
   const setSelectedCase = useStoreActions(
     (actions) => actions.cases.setSelected
   );
+
   const selectedCase = useStoreState((state) => state.cases.selected);
+  const config = useStoreState((state) => state.config.caseConfig);
 
   function handleSelectedCase() {
     setSelectedCase({ caseId: caseId, groupId: groupId });
+    if (config.goUp) {
+      handleGoUp();
+    }
+  }
+
+  function handleGoUp() {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }
 
   return (
