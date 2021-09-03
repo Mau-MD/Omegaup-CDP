@@ -31,7 +31,7 @@ const CaseItem = (props: PropTypes) => {
         <span>{name}</span>
         {shouldShowPoints && (
           <Badge colorScheme={defined ? "green" : "blue"}>
-            {points.toFixed(2) + " PTS"}
+            {points.toFixed(2)}
           </Badge>
         )}
       </HStack>

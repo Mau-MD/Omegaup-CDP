@@ -136,9 +136,9 @@ const CasesModel = {
     console.log(groupIndex, caseIndex);
     caseIndex--;
     // Ensure that we are not selecting a case that doesn't exist in that group
-    if (caseIndex < 0) {
+    while (caseIndex < 0) {
       groupIndex--;
-      if (groupIndex < 0) {
+      while (groupIndex < 0) {
         groupIndex = state.data.length - 1;
       }
       caseIndex = state.data[groupIndex].cases.length - 1;
@@ -153,15 +153,15 @@ const CasesModel = {
     console.log(groupIndex, caseIndex);
     caseIndex++;
     // Ensure that we are not selecting a case that doesn't exist in that group
-    if (caseIndex >= state.data[groupIndex].cases.length) {
+    while (caseIndex >= state.data[groupIndex].cases.length) {
       groupIndex++;
       caseIndex = 0;
+      if (groupIndex >= state.data.length) {
+        groupIndex = 0;
+        caseIndex = 0;
+      }
     }
     // Ensure we are not selecting a group that doens't exist
-    if (groupIndex >= state.data.length) {
-      groupIndex = 0;
-      caseIndex = 0;
-    }
     const { groupId, caseId } = state.data[groupIndex].cases[caseIndex];
     state.selected = { groupId, caseId };
     state.selectedIndex = { groupIndex, caseIndex };
