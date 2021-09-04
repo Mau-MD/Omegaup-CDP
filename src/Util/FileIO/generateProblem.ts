@@ -2,6 +2,7 @@ import Store from "../../Redux/Store";
 import JSZip from "jszip";
 import { getCaseContent } from "./download";
 import { IGroup } from "../../Redux/Models/CasesModel";
+import { saveAs } from "file-saver";
 
 /* La estructura del zip debe de ser
 
@@ -29,13 +30,13 @@ testplan
 const getStatements = (zip: JSZip) => {
   const folder = zip.folder("statements");
   const markdownData = Store.getState().writing.all;
-  folder?.file("markdown.es", markdownData);
+  folder?.file("es.markdown", markdownData);
 };
 
 const getSolution = (zip: JSZip) => {
   const folder = zip.folder("solutions");
   const solutionMarkdownData = Store.getState().solution.text;
-  folder?.file("markdown.es", solutionMarkdownData);
+  folder?.file("es.markdown", solutionMarkdownData);
 };
 
 const getGroupFromId = (groupId: string) => {
@@ -87,7 +88,6 @@ const getCasesAndTestPlan = (zip: JSZip) => {
       testplanData += fileName + " " + caseData.points + "\n";
     }
   });
-  console.log(testplanData);
   zip.file("testplan", testplanData);
 };
 
@@ -96,4 +96,14 @@ export const generateProblem = () => {
   getStatements(zip);
   getSolution(zip);
   getCasesAndTestPlan(zip);
+
+  const storeData = sessionStorage.getItem("[EasyPeasyStore][0]");
+  if (storeData !== null) {
+    zip.file("loadFile.json", storeData);
+  }
+
+  const problemName = Store.getState().title.titleName;
+  zip.generateAsync({ type: "blob" }).then((content) => {
+    saveAs(content, problemName.toLowerCase().replaceAll(" ", "_") + ".zip");
+  });
 };
