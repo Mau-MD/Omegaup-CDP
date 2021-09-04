@@ -21,6 +21,7 @@ import { useRef, useState } from "react";
 import { useStoreActions, useStoreState } from "../Redux/Store";
 import { AddIcon, DownloadIcon, TriangleDownIcon } from "@chakra-ui/icons";
 import { generateProblem } from "../Util/FileIO/generateProblem";
+import LoadProblemModal from "./LoadProblemModal";
 
 const Header = () => {
   const titleText = useStoreState((state) => state.title.titleName);
@@ -29,6 +30,12 @@ const Header = () => {
   const [isEditTitleActive, setIsEditTitleActive] = useState(false);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenLoad,
+    onOpen: onOpenLoad,
+    onClose: onCloseLoad,
+  } = useDisclosure();
+
   const cancelRef = useRef<HTMLButtonElement>(null);
 
   function handleTitleSubmit(value: string) {
@@ -65,7 +72,11 @@ const Header = () => {
             <AiFillEdit />
           </span>
           <Spacer />
-          <Button leftIcon={<TriangleDownIcon />} size={"sm"}>
+          <Button
+            leftIcon={<TriangleDownIcon />}
+            size={"sm"}
+            onClick={onOpenLoad}
+          >
             Cargar Problema{" "}
           </Button>
           <Button
@@ -84,6 +95,7 @@ const Header = () => {
           >
             Nuevo Problema
           </Button>
+          <LoadProblemModal isOpen={isOpenLoad} onClose={onCloseLoad} />
           <AlertDialog
             leastDestructiveRef={cancelRef}
             onClose={onClose}

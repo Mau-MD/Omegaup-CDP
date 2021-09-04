@@ -99,7 +99,7 @@ export const generateProblem = () => {
 
   const storeData = sessionStorage.getItem("[EasyPeasyStore][0]");
   if (storeData !== null) {
-    zip.file("loadFile.json", storeData);
+    zip.file("cdp.data", storeData);
   }
 
   const problemName = Store.getState().title.titleName;

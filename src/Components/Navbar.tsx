@@ -34,8 +34,8 @@ const Navbar = () => {
           <Box w={"86px"}>
             <Image w={"100px"} src={logo} />
           </Box>
-          <Spacer />
-          <Text opacity={0.5}> DEVELOPMENT BUILD</Text>
+          {/*<Spacer />*/}
+          {/*<Text opacity={0.5}> DEVELOPMENT BUILD</Text>*/}
           <Spacer />
           <Box>
             <Tooltip label={"Configuración"}>

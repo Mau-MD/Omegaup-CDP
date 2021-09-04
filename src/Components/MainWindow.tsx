@@ -71,8 +71,8 @@ const MainWindow = () => {
             </Tab>
             <Tab>
               <HStack>
-                <CheckIcon />
-                <p>Casos de Prueba</p>
+                <EditIcon />
+                <p>Redacción</p>
                 <span>
                   <Kbd>Ctrl</Kbd>+<Kbd>W</Kbd>
                 </span>
@@ -80,8 +80,8 @@ const MainWindow = () => {
             </Tab>
             <Tab>
               <HStack>
-                <EditIcon />
-                <p>Redacción</p>
+                <CheckIcon />
+                <p>Casos de Prueba</p>
                 <span>
                   <Kbd>Ctrl</Kbd>+<Kbd>E</Kbd>
                 </span>
@@ -93,10 +93,10 @@ const MainWindow = () => {
               <SolutionMainWindow />
             </TabPanel>
             <TabPanel>
-              <Main />
+              <WritingWindow />
             </TabPanel>
             <TabPanel>
-              <WritingWindow />
+              <Main />
             </TabPanel>
           </TabPanels>
         </Tabs>
