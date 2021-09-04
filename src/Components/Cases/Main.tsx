@@ -105,7 +105,7 @@ const Main = () => {
         <Button
           ref={nextCaseRef}
           size={"sm"}
-          colorScheme={"twitter"}
+          colorScheme={"blue"}
           onClick={() => tabIndex === 1 && handleNextCase()}
         >
           <HStack>
