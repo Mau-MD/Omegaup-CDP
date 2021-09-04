@@ -20,6 +20,7 @@ import { AiFillEdit } from "react-icons/ai";
 import { useRef, useState } from "react";
 import { useStoreActions, useStoreState } from "../Redux/Store";
 import { AddIcon, DownloadIcon, TriangleDownIcon } from "@chakra-ui/icons";
+import { generateProblem } from "../Util/FileIO/generateProblem";
 
 const Header = () => {
   const titleText = useStoreState((state) => state.title.titleName);
@@ -40,6 +41,9 @@ const Header = () => {
     window.location.reload();
   }
 
+  function handleGenerateProblem() {
+    generateProblem();
+  }
   return (
     <Container maxW={"container.lg"}>
       <Box mt={"5"}>
@@ -64,8 +68,13 @@ const Header = () => {
           <Button leftIcon={<TriangleDownIcon />} size={"sm"}>
             Cargar Problema{" "}
           </Button>
-          <Button  leftIcon={<DownloadIcon />} size={"sm"} colorScheme={"blue"}>
-            Guardar Problema
+          <Button
+            leftIcon={<DownloadIcon />}
+            size={"sm"}
+            colorScheme={"blue"}
+            onClick={() => handleGenerateProblem()}
+          >
+            Generar Problema
           </Button>
           <Button
             leftIcon={<AddIcon />}

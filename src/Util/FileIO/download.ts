@@ -7,7 +7,7 @@ interface IOptions {
   txt?: boolean;
 }
 
-const getCaseContent = (lines: ILine[]) => {
+export const getCaseContent = (lines: ILine[]) => {
   return lines.reduce((prev: string, curr) => {
     if (curr.type === "line" || curr.type === "multiline") {
       return prev + curr.value + "\n";
