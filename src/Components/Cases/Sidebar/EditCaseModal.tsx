@@ -58,6 +58,8 @@ const EditCaseModal = (props: PropTypes) => {
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
+    const validName = nameRef.current.toLowerCase().replaceAll(" ", "_");
+
     let isValid = true;
     let selectedGroupId = selectedValue;
 
@@ -68,10 +70,7 @@ const EditCaseModal = (props: PropTypes) => {
     groupData.forEach((groupElement) => {
       if (groupElement.groupId === groupId) {
         groupElement.cases.forEach((caseElement) => {
-          if (
-            caseElement.name === nameRef.current &&
-            nameRef.current !== name
-          ) {
+          if (caseElement.name === validName && validName !== name) {
             isValid = false;
             return;
           }
@@ -94,7 +93,7 @@ const EditCaseModal = (props: PropTypes) => {
     editCase({
       case: {
         caseId: caseId,
-        name: nameRef.current,
+        name: validName,
         points: pointsRef.current,
         groupId: selectedGroupId,
         defined: definedRef.current,
@@ -120,6 +119,7 @@ const EditCaseModal = (props: PropTypes) => {
           onChange={(e) => (nameRef.current = e.target.value)}
           defaultValue={name}
         />
+        <FormHelperText>En minúsculas y sin espacios</FormHelperText>
       </FormControl>
       <FormControl mt={5} isRequired>
         <FormLabel> Nombre del grupo</FormLabel>

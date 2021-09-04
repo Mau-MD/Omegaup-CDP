@@ -42,7 +42,7 @@ interface PropTypes extends IGroup {}
 
 const GroupItem = (props: PropTypes) => {
   const { name, defined, points, groupId, cases } = props;
-  const [showCases, setShowCases] = useState(name === "Sin Grupo");
+  const [showCases, setShowCases] = useState(name === "sin_grupo");
 
   const borderColor = useColorModeValue("gray.200", "gray.600");
   const caseState = useStoreState((state) => {
@@ -83,7 +83,7 @@ const GroupItem = (props: PropTypes) => {
     }
   }
 
-  if (name === "Sin Grupo" && cases.length === 0) return <></>;
+  if (name === "sin_grupo" && cases.length === 0) return <></>;
   return (
     <Flex direction={"column"}>
       <Box my={2}>
@@ -100,7 +100,7 @@ const GroupItem = (props: PropTypes) => {
         >
           <Box>{name}</Box>
           <Spacer />
-          {name !== "Sin Grupo" && (
+          {name !== "sin_grupo" && (
             <>
               <Tooltip
                 label={
@@ -125,7 +125,7 @@ const GroupItem = (props: PropTypes) => {
               syle={{ zIndex: 99 }}
             />
             <MenuList>
-              {name !== "Sin Grupo" && (
+              {name !== "sin_grupo" && (
                 <>
                   <MenuItem
                     icon={<EditIcon />}
@@ -192,7 +192,7 @@ const GroupItem = (props: PropTypes) => {
               style={{ display: "inline-block" }}
               key={element.caseId}
             >
-              <CaseItem {...element} shouldShowPoints={name === "Sin Grupo"} />
+              <CaseItem {...element} shouldShowPoints={name === "sin_grupo"} />
             </motion.div>
           ))}
       </Box>

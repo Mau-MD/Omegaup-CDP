@@ -41,9 +41,11 @@ const AddGroupModal = (props: PropTypes) => {
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
+    const validName = nameRef.current.toLowerCase().replaceAll(" ", "_");
+
     let isValid = true;
     groupData.forEach((groupElement) => {
-      if (groupElement.name === nameRef.current && nameRef.current !== name) {
+      if (groupElement.name === validName && validName !== name) {
         isValid = false;
         return;
       }
@@ -63,7 +65,7 @@ const AddGroupModal = (props: PropTypes) => {
       groupId: groupId,
       points: pointsRef.current,
       defined: definedRef.current,
-      name: nameRef.current,
+      name: validName,
       cases: cases,
     });
 
@@ -78,6 +80,7 @@ const AddGroupModal = (props: PropTypes) => {
           onChange={(e) => (nameRef.current = e.target.value)}
           defaultValue={name}
         />
+        <FormHelperText>En minúsculas y sin espacios</FormHelperText>
       </FormControl>
       <FormControl mt={5}>
         <FormLabel> Puntaje </FormLabel>

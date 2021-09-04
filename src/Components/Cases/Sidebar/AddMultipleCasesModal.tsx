@@ -177,7 +177,7 @@ const AddMultipleCasesModal = (props: PropTypes) => {
                 value={options.find((obj) => obj.value === selectedValue)}
                 options={options}
                 darkTheme={darkTheme}
-                defaultValue={{ label: "Sin Grupo", value: options[0].value }}
+                defaultValue={{ label: "sin_grupo", value: options[0].value }}
               />
               <FormHelperText>
                 Tus casos tendrán el nombre {prefix}1{suffix}, {prefix}2{suffix}

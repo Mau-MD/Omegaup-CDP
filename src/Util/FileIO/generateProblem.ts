@@ -76,9 +76,9 @@ const getCasesAndTestPlan = (zip: JSZip) => {
 
     // Testplan calculation
 
-    // Si es Sin Grupo, simplemente paso al segundo, porque nunca estará definido
+    // Si es sin_grupo, simplemente paso al segundo, porque nunca estará definido
     if (
-      !(groupData.name === "Sin Grupo") &&
+      !(groupData.name === "sin_grupo") &&
       !groupsDefined.has(groupData.groupId)
     ) {
       groupsDefined.add(groupData.groupId);
@@ -87,7 +87,7 @@ const getCasesAndTestPlan = (zip: JSZip) => {
       testplanData += fileName + " " + caseData.points + "\n";
     }
   });
-  // console.log(testplanData);
+  console.log(testplanData);
   zip.file("testplan", testplanData);
 };
 

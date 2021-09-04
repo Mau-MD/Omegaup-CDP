@@ -39,9 +39,11 @@ const AddGroupModal = ({ onClose }: PropTypes) => {
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
+    const validName = groupName.current.toLowerCase().replaceAll(" ", "_");
+
     let isValid = true;
     groupData.forEach((groupElement) => {
-      if (groupElement.name === groupName.current) {
+      if (groupElement.name === validName) {
         isValid = false;
         return;
       }
@@ -59,7 +61,7 @@ const AddGroupModal = ({ onClose }: PropTypes) => {
 
     addGroup({
       groupId: uuid(),
-      name: groupName.current,
+      name: validName,
       points: points.current,
       defined: pointsDefined.current,
       cases: [],
@@ -73,6 +75,7 @@ const AddGroupModal = ({ onClose }: PropTypes) => {
       <FormControl mt={3} isRequired>
         <FormLabel> Nombre del grupo</FormLabel>
         <Input onChange={(e) => (groupName.current = e.target.value)} />
+        <FormHelperText>En minúsculas y sin espacios</FormHelperText>
       </FormControl>
       <FormControl mt={5}>
         <FormLabel> Puntaje </FormLabel>

@@ -52,6 +52,7 @@ const AddCaseModal = ({ onClose }: PropTypes) => {
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
+    const validName = caseName.current.toLowerCase().replaceAll(" ", "_");
     let isValid = true;
     let selectedGroupId = selectedValue;
 
@@ -62,7 +63,7 @@ const AddCaseModal = ({ onClose }: PropTypes) => {
     groupData.forEach((groupElement) => {
       if (groupElement.groupId === selectedGroupId) {
         groupElement.cases.forEach((caseElement) => {
-          if (caseElement.name === caseName.current) {
+          if (caseElement.name === validName) {
             isValid = false;
             return;
           }
@@ -84,7 +85,7 @@ const AddCaseModal = ({ onClose }: PropTypes) => {
 
     addCase({
       caseId: uuid(),
-      name: caseName.current,
+      name: validName,
       groupId: selectedGroupId,
       points: points.current,
       defined: pointsDefined.current,
@@ -102,6 +103,7 @@ const AddCaseModal = ({ onClose }: PropTypes) => {
       <FormControl mt={3} isRequired>
         <FormLabel> Nombre del caso</FormLabel>
         <Input onChange={(e) => (caseName.current = e.target.value)} />
+        <FormHelperText>En minúsculas y sin espacios</FormHelperText>
       </FormControl>
       <FormControl mt={5} isRequired>
         <FormLabel> Nombre del grupo</FormLabel>
@@ -109,7 +111,7 @@ const AddCaseModal = ({ onClose }: PropTypes) => {
           onChange={handleSelectChange}
           value={options.find((obj) => obj.value === selectedValue)}
           options={options}
-          defaultValue={{ label: "Sin Grupo", value: options[0].value }}
+          defaultValue={{ label: "sin_grupo", value: options[0].value }}
           darkTheme={darkTheme}
         />
       </FormControl>

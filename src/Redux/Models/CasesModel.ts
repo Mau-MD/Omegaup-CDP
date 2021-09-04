@@ -1,5 +1,5 @@
 import { action, Action, Computed, computed, thunk, Thunk } from "easy-peasy";
-import { uuid } from "uuidv4";
+import { uuid, empty } from "uuidv4";
 import Store from "../Store";
 
 export interface IGroup {
@@ -60,7 +60,7 @@ function calculatePoints(state: IGroup[]) {
   let notDefinedCount = 0;
 
   state.forEach((element) => {
-    if (element.name === "Sin Grupo") {
+    if (element.name === "sin_grupo") {
       element.cases.forEach((caseElement) => {
         if (caseElement.defined) {
           maxPoints -= caseElement.points ? caseElement.points : 0;
@@ -80,7 +80,7 @@ function calculatePoints(state: IGroup[]) {
   let individualPoints = maxPoints / notDefinedCount;
 
   state = state.map((element) => {
-    if (element.name === "Sin Grupo") {
+    if (element.name === "sin_grupo") {
       element.cases = element.cases.map((caseElement) => {
         if (!caseElement.defined) {
           caseElement.points = individualPoints;
@@ -100,8 +100,8 @@ function calculatePoints(state: IGroup[]) {
 const CasesModel = {
   data: [
     {
-      groupId: uuid(),
-      name: "Sin Grupo",
+      groupId: empty(),
+      name: "sin_grupo",
       cases: [],
       defined: false,
       points: 0,
