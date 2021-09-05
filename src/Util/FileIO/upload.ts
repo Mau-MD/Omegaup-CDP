@@ -41,17 +41,18 @@ const separateFilesInGroups = async (
   await asyncForEach(zipFilesArray, async (fileObject: JSZip.JSZipObject) => {
     const fileFullPath = fileObject.name;
     // Realmente solo queremos .outs
-    if (fileObject.dir || fileFullPath.endsWith(".json")) return;
+    // console.log(fileFullPath);
+    if (fileObject.dir || !fileFullPath.endsWith(".out")) return;
+    console.log(fileFullPath);
     const splittedFileFullPath = fileFullPath.split("/");
     const fileGroupName = splittedFileFullPath[1];
     const fileNameExtension = splittedFileFullPath[2];
-    const fileName = fileNameExtension.slice(0, fileNameExtension.length - 3);
+    const fileName = fileNameExtension.slice(0, fileNameExtension.length - 4);
 
     // Ahora puedo buscar el id en el json con el nombre
     const groupId = groupsIds[fileGroupName];
     const caseId = casesIds.get(groupId)[fileName];
     const caseData = await fileObject.async("string");
-    // TODO: Realmente necesito los .out
     const casesArray = outGroups.get(groupId);
     if (casesArray === undefined) {
       outGroups.set(groupId, [
