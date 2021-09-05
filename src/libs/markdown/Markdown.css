@@ -1,0 +1,16 @@
+.markdown h1 {
+  font-weight: bold !important;
+  font-size: 20px !important;
+  margin: 1rem 0 !important; }
+.markdown th {
+  padding: 0.5rem; }
+.markdown li {
+  margin-left: 2rem; }
+.markdown td {
+  vertical-align: top;
+  padding: 10px; }
+.markdown pre {
+  display: block;
+  font-size: 87.5%; }
+
+/*# sourceMappingURL=markdown.css.map */

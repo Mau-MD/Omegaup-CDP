@@ -10,7 +10,7 @@
 ![imagen](https://user-images.githubusercontent.com/74751751/132111286-bc32b973-a443-4c86-a3a4-75574234ce9a.png)
 
 <p align="center">
-Layout principal
+LayoutContainer principal
 </p>
 
 ---
@@ -46,7 +46,7 @@ OmegaUp CDP sigue en estado `ALPHA`, faltan muchas features por agregar, y estas
 | ----- | ---- |
 | ![imagen](https://user-images.githubusercontent.com/74751751/128217521-552617fa-7a3e-4384-83cf-e9c31f1cade8.png) | ![imagen](https://user-images.githubusercontent.com/74751751/128217655-c6715dd0-fb01-474c-80bc-0178105d98a6.png) |
 
-### Layout predeterminado para que todos los casos mantengan un formato constante
+### LayoutContainer predeterminado para que todos los casos mantengan un formato constante
 Al momento de crear un caso nuevo, se cargará automáticamente con este layout
 <p align="center">
   <img width="400" src="https://user-images.githubusercontent.com/74751751/128217904-5cbc3cba-b8af-42d8-ac1f-77f40628328a.png">
