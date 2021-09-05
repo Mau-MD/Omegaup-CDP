@@ -100,7 +100,7 @@ const Sidebar = (props: PropTypes) => {
                 ref={addRef}
                 size={"sm"}
                 colorScheme={"green"}
-                onClick={() => tabIndex === 1 && onOpenAdd()}
+                onClick={() => tabIndex === 2 && onOpenAdd()}
                 mr={2}
               >
                 {isLargeScreen ? <p> Agregar</p> : <p> + </p>}

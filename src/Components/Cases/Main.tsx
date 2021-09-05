@@ -93,7 +93,7 @@ const Main = () => {
           ref={lastCaseRef}
           size={"sm"}
           colorScheme={"twitter"}
-          onClick={() => tabIndex === 1 && handleLastCase()}
+          onClick={() => tabIndex === 2 && handleLastCase()}
         >
           <HStack>
             <Text> Anterior</Text>
@@ -106,7 +106,7 @@ const Main = () => {
           ref={nextCaseRef}
           size={"sm"}
           colorScheme={"blue"}
-          onClick={() => tabIndex === 1 && handleNextCase()}
+          onClick={() => tabIndex === 2 && handleNextCase()}
         >
           <HStack>
             <Text> Siguiente</Text>
@@ -130,7 +130,7 @@ const Main = () => {
           ref={showOutRef}
           size={"sm"}
           colorScheme={"green"}
-          onClick={() => tabIndex === 1 && setShowOut(!showOut)}
+          onClick={() => tabIndex === 2 && setShowOut(!showOut)}
         >
           <HStack>
             <Text> {showOut ? "Ocultar Salida" : "Mostrar Salida"}</Text>

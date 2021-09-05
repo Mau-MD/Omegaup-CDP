@@ -220,7 +220,7 @@ const Display = () => {
           size={"sm"}
           colorScheme={"twitter"}
           onClick={() => {
-            tabIndex === 2 && setShowEditor(!showEditor);
+            tabIndex === 1 && setShowEditor(!showEditor);
           }}
         >
           <HStack>
@@ -235,7 +235,7 @@ const Display = () => {
           size={"sm"}
           ref={showAllRef}
           onClick={() => {
-            tabIndex === 2 && setShowAll(!showAll);
+            tabIndex === 1 && setShowAll(!showAll);
           }}
           disabled={tabIndexRef.current === 0}
         >
@@ -253,7 +253,7 @@ const Display = () => {
           size={"sm"}
           colorScheme={"green"}
           onClick={() => {
-            tabIndex === 2 && generateMarkdown();
+            tabIndex === 1 && generateMarkdown();
           }}
         >
           <HStack>
