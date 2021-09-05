@@ -14,6 +14,7 @@ import {
   ModalOverlay,
   Spacer,
   Text,
+  useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
 import { AiFillFileZip } from "react-icons/all";
@@ -31,13 +32,14 @@ const LoadProblemModal = (props: PropTypes) => {
   const { isOpen, onClose } = props;
 
   const [isUploading, setIsUploading] = useState(false);
-
   const [, forceRender] = useState({});
 
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     accept: [".zip", ".data"],
     maxFiles: 1,
   });
+
+  const outlineColor = useColorModeValue("rgba(0,0,0,0.5)", "white");
 
   function deleteFile() {
     acceptedFiles.length = 0;
@@ -66,14 +68,14 @@ const LoadProblemModal = (props: PropTypes) => {
           <Box
             mt={5}
             h={"300px"}
-            border={"1px dashed white"}
+            border={"1px dashed " + outlineColor}
             {...getRootProps()}
           >
             <input {...getInputProps()} />
             <Center h={"100%"}>
               <Center>
                 <VStack>
-                  <AiFillFileZip size={"3em"} />
+                  <AiFillFileZip size={"3em"} color={outlineColor} />
                   <Text>Arrastra tu archivo aquí</Text>
                 </VStack>
               </Center>

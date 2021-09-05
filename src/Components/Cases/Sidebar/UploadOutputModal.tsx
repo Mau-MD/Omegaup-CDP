@@ -16,6 +16,7 @@ import {
   Spacer,
   Text,
   useCallbackRef,
+  useColorModeValue,
   useToast,
   VStack,
 } from "@chakra-ui/react";
@@ -41,6 +42,7 @@ const UploadOutputModal = (props: PropTypes) => {
   });
 
   const toast = useToast();
+  const outlineColor = useColorModeValue("rgba(0,0,0,0.5)", "white");
 
   function deleteFile() {
     acceptedFiles.length = 0;
@@ -90,14 +92,14 @@ const UploadOutputModal = (props: PropTypes) => {
           <Box
             mt={5}
             h={"300px"}
-            border={"1px dashed white"}
+            border={"1px dashed " + outlineColor}
             {...getRootProps()}
           >
             <input {...getInputProps()} />
             <Center h={"100%"}>
               <Center>
                 <VStack>
-                  <AiFillFileZip size={"3em"} />
+                  <AiFillFileZip size={"3em"} color={outlineColor} />
                   <Text>Arrastra tu zip aquí</Text>
                 </VStack>
               </Center>
