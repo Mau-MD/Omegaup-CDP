@@ -1,4 +1,4 @@
-## Omegaup Creador de Problemas `ALPHA`
+## omegaUp Creador de Problemas `ALPHA`
 
 <p align="center">
   <img width="300px" src="https://user-images.githubusercontent.com/74751751/128225375-1b0e339d-f43d-4275-9aab-c60f330db667.png">
@@ -16,7 +16,7 @@ LayoutContainer principal
 ---
 ### ¿Qué es?
 
-Omegaup CDP es una API el cual facilita y simplifica la creación de problemas para la plataforma [OmegaUp](http://omegaup.com), mediante la implementación de una UI intuitiva y feautures útiles. 
+omegaup CDP es una API el cual facilita y simplifica la creación de problemas para la plataforma [omegaUp](http://omegaup.com), mediante la implementación de una UI intuitiva y feautures útiles. 
 
 ### ¿Cuál es la necesidad?
 
@@ -29,7 +29,7 @@ Puedes ver los avances de la aplicacíon en este [link](http://mau-md.github.io/
 ---
 
 ## Features 
-OmegaUp CDP sigue en estado `ALPHA`, faltan muchas features por agregar, y estas probablementen puedan cambiar a lo largo del desarrollo.
+omegaUp CDP sigue en estado `ALPHA`, faltan muchas features por agregar, y estas probablementen puedan cambiar a lo largo del desarrollo.
 
 ### Creacion de Grupos y Casos de Prueba
 | Grupo | Caso |
@@ -52,7 +52,7 @@ Al momento de crear un caso nuevo, se cargará automáticamente con este layout
   <img width="400" src="https://user-images.githubusercontent.com/74751751/128217904-5cbc3cba-b8af-42d8-ac1f-77f40628328a.png">
 </p>
 
-### Render de Markdown con estilo de Omegaup
+### Render de Markdown con estilo de omegaUp
 ![imagen](https://user-images.githubusercontent.com/74751751/132111296-555d494a-6e89-4302-9f4c-757fbec4c887.png)
 
 ### Edición Individual de Markdown
@@ -64,7 +64,7 @@ Edición por `Descripcion`, `Problema`, `Entrada` y `Salida` en diferentes pesta
 ![imagen](https://user-images.githubusercontent.com/74751751/132111377-33ac158f-ad75-4b7a-b30f-4fccebe5f278.png)
 
 ### Generación de archivo `.out`.
-Descarga de los archivos `.in` con instrucciones detalladas para poder obtener el `.out` y subirlo nuevamente a `OmegaupCD`
+Descarga de los archivos `.in` con instrucciones detalladas para poder obtener el `.out` y subirlo nuevamente a `omegaUpCDP`
 
 ![imagen](https://user-images.githubusercontent.com/74751751/132111337-0f90b7e0-60cb-4e78-90f9-1e3cbffc264c.png)
 
