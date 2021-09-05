@@ -27,8 +27,8 @@ import {
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
-import AddCaseModal from "./AddCaseModal";
-import AddGroupModal from "./AddGroupModal";
+import AddCase from "../../core/modals/add/AddCase";
+import AddGroup from "../../core/modals/add/AddGroup";
 import { FormEvent, useRef, useState } from "react";
 import ReactSelectDark from "../../External/ReactSelectDark";
 import { useStoreActions, useStoreState } from "../../../Redux/Store";

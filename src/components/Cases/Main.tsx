@@ -10,7 +10,7 @@ import {
   Center,
   Tooltip,
 } from "@chakra-ui/react";
-import Input from "./Input/Input";
+import MainWindow from "./Input/MainWindow";
 import { useEffect, useRef, useState } from "react";
 import { useStoreActions, useStoreState } from "../../Redux/Store";
 import Out from "./Out";
@@ -83,7 +83,7 @@ const Main = () => {
           <Sidebar addRef={addCaseRef} />
         </Box>
         <HStack w={"100%"}>
-          <Input />
+          <MainWindow />
           {!(selected.caseId === "None" || selected.caseId === "None") &&
             showOut && <Out />}
         </HStack>

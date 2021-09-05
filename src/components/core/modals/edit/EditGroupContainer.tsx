@@ -7,16 +7,16 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-import AddCaseModal from "./AddCaseModal";
-import AddGroupModal from "./AddGroupModal";
-import { IGroup } from "../../../Redux/Models/CasesModel";
-import EditGroupModal from "./EditGroupModal";
+import AddCase from "../add/AddCase";
+import AddGroup from "../add/AddGroup";
+import { IGroup } from "../../../../Redux/Models/CasesModel";
+import EditGroupModal from "./EditGroup";
 
 interface PropTypes extends IGroup {
   isOpen: boolean;
   onClose: () => void;
 }
-const EditGroup = (props: PropTypes) => {
+const EditGroupContainer = (props: PropTypes) => {
   const { isOpen, onClose } = props;
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -32,4 +32,4 @@ const EditGroup = (props: PropTypes) => {
   );
 };
 
-export default EditGroup;
+export default EditGroupContainer;

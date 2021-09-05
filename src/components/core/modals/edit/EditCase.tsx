@@ -17,14 +17,14 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
-import { useStoreActions, useStoreState } from "../../../Redux/Store";
-import { ICase, IGroup } from "../../../Redux/Models/CasesModel";
+import { useStoreActions, useStoreState } from "../../../../Redux/Store";
+import { ICase, IGroup } from "../../../../Redux/Models/CasesModel";
 import RSelect from "react-select";
-import chakraColors from "../../../Util/chakraColors";
+import chakraColors from "../../../../Util/chakraColors";
 interface PropTypes extends ICase {
   onClose: () => void;
 }
-const EditCaseModal = (props: PropTypes) => {
+const EditCase = (props: PropTypes) => {
   const { groupId, caseId, name, points, defined, onClose } = props;
 
   const [autoPoints, setAutoPoints] = useState(!defined);
@@ -193,4 +193,4 @@ const EditCaseModal = (props: PropTypes) => {
   );
 };
 
-export default EditCaseModal;
+export default EditCase;

@@ -7,17 +7,17 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-import AddCaseModal from "./AddCaseModal";
-import AddGroupModal from "./AddGroupModal";
-import { ICase, IGroup } from "../../../Redux/Models/CasesModel";
-import EditGroupModal from "./EditGroupModal";
-import EditCaseModal from "./EditCaseModal";
+import AddCase from "../add/AddCase";
+import AddGroup from "../add/AddGroup";
+import { ICase, IGroup } from "../../../../Redux/Models/CasesModel";
+import EditGroupModal from "./EditGroup";
+import EditCase from "./EditCase";
 
 interface PropTypes extends ICase {
   isOpen: boolean;
   onClose: () => void;
 }
-const EditCase = (props: PropTypes) => {
+const EditCaseContainer = (props: PropTypes) => {
   const { isOpen, onClose } = props;
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -26,11 +26,11 @@ const EditCase = (props: PropTypes) => {
         <ModalHeader> Editar Caso </ModalHeader>
         <ModalCloseButton />
         <ModalBody mb={5}>
-          <EditCaseModal {...props} />
+          <EditCase {...props} />
         </ModalBody>
       </ModalContent>
     </Modal>
   );
 };
 
-export default EditCase;
+export default EditCaseContainer;

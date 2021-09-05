@@ -20,8 +20,8 @@ import {
 import { useStoreActions, useStoreState } from "../../../Redux/Store";
 import _ from "lodash";
 import { DraggableProvided } from "react-beautiful-dnd";
-import ArrayGenDrawer from "./ArrayGenDrawer";
-import MatrixGenDrawer from "./MatrixGenDrawer";
+import ArrayGen from "../../core/drawers/ArrayGen";
+import MatrixGenDrawer from "../../core/drawers/MatrixGen";
 
 // TODO: Focus automatico al presionar enter
 // TODO: no deberia de mostrar nada si ninguna caso esta seleccionado
@@ -224,7 +224,7 @@ const Line = (props: PropTypes) => {
         <DeleteIcon cursor={"pointer"} onClick={() => handleDelete()} />
       </HStack>
       {mode === "array" && (
-        <ArrayGenDrawer
+        <ArrayGen
           isOpen={isOpen}
           onClose={onClose}
           lineId={lineId}

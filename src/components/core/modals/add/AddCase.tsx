@@ -15,11 +15,11 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useRef, useState } from "react";
-import { useStoreActions, useStoreState } from "../../../Redux/Store";
+import { useStoreActions, useStoreState } from "../../../../Redux/Store";
 import RSelect from "react-select";
 import { uuid } from "uuidv4";
-import chakraColors from "../../../Util/chakraColors";
-import ReactSelectDark from "../../External/ReactSelectDark";
+import chakraColors from "../../../../Util/chakraColors";
+import ReactSelectDark from "../../../External/ReactSelectDark";
 
 interface PropTypes {
   onClose: () => void;
@@ -27,7 +27,7 @@ interface PropTypes {
 
 // TODO handle logic for no group cases
 
-const AddCaseModal = ({ onClose }: PropTypes) => {
+const AddCase = ({ onClose }: PropTypes) => {
   const [autoPoints, setAutoPoints] = useState(true);
   const [selectedValue, setSelectedValue] = useState("");
   const [hasGroup, setHasGroup] = useState(false);
@@ -154,4 +154,4 @@ const AddCaseModal = ({ onClose }: PropTypes) => {
   );
 };
 
-export default AddCaseModal;
+export default AddCase;

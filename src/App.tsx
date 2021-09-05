@@ -1,9 +1,9 @@
 import * as React from "react";
 import { ChakraProvider, theme } from "@chakra-ui/react";
 import { useStoreRehydrated } from "easy-peasy";
-import Navbar from "./Components/Navbar";
-import Header from "./Components/Header";
-import MainWindow from "./Components/MainWindow";
+import Navbar from "./components/Navbar";
+import Header from "./components/Header";
+import MainWindow from "./components/MainWindow";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import RawArray from "./Pages/RawArray";
 import RawMatrix from "./Pages/RawMatrix";

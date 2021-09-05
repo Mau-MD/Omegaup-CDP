@@ -19,9 +19,9 @@ import {
 import { motion } from "framer-motion";
 import Navigation from "./Navigation";
 import { useMediaPredicate } from "react-media-hook";
-import Add from "./Add";
+import AddContainer from "../../core/modals/add/AddContainer";
 import { HiOutlineDotsVertical as Dots } from "react-icons/hi";
-import LayoutDrawer from "../Input/LayoutDrawer";
+import Layout from "../../core/drawers/Layout";
 import AddMultipleCasesModal from "./AddMultipleCasesModal";
 import LoadLayoutToAllModal from "./LoadLayoutToAllModal";
 import { AddIcon, DownloadIcon } from "@chakra-ui/icons";
@@ -30,8 +30,8 @@ import {
   CgLayoutList,
   FaUpload,
 } from "react-icons/all";
-import DownloadModal from "./DownloadModal";
-import UploadOutputModal from "./UploadOutputModal";
+import OutDownload from "../../core/modals/download/OutDownload";
+import OutUpload from "../../core/modals/download/OutUpload";
 import { useStoreState } from "../../../Redux/Store";
 
 interface PropTypes {
@@ -153,12 +153,12 @@ const Sidebar = (props: PropTypes) => {
                 </MenuItem>
               </MenuList>
             </Menu>
-            <Add isOpen={isOpenAdd} onClose={onCloseAdd} />
+            <AddContainer isOpen={isOpenAdd} onClose={onCloseAdd} />
             <AddMultipleCasesModal
               isOpen={isOpenMultiple}
               onClose={onCloseMultiple}
             />
-            <LayoutDrawer
+            <Layout
               isOpen={isOpenLayout}
               onClose={onCloseLayout}
               displayWritingButton
@@ -167,8 +167,8 @@ const Sidebar = (props: PropTypes) => {
               isOpen={isOpenLoadAll}
               onClose={onCloseLoadAll}
             />
-            <DownloadModal isOpen={isOpenDownload} onClose={onCloseDownload} />
-            <UploadOutputModal isOpen={isOpenUpload} onClose={onCloseUpload} />
+            <OutDownload isOpen={isOpenDownload} onClose={onCloseDownload} />
+            <OutUpload isOpen={isOpenUpload} onClose={onCloseUpload} />
           </Flex>
           <Divider />
           <Navigation />

@@ -15,15 +15,15 @@ import {
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
-import AddCaseModal from "./AddCaseModal";
-import AddGroupModal from "./AddGroupModal";
+import AddCase from "./AddCase";
+import AddGroup from "./AddGroup";
 
 interface PropTypes {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const Add = ({ isOpen, onClose }: PropTypes) => {
+const AddContainer = ({ isOpen, onClose }: PropTypes) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -38,10 +38,10 @@ const Add = ({ isOpen, onClose }: PropTypes) => {
             </TabList>
             <TabPanels>
               <TabPanel>
-                <AddCaseModal onClose={onClose} />
+                <AddCase onClose={onClose} />
               </TabPanel>
               <TabPanel>
-                <AddGroupModal onClose={onClose} />
+                <AddGroup onClose={onClose} />
               </TabPanel>
             </TabPanels>
           </Tabs>
@@ -51,4 +51,4 @@ const Add = ({ isOpen, onClose }: PropTypes) => {
   );
 };
 
-export default Add;
+export default AddContainer;

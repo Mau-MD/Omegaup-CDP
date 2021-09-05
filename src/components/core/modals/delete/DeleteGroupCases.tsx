@@ -10,26 +10,29 @@ import {
   ModalOverlay,
   useToast,
 } from "@chakra-ui/react";
-import { useStoreActions } from "../../../Redux/Store";
+import { useStoreActions } from "../../../../Redux/Store";
 
 interface PropTypes {
   isOpen: boolean;
   onClose: () => void;
   groupId: string;
+  groupName: string;
 }
 
-const DeleteGroup = (props: PropTypes) => {
-  const { isOpen, onClose, groupId } = props;
+const DeleteGroupCases = (props: PropTypes) => {
+  const { isOpen, onClose, groupId, groupName } = props;
 
   const toast = useToast();
 
-  const removeGroup = useStoreActions((actions) => actions.cases.removeGroup);
+  const removeGroup = useStoreActions(
+    (actions) => actions.cases.removeGroupCases
+  );
   const setSelected = useStoreActions((actions) => actions.cases.setSelected);
 
   function deleteGroup() {
     toast({
-      title: "Grupo borrado",
-      description: "El grupo ha sido borrado exitosamente",
+      title: "Casos borrado",
+      description: "Los casos del grupo han sido borrado exitosamente",
       status: "success",
       isClosable: true,
     });
@@ -43,11 +46,11 @@ const DeleteGroup = (props: PropTypes) => {
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Borar Grupo</ModalHeader>
+        <ModalHeader>Borar Casos de {groupName}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          ¿Estás seguro que deseas borrar este grupo? Este cambio no se puede
-          deshacer
+          ¿Estás seguro que deseas borrar TODOS los casos de {groupName}? Este
+          cambio no se puede deshacer
         </ModalBody>
         <ModalFooter>
           <Button variant={"ghost"} mr={3} onClick={onClose}>
@@ -58,7 +61,7 @@ const DeleteGroup = (props: PropTypes) => {
             type={"submit"}
             onClick={() => deleteGroup()}
           >
-            Borrar Grupo
+            Borrar Casos
           </Button>
         </ModalFooter>
       </ModalContent>
@@ -66,4 +69,4 @@ const DeleteGroup = (props: PropTypes) => {
   );
 };
 
-export default DeleteGroup;
+export default DeleteGroupCases;

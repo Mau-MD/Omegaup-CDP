@@ -18,9 +18,9 @@ import _ from "lodash";
 import * as React from "react";
 import { uuid } from "uuidv4";
 import { useStoreActions, useStoreState } from "../../../Redux/Store";
-import LayoutLines from "./LayoutLines";
+import LayoutLines from "../../Cases/Input/LayoutLines";
 import { useRef } from "react";
-import WritingDrawer from "./WritingDrawer";
+import Writing from "./Writing";
 
 interface PropTypes {
   isOpen: boolean;
@@ -28,7 +28,7 @@ interface PropTypes {
   placement?: "right" | "left";
   displayWritingButton?: boolean;
 }
-const LayoutDrawer = (props: PropTypes) => {
+const Layout = (props: PropTypes) => {
   const {
     isOpen,
     onClose,
@@ -113,9 +113,9 @@ const LayoutDrawer = (props: PropTypes) => {
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
-      <WritingDrawer isOpen={isOpenWriting} onClose={onCloseWriting} />
+      <Writing isOpen={isOpenWriting} onClose={onCloseWriting} />
     </>
   );
 };
 
-export default LayoutDrawer;
+export default Layout;

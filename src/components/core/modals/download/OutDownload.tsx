@@ -26,13 +26,13 @@ import {
   useColorModeValue,
   TabPanels,
 } from "@chakra-ui/react";
-import { languages } from "../../Solution/SolutionMainWindow";
+import { languages } from "../../../Solution/SolutionMainWindow";
 import { useState } from "react";
 import ReactAce from "react-ace";
 import "ace-builds/src-noconflict/theme-tomorrow";
 import "ace-builds/src-noconflict/theme-monokai";
-import { useStoreState } from "../../../Redux/Store";
-import { downloadAllGroups } from "../../../Util/FileIO/download";
+import { useStoreState } from "../../../../Redux/Store";
+import { downloadAllGroups } from "../../../../Util/FileIO/download";
 
 languages.forEach((language) => {
   require(`ace-builds/src-noconflict/mode-${language.ace}`);
@@ -109,7 +109,7 @@ interface PropTypes {
   onClose: () => void;
 }
 
-const DownloadModal = (props: PropTypes) => {
+const OutDownload = (props: PropTypes) => {
   const { isOpen, onClose } = props;
 
   const [languageIndex, setLanguage] = useState(0);
@@ -228,4 +228,4 @@ const DownloadModal = (props: PropTypes) => {
   );
 };
 
-export default DownloadModal;
+export default OutDownload;

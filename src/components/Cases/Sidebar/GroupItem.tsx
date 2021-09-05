@@ -25,9 +25,9 @@ import CaseItem from "./CaseItem";
 import { useStoreState } from "../../../Redux/Store";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import EditGroup from "./EditGroup";
+import EditGroupContainer from "../../core/modals/edit/EditGroupContainer";
 import { IGroup } from "../../../Redux/Models/CasesModel";
-import DeleteGroup from "./DeleteGroup";
+import DeleteGroup from "../../core/modals/delete/DeleteGroup";
 import {
   ChevronDownIcon,
   ChevronUpIcon,
@@ -36,7 +36,7 @@ import {
   EditIcon,
 } from "@chakra-ui/icons";
 import { downloadSingleGroup } from "../../../Util/FileIO/download";
-import DeleteGroupCases from "./DeleteGroupCases";
+import DeleteGroupCases from "../../core/modals/delete/DeleteGroupCases";
 
 interface PropTypes extends IGroup {}
 
@@ -167,7 +167,11 @@ const GroupItem = (props: PropTypes) => {
               </MenuItem>
             </MenuList>
           </Menu>
-          <EditGroup {...props} isOpen={isOpenEdit} onClose={onCloseEdit} />
+          <EditGroupContainer
+            {...props}
+            isOpen={isOpenEdit}
+            onClose={onCloseEdit}
+          />
           <DeleteGroup
             isOpen={isOpenRemove}
             onClose={onCloseRemove}

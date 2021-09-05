@@ -14,9 +14,9 @@ import {
   MenuList,
   MenuDivider,
 } from "@chakra-ui/react";
-import EditCase from "../Sidebar/EditCase";
+import EditCaseContainer from "../../core/modals/edit/EditCaseContainer";
 import { HiOutlineDotsVertical as Dots } from "react-icons/hi";
-import DeleteItem from "../Sidebar/DeleteItem";
+import DeleteCase from "../../core/modals/delete/DeleteCase";
 import { useSelectedData } from "../../../Hooks/useSelectedData";
 import { ICase } from "../../../Redux/Models/CasesModel";
 import {
@@ -30,8 +30,8 @@ import {
 } from "react-icons/all";
 import { ChangeEvent } from "react";
 import { useStoreActions, useStoreState } from "../../../Redux/Store";
-import DeleteLinesModal from "./DeleteLinesModal";
-import LayoutDrawer from "./LayoutDrawer";
+import DeleteLinesModal from "../../core/modals/delete/DeleteLinesModal";
+import Layout from "../../core/drawers/Layout";
 import { uuid } from "uuidv4";
 import _ from "lodash";
 import { DeleteIcon, DownloadIcon, EditIcon } from "@chakra-ui/icons";
@@ -198,8 +198,12 @@ const TopBar = (props: PropTypes) => {
           </MenuList>
         </Menu>
       </HStack>
-      <EditCase isOpen={isOpenEdit} onClose={onCloseEdit} {...caseData} />
-      <DeleteItem
+      <EditCaseContainer
+        isOpen={isOpenEdit}
+        onClose={onCloseEdit}
+        {...caseData}
+      />
+      <DeleteCase
         isOpen={isOpenRemove}
         onClose={onCloseRemove}
         groupId={caseData.groupId}

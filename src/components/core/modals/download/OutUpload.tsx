@@ -24,13 +24,13 @@ import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { AiFillFileZip, FaFileImport } from "react-icons/all";
 import { DeleteIcon } from "@chakra-ui/icons";
-import { readOutputZip } from "../../../Util/FileIO/upload";
+import { readOutputZip } from "../../../../Util/FileIO/upload";
 
 interface PropTypes {
   isOpen: boolean;
   onClose: () => void;
 }
-const UploadOutputModal = (props: PropTypes) => {
+const OutUpload = (props: PropTypes) => {
   const { isOpen, onClose } = props;
 
   const [, forceRender] = useState({});
@@ -138,4 +138,4 @@ const UploadOutputModal = (props: PropTypes) => {
   );
 };
 
-export default UploadOutputModal;
+export default OutUpload;

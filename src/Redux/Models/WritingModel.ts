@@ -1,5 +1,5 @@
 import { action, Action } from "easy-peasy";
-import { splitBetweenTwo } from "../../Components/Writing/Markdown/Parser";
+import { splitBetweenTwo } from "../../components/Writing/Markdown/Parser";
 
 function makeAll(state: any) {
   return (

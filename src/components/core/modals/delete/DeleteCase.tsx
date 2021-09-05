@@ -10,7 +10,7 @@ import {
   ModalOverlay,
   useToast,
 } from "@chakra-ui/react";
-import { useStoreActions } from "../../../Redux/Store";
+import { useStoreActions } from "../../../../Redux/Store";
 
 interface PropTypes {
   isOpen: boolean;
@@ -19,7 +19,7 @@ interface PropTypes {
   caseId: string;
 }
 
-const DeleteItem = (props: PropTypes) => {
+const DeleteCase = (props: PropTypes) => {
   const { isOpen, onClose, groupId, caseId } = props;
 
   const toast = useToast();
@@ -70,4 +70,4 @@ const DeleteItem = (props: PropTypes) => {
   );
 };
 
-export default DeleteItem;
+export default DeleteCase;

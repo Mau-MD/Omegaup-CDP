@@ -23,7 +23,7 @@ import {
 import "../../Writing/Markdown/MarkdownDark.css";
 import "../../Writing/Markdown/MarkdownLight.css";
 import "../../Writing/Markdown/Markdown.css";
-import LayoutLines from "./LayoutLines";
+import LayoutLines from "../../Cases/Input/LayoutLines";
 import { parse } from "../../Writing/Markdown/Parser";
 import { useStoreState } from "../../../Redux/Store";
 
@@ -31,7 +31,7 @@ interface PropTypes {
   isOpen: boolean;
   onClose: () => void;
 }
-const WritingDrawer = (props: PropTypes) => {
+const Writing = (props: PropTypes) => {
   const { isOpen, onClose } = props;
 
   const markdownState = useStoreState((state) => state.writing.all);
@@ -60,4 +60,4 @@ const WritingDrawer = (props: PropTypes) => {
   );
 };
 
-export default WritingDrawer;
+export default Writing;

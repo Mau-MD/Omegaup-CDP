@@ -16,24 +16,22 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
-import { useStoreActions, useStoreState } from "../../../Redux/Store";
-import { ICase, IGroup } from "../../../Redux/Models/CasesModel";
+import { useStoreActions, useStoreState } from "../../../../Redux/Store";
+import { ICase } from "../../../../Redux/Models/CasesModel";
 import { uuid } from "uuidv4";
 
-interface PropTypes extends IGroup {
+interface PropTypes {
   onClose: () => void;
 }
 
-const AddGroupModal = (props: PropTypes) => {
-  const { groupId, name, points, defined, onClose, cases } = props;
+const AddGroup = ({ onClose }: PropTypes) => {
+  const [autoPoints, setAutoPoints] = useState(true);
 
-  const [autoPoints, setAutoPoints] = useState(!defined);
+  const groupName = useRef<string>("");
+  const points = useRef<number>(50);
+  const pointsDefined = useRef<boolean>(false);
 
-  const nameRef = useRef<string>(name);
-  const pointsRef = useRef<number>(points);
-  const definedRef = useRef<boolean>(defined);
-
-  const editGroup = useStoreActions((actions) => actions.cases.editGroup);
+  const addGroup = useStoreActions((actions) => actions.cases.addGroup);
   const groupData = useStoreState((state) => state.cases.data);
 
   const toast = useToast();
@@ -41,11 +39,11 @@ const AddGroupModal = (props: PropTypes) => {
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const validName = nameRef.current.toLowerCase().replaceAll(" ", "_");
+    const validName = groupName.current.toLowerCase().replaceAll(" ", "_");
 
     let isValid = true;
     groupData.forEach((groupElement) => {
-      if (groupElement.name === validName && validName !== name) {
+      if (groupElement.name === validName) {
         isValid = false;
         return;
       }
@@ -61,12 +59,12 @@ const AddGroupModal = (props: PropTypes) => {
       return;
     }
 
-    editGroup({
-      groupId: groupId,
-      points: pointsRef.current,
-      defined: definedRef.current,
+    addGroup({
+      groupId: uuid(),
       name: validName,
-      cases: cases,
+      points: points.current,
+      defined: pointsDefined.current,
+      cases: [],
     });
 
     onClose();
@@ -76,17 +74,13 @@ const AddGroupModal = (props: PropTypes) => {
     <form onSubmit={(e) => handleSubmit(e)}>
       <FormControl mt={3} isRequired>
         <FormLabel> Nombre del grupo</FormLabel>
-        <Input
-          onChange={(e) => (nameRef.current = e.target.value)}
-          defaultValue={name}
-        />
+        <Input onChange={(e) => (groupName.current = e.target.value)} />
         <FormHelperText>En minúsculas y sin espacios</FormHelperText>
       </FormControl>
       <FormControl mt={5}>
         <FormLabel> Puntaje </FormLabel>
         <NumberInput
-          defaultValue={points}
-          onChange={(e, valueAsNumber) => (pointsRef.current = valueAsNumber)}
+          onChange={(e, valueAsNumber) => (points.current = valueAsNumber)}
           min={0}
           max={100}
           isDisabled={autoPoints}
@@ -107,7 +101,7 @@ const AddGroupModal = (props: PropTypes) => {
           isChecked={autoPoints}
           onChange={() => {
             setAutoPoints(!autoPoints);
-            definedRef.current = autoPoints;
+            pointsDefined.current = autoPoints;
           }}
         >
           Puntaje automático
@@ -120,4 +114,4 @@ const AddGroupModal = (props: PropTypes) => {
   );
 };
 
-export default AddGroupModal;
+export default AddGroup;

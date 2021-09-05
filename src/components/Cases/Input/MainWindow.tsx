@@ -13,7 +13,7 @@ import InputWindow from "./InputWindow";
 import { useSelectedData } from "../../../Hooks/useSelectedData";
 import sloth from "../../../Assets/Images/sloth.png";
 
-const Input = () => {
+const MainWindow = () => {
   const selectedData = useSelectedData();
 
   return (
@@ -42,4 +42,4 @@ const Input = () => {
     </Box>
   );
 };
-export default Input;
+export default MainWindow;
