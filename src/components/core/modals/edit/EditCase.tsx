@@ -17,10 +17,10 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
-import { useStoreActions, useStoreState } from "../../../../Redux/Store";
-import { ICase, IGroup } from "../../../../Redux/Models/CasesModel";
+import { useStoreActions, useStoreState } from "../../../../redux/store";
+import { ICase, IGroup } from "../../../../redux/models/casesModel";
 import RSelect from "react-select";
-import chakraColors from "../../../../Util/chakraColors";
+import chakraColors from "../../../../libs/other/chakraColors";
 interface PropTypes extends ICase {
   onClose: () => void;
 }

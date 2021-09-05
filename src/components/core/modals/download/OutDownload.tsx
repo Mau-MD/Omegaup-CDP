@@ -26,13 +26,13 @@ import {
   useColorModeValue,
   TabPanels,
 } from "@chakra-ui/react";
-import { languages } from "../../../Solution/SolutionMainWindow";
+import { languages } from "../../../solution/SolutionWindow";
 import { useState } from "react";
 import ReactAce from "react-ace";
 import "ace-builds/src-noconflict/theme-tomorrow";
 import "ace-builds/src-noconflict/theme-monokai";
-import { useStoreState } from "../../../../Redux/Store";
-import { downloadAllGroups } from "../../../../Util/FileIO/download";
+import { useStoreState } from "../../../../redux/store";
+import { downloadAllGroups } from "../../../../libs/downloadUpload/downloadOut";
 
 languages.forEach((language) => {
   require(`ace-builds/src-noconflict/mode-${language.ace}`);

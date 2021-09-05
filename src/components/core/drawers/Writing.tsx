@@ -20,12 +20,12 @@ import {
   useCallback,
 } from "react";
 
-import "../../Writing/Markdown/MarkdownDark.css";
-import "../../Writing/Markdown/MarkdownLight.css";
-import "../../Writing/Markdown/Markdown.css";
-import LayoutLines from "../../Cases/Input/LayoutLines";
-import { parse } from "../../Writing/Markdown/Parser";
-import { useStoreState } from "../../../Redux/Store";
+import "../../../libs/markdown/MarkdownDark.css";
+import "../../../libs/markdown/MarkdownLight.css";
+import "../../../libs/markdown/Markdown.css";
+import Lines from "./layout/Lines";
+import { parse } from "../../../libs/markdown/Parser";
+import { useStoreState } from "../../../redux/store";
 
 interface PropTypes {
   isOpen: boolean;

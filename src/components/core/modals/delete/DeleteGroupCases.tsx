@@ -10,7 +10,7 @@ import {
   ModalOverlay,
   useToast,
 } from "@chakra-ui/react";
-import { useStoreActions } from "../../../../Redux/Store";
+import { useStoreActions } from "../../../../redux/store";
 
 interface PropTypes {
   isOpen: boolean;

@@ -28,10 +28,10 @@ import {
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { caseIdentifier, IArrayData } from "../../../Redux/Models/InputModel";
-import { useStoreActions } from "../../../Redux/Store";
-import LayoutLines from "../../Cases/Input/LayoutLines";
-import Layout from "./Layout";
+import { caseIdentifier, IArrayData } from "../../../redux/models/inputModel";
+import { useStoreActions } from "../../../redux/store";
+import Lines from "./layout/Lines";
+import LayoutContainer from "./layout/LayoutContainer";
 import Writing from "./Writing";
 import {
   AiOutlineEye,
@@ -312,7 +312,7 @@ const ArrayGen = (props: PropTypes) => {
           </form>
         </DrawerContent>
       </Drawer>
-      <Layout
+      <LayoutContainer
         isOpen={isOpenLayout}
         onClose={onCloseLayout}
         placement={"left"}

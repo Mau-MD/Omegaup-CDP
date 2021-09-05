@@ -24,7 +24,7 @@ import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { AiFillFileZip, FaFileImport } from "react-icons/all";
 import { DeleteIcon } from "@chakra-ui/icons";
-import { readOutputZip } from "../../../../Util/FileIO/upload";
+import { readOutputZip } from "../../../../libs/downloadUpload/uploadOut";
 
 interface PropTypes {
   isOpen: boolean;

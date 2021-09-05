@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.Scanner;
 
-public class Main {
+public class CasesWindow {
 
 	public static void main(String[] args) throws FileNotFoundException {
 		final String GRUPO = "sin_grupo/"; // sin_grupo/, easy/, ...

@@ -15,11 +15,11 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useRef, useState } from "react";
-import { useStoreActions, useStoreState } from "../../../../Redux/Store";
+import { useStoreActions, useStoreState } from "../../../../redux/store";
 import RSelect from "react-select";
 import { uuid } from "uuidv4";
-import chakraColors from "../../../../Util/chakraColors";
-import ReactSelectDark from "../../../External/ReactSelectDark";
+import chakraColors from "../../../../libs/other/chakraColors";
+import ReactSelectDark from "../../ReactSelectDark";
 
 interface PropTypes {
   onClose: () => void;
