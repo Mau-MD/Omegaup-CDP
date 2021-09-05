@@ -21,7 +21,7 @@ const Out = () => {
 
   useEffect(() => {
     setOutTextValue(outData !== undefined ? outData : "");
-  }, [selected]);
+  }, [selected, outData]);
 
   function handleLockText() {
     setLocked(!locked);
