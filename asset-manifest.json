@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/Omegaup-CDP/static/css/main.21a24fc4.chunk.css",
-    "main.js": "/Omegaup-CDP/static/js/main.20aac1d7.chunk.js",
-    "main.js.map": "/Omegaup-CDP/static/js/main.20aac1d7.chunk.js.map",
+    "main.js": "/Omegaup-CDP/static/js/main.fadd7ade.chunk.js",
+    "main.js.map": "/Omegaup-CDP/static/js/main.fadd7ade.chunk.js.map",
     "runtime-main.js": "/Omegaup-CDP/static/js/runtime-main.66fdfa16.js",
     "runtime-main.js.map": "/Omegaup-CDP/static/js/runtime-main.66fdfa16.js.map",
     "static/css/2.d5be1d10.chunk.css": "/Omegaup-CDP/static/css/2.d5be1d10.chunk.css",
@@ -23,6 +23,6 @@
     "static/css/2.d5be1d10.chunk.css",
     "static/js/2.fafab11b.chunk.js",
     "static/css/main.21a24fc4.chunk.css",
-    "static/js/main.20aac1d7.chunk.js"
+    "static/js/main.fadd7ade.chunk.js"
   ]
 }
