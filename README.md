@@ -16,7 +16,7 @@ LayoutContainer principal
 ---
 ### ¿Qué es?
 
-omegaup CDP es una API el cual facilita y simplifica la creación de problemas para la plataforma [omegaUp](http://omegaup.com), mediante la implementación de una UI intuitiva y feautures útiles. 
+omegaUp CDP es una API el cual facilita y simplifica la creación de problemas para la plataforma [omegaUp](http://omegaup.com), mediante la implementación de una UI intuitiva y feautures útiles. 
 
 ### ¿Cuál es la necesidad?
 
