@@ -57,6 +57,7 @@ Al momento de crear un caso nuevo, se cargará automáticamente con este layout
 
 ### Edición Individual de Markdown
 Edición por `Descripcion`, `Problema`, `Entrada` y `Salida` en diferentes pestañas. De la misma manera se tiene la opción para editarlo todo en un solo cuadro de texto.
+
 ![imagen](https://user-images.githubusercontent.com/74751751/132111316-4b80d02d-8c2a-417b-8b91-0ac1e053b01d.png)
 
 ### Redacción del Markdown y del código de la solución
@@ -64,6 +65,7 @@ Edición por `Descripcion`, `Problema`, `Entrada` y `Salida` en diferentes pesta
 
 ### Generación de archivo `.out`.
 Descarga de los archivos `.in` con instrucciones detalladas para poder obtener el `.out` y subirlo nuevamente a `OmegaupCD`
+
 ![imagen](https://user-images.githubusercontent.com/74751751/132111337-0f90b7e0-60cb-4e78-90f9-1e3cbffc264c.png)
 
 ### Modo Oscuro Totalmente Compatible
