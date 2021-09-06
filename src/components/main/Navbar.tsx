@@ -17,7 +17,7 @@ import dark from "../../assets/images/logoDark.png";
 import light from "../../assets/images/logoLight.png";
 import { SettingsIcon } from "@chakra-ui/icons";
 import ConfigContainer from "../core/drawers/config/ConfigContainer";
-
+import {FaBug} from "react-icons/all";
 const Navbar = () => {
   const logo = useColorModeValue(light, dark);
 
@@ -52,6 +52,28 @@ const Navbar = () => {
           </Box>
           <Box>
             <ColorModeSwitcher />
+          </Box>
+          <Box>
+            <Tooltip
+              label={"Reporta bugs"}
+              aria-label={"bugs"}
+            >
+              <a
+                href="https://github.com/Mau-MD/Omegaup-CDP/issues"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                <IconButton
+                  ml={2}
+                  size="md"
+                  fontSize="lg"
+                  variant="ghost"
+                  color="current"
+                  aria-label={"settings"}
+                  icon={<FaBug/>}
+                />
+              </a>
+            </Tooltip>
           </Box>
           <Box>
             <Tooltip
