@@ -1,8 +1,10 @@
 import { useStoreState } from "../redux/store";
 import { useEffect, useState } from "react";
-import { ICase } from "../redux/models/cases/casesModel";
+import { ICase } from "../redux/models/cases/casesInterfaces";
 
+// Gets the data of the selected case
 export const useSelectedData = () => {
+
   const emptyObject: ICase = {
     name: "None",
     caseId: "None",

@@ -1,6 +1,7 @@
 import { useStoreState } from "../redux/store";
 import { useState, useEffect } from "react";
 
+// Returns the markdown state divided in different part
 export const useWriting = () => {
   const [markdownState, setMarkdownState] = useState<string[]>([]);
 
@@ -12,7 +13,6 @@ export const useWriting = () => {
   const limits = useStoreState((state) => state.writing.limits);
 
   useEffect(() => {
-    //console.log("Changed");
     setMarkdownState([all, description, input, output, example, limits]);
   }, [all, description, input, output, example, limits]);
 

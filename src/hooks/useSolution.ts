@@ -1,6 +1,7 @@
 import { useStoreState } from "../redux/store";
 import { useEffect, useState } from "react";
 
+// Returns the solution data (code value, selected language and solution markdown value)
 export const useSolution = () => {
   const [codeValue, setCodeValue] = useState<string | undefined>(undefined);
   const [langValue, setLangValue] = useState<number | undefined>(undefined);
