@@ -1,36 +1,12 @@
 import { action, Action, Computed, computed, thunk, Thunk } from "easy-peasy";
-import { uuid, empty } from "uuidv4";
-import Store from "../store";
-
-export interface IGroup {
-  groupId: string;
-  name: string;
-  points: number;
-  defined: boolean;
-  cases: ICase[];
-}
-
-export interface ICase {
-  caseId: string;
-  name: string;
-  groupId: string;
-  points: number;
-  defined: boolean;
-}
-
-interface caseIndentifier {
-  groupId: string;
-  caseId: string;
-}
-
-interface Index {
-  groupIndex: number;
-  caseIndex: number;
-}
+import { empty } from "uuidv4";
+import {caseIdentifier} from "../input/inputModel"
+import {ICase, IGroup, Index} from "./casesInterfaces";
+import {calculatePoints} from "./casesLogic";
 
 export interface ICasesModel {
   data: IGroup[];
-  selected: caseIndentifier;
+  selected: caseIdentifier;
   selectedIndex: Index;
   lastState: IGroup[];
   lastIndex: Action<ICasesModel>;
@@ -50,51 +26,9 @@ export interface ICasesModel {
 
   addCase: Action<ICasesModel, ICase>;
   editCase: Action<ICasesModel, { case: ICase; lastId: string }>;
-  removedCase: Action<ICasesModel, caseIndentifier>;
-  removeCase: Thunk<ICasesModel, caseIndentifier>;
-  setSelected: Action<ICasesModel, caseIndentifier>;
-}
-
-function calculatePoints(state: IGroup[]) {
-  let maxPoints = 100;
-  let notDefinedCount = 0;
-
-  state.forEach((element) => {
-    if (element.name === "sin_grupo") {
-      element.cases.forEach((caseElement) => {
-        if (caseElement.defined) {
-          maxPoints -= caseElement.points ? caseElement.points : 0;
-        } else {
-          notDefinedCount++;
-        }
-      });
-    } else {
-      if (element.defined) {
-        maxPoints -= element.points ? element.points : 0;
-      } else {
-        notDefinedCount++;
-      }
-    }
-  });
-
-  let individualPoints = maxPoints / notDefinedCount;
-
-  state = state.map((element) => {
-    if (element.name === "sin_grupo") {
-      element.cases = element.cases.map((caseElement) => {
-        if (!caseElement.defined) {
-          caseElement.points = individualPoints;
-        }
-        return caseElement;
-      });
-    }
-    if (!element.defined) {
-      element.points = individualPoints;
-    }
-    return element;
-  });
-
-  return state;
+  removedCase: Action<ICasesModel, caseIdentifier>;
+  removeCase: Thunk<ICasesModel, caseIdentifier>;
+  setSelected: Action<ICasesModel, caseIdentifier>;
 }
 
 const CasesModel = {
@@ -122,7 +56,6 @@ const CasesModel = {
       state.selectedIndex = { groupIndex: 0, caseIndex: -1 };
       return;
     }
-    // Tengo que buscar su index
     const groupIndex = state.data.findIndex(
       (groupElement) => groupElement.groupId === payload.groupId
     );
@@ -131,9 +64,9 @@ const CasesModel = {
     );
     state.selectedIndex = { groupIndex, caseIndex };
   }),
+  // Selects the previous case
   lastIndex: action((state) => {
     let { groupIndex, caseIndex } = state.selectedIndex;
-    console.log(groupIndex, caseIndex);
     caseIndex--;
     // Ensure that we are not selecting a case that doesn't exist in that group
     while (caseIndex < 0) {
@@ -143,11 +76,11 @@ const CasesModel = {
       }
       caseIndex = state.data[groupIndex].cases.length - 1;
     }
-    // Ensure we are not selecting a group that doens't exist
     const { groupId, caseId } = state.data[groupIndex].cases[caseIndex];
     state.selected = { groupId, caseId };
     state.selectedIndex = { groupIndex, caseIndex };
   }),
+  // Selectes the next case
   nextIndex: action((state) => {
     let { groupIndex, caseIndex } = state.selectedIndex;
     console.log(groupIndex, caseIndex);
@@ -161,11 +94,11 @@ const CasesModel = {
         caseIndex = 0;
       }
     }
-    // Ensure we are not selecting a group that doens't exist
     const { groupId, caseId } = state.data[groupIndex].cases[caseIndex];
     state.selected = { groupId, caseId };
     state.selectedIndex = { groupIndex, caseIndex };
   }),
+  // Calculate selected data based on a groupId and a caseId
   selectedData: computed((state) => {
     return (groupId, caseId) => {
       const groupState = state.data.find(
@@ -197,6 +130,7 @@ const CasesModel = {
 
     state.data = calculatePoints(state.data);
   }),
+  // Removes a group based on a groupId
   removedGroup: action((state, payload) => {
     state.data = state.data.filter((element) => {
       // Eliminamos del InputStore todos los hijos del grupo
@@ -204,6 +138,7 @@ const CasesModel = {
     });
     state.data = calculatePoints(state.data);
   }),
+  // Helper function that removes a group and also removes the Input Page of all cases associated with it
   removeGroup: thunk((actions, payload, helper) => {
     const groupData = helper
       .getState()
@@ -218,6 +153,7 @@ const CasesModel = {
     });
     actions.removedGroup(payload);
   }),
+  // Function that removes all the cases inside the group
   removedGroupCases: action((state, payload) => {
     const groupData = state.data.find((element) => element.groupId === payload);
     if (groupData !== undefined) {
@@ -225,6 +161,8 @@ const CasesModel = {
     }
     state.data = calculatePoints(state.data);
   }),
+  /* Helper function that removes all the cases inside the group and also removes the Input Page of all the
+  cases that are on the group */
   removeGroupCases: thunk((actions, payload, helper) => {
     const groupData = helper
       .getState()
@@ -280,6 +218,7 @@ const CasesModel = {
     state.data = calculatePoints(state.data);
   }),
 
+  // Function that removes a case based on a caseIdentifier
   removedCase: action((state, payload) => {
     const groupState = state.data.find(
       (groupElement) => groupElement.groupId === payload.groupId
@@ -292,6 +231,7 @@ const CasesModel = {
     }
     state.data = calculatePoints(state.data);
   }),
+  // Helper function that removes a case and also removes the input page associated with it
   removeCase: thunk((actions, payload, helper) => {
     actions.removedCase(payload);
     // @ts-ignore

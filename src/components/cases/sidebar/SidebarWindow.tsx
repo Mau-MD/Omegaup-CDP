@@ -34,10 +34,12 @@ import OutDownload from "../../core/modals/download/OutDownload";
 import OutUpload from "../../core/modals/download/OutUpload";
 import { useStoreState } from "../../../redux/store";
 
+
 interface PropTypes {
-  addRef: React.RefObject<HTMLButtonElement>;
+  addRef: React.RefObject<HTMLButtonElement>; // To toggle "Add" shorcut from the main screen
 }
 const SidebarWindow = (props: PropTypes) => {
+
   const { addRef } = props;
 
   const divBorderColor = useColorModeValue("gray.200", "gray.600");
@@ -48,31 +50,26 @@ const SidebarWindow = (props: PropTypes) => {
     onOpen: onOpenAdd,
     onClose: onCloseAdd,
   } = useDisclosure();
-
   const {
     isOpen: isOpenLayout,
     onOpen: onOpenLayout,
     onClose: onCloseLayout,
   } = useDisclosure();
-
   const {
     isOpen: isOpenLoadAll,
     onOpen: onOpenLoadAll,
     onClose: onCloseLoadAll,
   } = useDisclosure();
-
   const {
     isOpen: isOpenMultiple,
     onOpen: onOpenMultiple,
     onClose: onCloseMultiple,
   } = useDisclosure();
-
   const {
     isOpen: isOpenDownload,
     onOpen: onOpenDownload,
     onClose: onCloseDownload,
   } = useDisclosure();
-
   const {
     isOpen: isOpenUpload,
     onOpen: onOpenUpload,
@@ -153,6 +150,7 @@ const SidebarWindow = (props: PropTypes) => {
                 </MenuItem>
               </MenuList>
             </Menu>
+            {/* Modals and drawers */}
             <AddContainer isOpen={isOpenAdd} onClose={onCloseAdd} />
             <AddMultipleCases
               isOpen={isOpenMultiple}

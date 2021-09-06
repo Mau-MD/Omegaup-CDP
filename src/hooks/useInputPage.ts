@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { caseIdentifier, IInput, ILine } from "../redux/models/inputModel";
+import { caseIdentifier, IInput, ILine } from "../redux/models/input/inputModel";
 import { useStoreActions, useStoreState } from "../redux/store";
-import { ICase } from "../redux/models/casesModel";
+import { ICase } from "../redux/models/cases/casesModel";
 import _ from "lodash";
 import { uuid } from "uuidv4";
 

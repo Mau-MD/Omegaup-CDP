@@ -28,7 +28,6 @@ const OutWindow = () => {
   }
 
   function handleUpdateOut(e: React.FocusEvent<HTMLTextAreaElement>) {
-    //console.log(e);
     setOut({ caseIdentifier: selected, outData: e.target.value });
   }
 

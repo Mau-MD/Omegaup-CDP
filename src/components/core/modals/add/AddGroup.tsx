@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { useStoreActions, useStoreState } from "../../../../redux/store";
-import { ICase } from "../../../../redux/models/casesModel";
+import { ICase } from "../../../../redux/models/cases/casesModel";
 import { uuid } from "uuidv4";
 
 interface PropTypes {

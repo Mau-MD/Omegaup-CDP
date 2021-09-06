@@ -33,7 +33,7 @@ import {
   caseIdentifier,
   IArrayData,
   IMatrixData,
-} from "../../../redux/models/inputModel";
+} from "../../../redux/models/input/inputModel";
 import { useStoreActions } from "../../../redux/store";
 import Lines from "./layout/Lines";
 import LayoutContainer from "./layout/LayoutContainer";

@@ -12,7 +12,7 @@ import {
 import * as React from "react";
 import { useRef, useState } from "react";
 import { DraggableProvided } from "react-beautiful-dnd";
-import { ILine } from "../../../../redux/models/inputModel";
+import { ILine } from "../../../../redux/models/input/inputModel";
 import { useStoreActions } from "../../../../redux/store";
 
 interface PropTypes extends ILine {

@@ -18,7 +18,7 @@ import EditCaseContainer from "../../core/modals/edit/EditCaseContainer";
 import { HiOutlineDotsVertical as Dots } from "react-icons/hi";
 import DeleteCase from "../../core/modals/delete/DeleteCase";
 import { useSelectedData } from "../../../hooks/useSelectedData";
-import { ICase } from "../../../redux/models/casesModel";
+import { ICase } from "../../../redux/models/cases/casesModel";
 import {
   BiDuplicate,
   BiUpload,

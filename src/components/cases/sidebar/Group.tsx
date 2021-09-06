@@ -26,7 +26,7 @@ import { useStoreState } from "../../../redux/store";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import EditGroupContainer from "../../core/modals/edit/EditGroupContainer";
-import { IGroup } from "../../../redux/models/casesModel";
+import { IGroup } from "../../../redux/models/cases/casesModel";
 import DeleteGroup from "../../core/modals/delete/DeleteGroup";
 import {
   ChevronDownIcon,
@@ -44,15 +44,15 @@ const Group = (props: PropTypes) => {
   const { name, defined, points, groupId, cases } = props;
   const [showCases, setShowCases] = useState(name === "sin_grupo");
 
-  const borderColor = useColorModeValue("gray.200", "gray.600");
+
   const caseState = useStoreState((state) => {
     return state.cases.data.find((element) => element.groupId === groupId);
   });
-
   const inputData = useStoreState((state) => state.input.data);
   const problemName = useStoreState((state) => state.title.titleName);
 
   const isLargeScreen = useMediaPredicate("(min-width: 830px)");
+  const borderColor = useColorModeValue("gray.200", "gray.600");
 
   const {
     isOpen: isOpenEdit,
@@ -70,6 +70,7 @@ const Group = (props: PropTypes) => {
     onClose: onCloseRemoveCases,
   } = useDisclosure();
 
+  // This is necessary because otherwise it will toggle when the user clicks on the 3-dots/ menu button
   function handleCasesToggleClick(event: React.MouseEvent<HTMLDivElement>) {
     let percentage =
       ((event.pageX - event.currentTarget.offsetLeft) * 100) /
@@ -167,6 +168,8 @@ const Group = (props: PropTypes) => {
               </MenuItem>
             </MenuList>
           </Menu>
+
+          {/* Modals / Drawers */}
           <EditGroupContainer
             {...props}
             isOpen={isOpenEdit}

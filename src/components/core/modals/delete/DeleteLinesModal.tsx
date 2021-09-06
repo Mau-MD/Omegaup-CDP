@@ -9,7 +9,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 import * as React from "react";
-import { caseIdentifier } from "../../../../redux/models/inputModel";
+import { caseIdentifier } from "../../../../redux/models/input/inputModel";
 import { useStoreActions } from "../../../../redux/store";
 
 interface PropTypes {

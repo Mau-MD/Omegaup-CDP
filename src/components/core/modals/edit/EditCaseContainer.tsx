@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import AddCase from "../add/AddCase";
 import AddGroup from "../add/AddGroup";
-import { ICase, IGroup } from "../../../../redux/models/casesModel";
+import { ICase, IGroup } from "../../../../redux/models/cases/casesModel";
 import EditGroupModal from "./EditGroup";
 import EditCase from "./EditCase";
 

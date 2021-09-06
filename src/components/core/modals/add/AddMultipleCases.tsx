@@ -34,7 +34,7 @@ import ReactSelectDark from "../../ReactSelectDark";
 import { useStoreActions, useStoreState } from "../../../../redux/store";
 import { uuid } from "uuidv4";
 import { CheckIcon } from "@chakra-ui/icons";
-import { IGroup } from "../../../../redux/models/casesModel";
+import { IGroup } from "../../../../redux/models/cases/casesModel";
 
 interface PropTypes {
   isOpen: boolean;

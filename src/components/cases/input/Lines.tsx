@@ -2,7 +2,7 @@ import * as React from "react";
 import Line from "./Line";
 import { Box, Button, Center, Flex, VStack } from "@chakra-ui/react";
 import { useStoreActions, useStoreState } from "../../../redux/store";
-import { ICase } from "../../../redux/models/casesModel";
+import { ICase } from "../../../redux/models/cases/casesModel";
 import { useInputPage } from "../../../hooks/useInputPage";
 import { useCallback, useEffect, useMemo } from "react";
 import { uuid } from "uuidv4";
@@ -12,19 +12,20 @@ import {
   Droppable,
   DropResult,
 } from "react-beautiful-dnd";
-import { useState } from "react";
-import { ILine } from "../../../redux/models/inputModel";
 
 interface PropTypes {
-  groupName: string;
+  groupName?: string;
   caseData: ICase;
 }
+
 const Lines = (props: PropTypes) => {
-  const { groupName, caseData } = props;
+  const { caseData } = props;
 
   const hidden = useStoreState((state) => state.input.hidden);
+
   const addLine = useStoreActions((action) => action.input.addLine);
   const setLines = useStoreActions((action) => action.input.setLines);
+
   const { pageData, setPageData } = useInputPage(caseData);
 
   const caseIdentifier = { groupId: caseData.groupId, caseId: caseData.caseId };

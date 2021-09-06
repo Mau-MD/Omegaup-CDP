@@ -1,11 +1,11 @@
-import title, { ITitleModel } from "./models/titleModel";
-import cases, { ICasesModel } from "./models/casesModel";
-import input, { IInputModel } from "./models/inputModel";
-import writing, { IWritingModel } from "./models/writingModel";
-import solution, { ISolutionModel } from "./models/solutionModel";
-import tabs, { ITabsModel } from "./models/tabsModel";
-import util, { IUtilModel } from "./models/utilModel";
-import config, { IConfigModel } from "./models/configModel";
+import title, { ITitleModel } from "./models/title/titleModel";
+import cases, { ICasesModel } from "./models/cases/casesModel";
+import input, { IInputModel } from "./models/input/inputModel";
+import writing, { IWritingModel } from "./models/writing/writingModel";
+import solution, { ISolutionModel } from "./models/solution/solutionModel";
+import tabs, { ITabsModel } from "./models/tabs/tabsModel";
+import util, { IUtilModel } from "./models/util/utilModel";
+import config, { IConfigModel } from "./models/config/configModel";
 
 import { createStore, createTypedHooks, persist } from "easy-peasy";
 

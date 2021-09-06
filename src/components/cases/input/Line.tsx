@@ -2,7 +2,6 @@ import * as React from "react";
 import {
   Input,
   Editable,
-  Flex,
   EditablePreview,
   EditableInput,
   Box,
@@ -14,22 +13,18 @@ import {
 import { DeleteIcon, DragHandleIcon, EditIcon } from "@chakra-ui/icons";
 import { useEffect, useRef, useState } from "react";
 import {
-  caseIdentifier as ICaseIdentifier,
+  caseIdentifier,
   ILine,
-} from "../../../redux/models/inputModel";
+} from "../../../redux/models/input/inputModel";
 import { useStoreActions, useStoreState } from "../../../redux/store";
 import _ from "lodash";
 import { DraggableProvided } from "react-beautiful-dnd";
 import ArrayGen from "../../core/drawers/ArrayGen";
 import MatrixGenDrawer from "../../core/drawers/MatrixGen";
 
-// TODO: Focus automatico al presionar enter
-// TODO: no deberia de mostrar nada si ninguna caso esta seleccionado
-// TODO: Al borrar caso/grupo deberia ir al modo no seleccionado
-
 interface PropTypes extends ILine {
   firstOrLast: "first" | "last" | "both" | "none";
-  caseIdentifier: ICaseIdentifier;
+  caseIdentifier: caseIdentifier;
   addLine: () => void;
   hide?: boolean;
   provided: DraggableProvided;
@@ -65,17 +60,19 @@ const Line = (props: PropTypes) => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  // Update store line everytime we change the line mode
   useEffect(() => {
     handleUpdateLine();
   }, [mode]);
 
+  // Focus line's input everytime we create a new line
   useEffect(() => {
     if (lastCreated === lineId) {
       inputRef.current.focus();
     }
   }, [lastCreated]);
 
-  // Un use effect para cuando se cambie de caso
+  // Focus first or last line based on current configuration, everytime we change case
   useEffect(() => {
     if (config.focus === "none") return;
     if (firstOrLast === config.focus || firstOrLast === "both") {
@@ -83,6 +80,7 @@ const Line = (props: PropTypes) => {
     }
   }, [selectedCase]);
 
+  // Update line to store
   function handleUpdateLine() {
     const label =
       labelRef.current !== null ? labelRef.current.children[0].innerHTML : "";
@@ -128,6 +126,7 @@ const Line = (props: PropTypes) => {
     });
   }
 
+  // Change what we render based on the line's mode
   function renderSwitch() {
     switch (mode) {
       case "multiline":
@@ -249,6 +248,5 @@ const Line = (props: PropTypes) => {
 
 // export default Line;
 export default React.memo(Line, (prevState, nextState) => {
-  //console.log(_.isEqual(prevState, nextState));
   return _.isEqual(prevState, nextState);
 });

@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { useStoreActions, useStoreState } from "../../../../redux/store";
-import { ICase, IGroup } from "../../../../redux/models/casesModel";
+import { ICase, IGroup } from "../../../../redux/models/cases/casesModel";
 import RSelect from "react-select";
 import chakraColors from "../../../../libs/other/chakraColors";
 interface PropTypes extends ICase {

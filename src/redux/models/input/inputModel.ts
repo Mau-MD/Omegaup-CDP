@@ -1,42 +1,7 @@
 import { action, Action, computed, Computed } from "easy-peasy";
 import _ from "lodash";
 import { uuid } from "uuidv4";
-
-export interface IArrayData {
-  size: number;
-  minValue: number;
-  maxValue: number;
-  distinct: boolean;
-  value: string;
-}
-
-export interface IMatrixData {
-  rows: number;
-  columns: number;
-  minValue: number;
-  maxValue: number;
-  distinct: "row" | "column" | "all" | "none";
-  value: string;
-}
-export interface ILine {
-  lineId: string;
-  type: "line" | "multiline" | "array" | "matrix";
-  label: string;
-  value: string;
-  arrayData: IArrayData | undefined;
-  matrixData: IMatrixData | undefined;
-}
-
-export interface IInput {
-  id: caseIdentifier;
-  lines: ILine[];
-  outData: string;
-}
-
-export interface caseIdentifier {
-  groupId: string;
-  caseId: string;
-}
+import {caseIdentifier, IArrayData, IInput, ILine, IMatrixData} from "./inputInterfaces";
 
 export interface IInputModel {
   data: IInput[];
@@ -100,15 +65,17 @@ const InputModel = {
   hidden: false,
   lastCreated: "",
 
+  // Adds a new Input Page
   addData: action((state, inputPage) => {
     state.data.push(inputPage);
   }),
+  // Removes an Input Page
   removeData: action((state, id) => {
     state.data = state.data.filter(
       (inputElement) => !_.isEqual(inputElement.id, id)
     );
-    // //console.log(state.data);
   }),
+  // Sets the Out information to the Input Page
   setOutData: action((state, payload) => {
     const lineGroup = state.data.find((inputElement) =>
       _.isEqual(inputElement.id, payload.caseIdentifier)
@@ -117,6 +84,7 @@ const InputModel = {
       lineGroup.outData = payload.outData;
     }
   }),
+  // Adds a line to a selected Input Page
   addLine: action((state, payload) => {
     const lineGroup = state.data.find((inputElement) =>
       _.isEqual(inputElement.id, payload.caseIdentifier)
@@ -124,6 +92,7 @@ const InputModel = {
     lineGroup?.lines.push(payload.line);
     state.lastCreated = payload.line.lineId;
   }),
+  // Overrides all the lines to a selected Input Page
   setLines: action((state, payload) => {
     const lineGroup = state.data.find((inputElement) =>
       _.isEqual(inputElement.id, payload.caseIdentifier)
@@ -133,6 +102,7 @@ const InputModel = {
       lineGroup.lines = payload.lineArray;
     }
   }),
+  // Removes a line of a selected Input Page
   removeLine: action((state, payload) => {
     const lineGroup = state.data.find((inputElement) =>
       _.isEqual(inputElement.id, payload.caseIdentifier)
@@ -143,6 +113,7 @@ const InputModel = {
       );
     }
   }),
+  // Removes all lines of a selected Input Page
   removeAllLines: action((state, payload) => {
     const lineGroup = state.data.find((inputElement) =>
       _.isEqual(payload, inputElement.id)
@@ -152,6 +123,7 @@ const InputModel = {
       lineGroup.lines = [];
     }
   }),
+  // Gets a specific line given the lineId and caseIdentifier
   lineData: computed((state) => {
     return (caseIdentifier, lineId) => {
       const lineGroup = state.data.find(
@@ -165,6 +137,7 @@ const InputModel = {
       if (line) return line;
     };
   }),
+  // Updates a single line
   updateLine: action((state, { caseIdentifier, lineId, lineData }) => {
     const lineGroup = state.data.find((inputElement) =>
       _.isEqual(inputElement.id, caseIdentifier)
@@ -178,6 +151,7 @@ const InputModel = {
       lineGroup.lines[lineIndex] = lineData;
     }
   }),
+  // Sets the Array Value of a line
   setLineArrayData: action((state, payload) => {
     const lineGroup = state.data.find((inputElement) =>
       _.isEqual(inputElement.id, payload.caseIdentifier)
@@ -191,6 +165,10 @@ const InputModel = {
       line.arrayData = payload.arrayData;
     }
   }),
+  /* Sets the Matrix Value of a line. Note: Array and Matrix values are stored in different places.
+     If you change to Array Mode, set the array data, change the mode to something different, and then
+     change again to Array Mode, the array information will be preserved.
+   */
   setLineMatrixData: action((state, payload) => {
     const lineGroup = state.data.find((inputElement) =>
       _.isEqual(inputElement.id, payload.caseIdentifier)
@@ -204,13 +182,18 @@ const InputModel = {
       line.matrixData = payload.matrixData;
     }
   }),
+
+  // Hidden mode where it doesn't show labels and drag options
   setHidden: action((state, hide) => {
     state.hidden = hide;
   }),
 
+  // Sets the global layout
   setLayout: action((state, layout) => {
     state.layout = layout;
   }),
+
+  // Sets the layout to all Input Pages
   setLayoutToAll: action((state) => {
     state.data.forEach((inputElement) => {
       if (state.layout !== undefined) {
@@ -221,9 +204,12 @@ const InputModel = {
       }
     });
   }),
+
+  // Adds a new line to the Layout
   addLayoutLine: action((state, payload) => {
     state.layout?.push(payload);
   }),
+
   updateLayoutLine: action((state, payload) => {
     const lineToUpdate = state.layout?.find(
       (lineElement) => lineElement.lineId === payload.lineId
@@ -239,6 +225,7 @@ const InputModel = {
     );
   }),
 
+  // Changes the group of a case to another one
   handleGroupChange: action((state, { caseId, newGroupId }) => {
     const inputPage = state.data.find(
       (inputElement) => inputElement.id.caseId === caseId

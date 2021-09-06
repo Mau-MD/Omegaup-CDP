@@ -28,7 +28,7 @@ import {
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { caseIdentifier, IArrayData } from "../../../redux/models/inputModel";
+import { caseIdentifier, IArrayData } from "../../../redux/models/input/inputModel";
 import { useStoreActions } from "../../../redux/store";
 import Lines from "./layout/Lines";
 import LayoutContainer from "./layout/LayoutContainer";

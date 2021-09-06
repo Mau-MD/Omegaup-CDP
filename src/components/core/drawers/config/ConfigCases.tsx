@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useStoreActions, useStoreState } from "../../../../redux/store";
-import { caseConfig } from "../../../../redux/models/configModel";
+import { caseConfig } from "../../../../redux/models/config/configModel";
 
 interface PropTypes {
   save: boolean;

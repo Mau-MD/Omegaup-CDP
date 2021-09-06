@@ -1,5 +1,5 @@
-import { IInput, IInputModel, ILine } from "../../redux/models/inputModel";
-import { IGroup } from "../../redux/models/casesModel";
+import { IInput, IInputModel, ILine } from "../../redux/models/input/inputModel";
+import { IGroup } from "../../redux/models/cases/casesModel";
 import { saveAs } from "file-saver";
 import JSZip from "jszip";
 

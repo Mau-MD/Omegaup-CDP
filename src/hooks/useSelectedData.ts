@@ -1,6 +1,6 @@
 import { useStoreState } from "../redux/store";
 import { useEffect, useState } from "react";
-import { ICase } from "../redux/models/casesModel";
+import { ICase } from "../redux/models/cases/casesModel";
 
 export const useSelectedData = () => {
   const emptyObject: ICase = {

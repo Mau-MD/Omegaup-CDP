@@ -4,7 +4,6 @@ import {
   Box,
   Center,
   Divider,
-  HStack,
   Image,
   Text,
   VStack,
@@ -14,6 +13,7 @@ import { useSelectedData } from "../../../hooks/useSelectedData";
 import sloth from "../../../assets/images/sloth.png";
 
 const InputWindow = () => {
+
   const selectedData = useSelectedData();
 
   return (

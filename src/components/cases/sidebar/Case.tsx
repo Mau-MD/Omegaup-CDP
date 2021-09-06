@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Badge, Button, HStack } from "@chakra-ui/react";
 import { useStoreActions, useStoreState } from "../../../redux/store";
-import { ICase } from "../../../redux/models/casesModel";
+import { ICase } from "../../../redux/models/cases/casesModel";
 
 interface PropTypes extends ICase {
   shouldShowPoints: boolean;
@@ -19,12 +19,8 @@ const Case = (props: PropTypes) => {
   function handleSelectedCase() {
     setSelectedCase({ caseId: caseId, groupId: groupId });
     if (config.goUp) {
-      handleGoUp();
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     }
-  }
-
-  function handleGoUp() {
-    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }
 
   return (

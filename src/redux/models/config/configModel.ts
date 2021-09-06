@@ -1,9 +1,5 @@
 import { Action, action } from "easy-peasy";
-
-export interface caseConfig {
-  focus: "first" | "last" | "none";
-  goUp: boolean;
-}
+import { caseConfig } from "./configInterfaces";
 
 export interface IConfigModel {
   caseConfig: caseConfig;
