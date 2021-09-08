@@ -16,26 +16,21 @@ import {
   FormControl,
   FormLabel,
   HStack,
-  Center,
-  Checkbox,
   Textarea,
-  FormErrorMessage,
-  FormHelperText,
   Spacer,
   Select,
   useDisclosure,
   Text,
 } from "@chakra-ui/react";
 import * as React from "react";
-import { useEffect, useRef, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   caseIdentifier,
   IArrayData,
   IMatrixData,
 } from "../../../redux/models/input/inputModel";
 import { useStoreActions } from "../../../redux/store";
-import Lines from "./layout/Lines";
 import LayoutContainer from "./layout/LayoutContainer";
 import Writing from "./Writing";
 import {

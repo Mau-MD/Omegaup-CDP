@@ -4,17 +4,11 @@ import {
   Button,
   Center,
   Flex,
-  FormControl,
-  FormLabel,
   HStack,
   Image,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
   NumberInput,
   NumberInputField,
-  NumberInputStepper,
   Select,
-  SelectField,
   Text,
   useColorModeValue,
   useToast,
@@ -33,7 +27,7 @@ import "../../libs/markdown/EditorStyles/react-mde-all.css";
 import "../../libs/aceStyles/darkTheme.css";
 
 import ReactMde from "react-mde";
-import { useRef, useState, useEffect, useLayoutEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import sloth from "../../assets/images/slothSad.png";
 import { useSolution } from "../../hooks/useSolution";
 import { useStoreActions, useStoreState } from "../../redux/store";

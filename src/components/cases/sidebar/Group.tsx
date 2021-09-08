@@ -26,7 +26,7 @@ import { useStoreState } from "../../../redux/store";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import EditGroupContainer from "../../core/modals/edit/EditGroupContainer";
-import { IGroup } from "../../../redux/models/cases/casesModel";
+import { IGroup } from "../../../redux/models/cases/casesInterfaces";
 import DeleteGroup from "../../core/modals/delete/DeleteGroup";
 import {
   ChevronDownIcon,
@@ -43,7 +43,6 @@ interface PropTypes extends IGroup {}
 const Group = (props: PropTypes) => {
   const { name, defined, points, groupId, cases } = props;
   const [showCases, setShowCases] = useState(name === "sin_grupo");
-
 
   const caseState = useStoreState((state) => {
     return state.cases.data.find((element) => element.groupId === groupId);

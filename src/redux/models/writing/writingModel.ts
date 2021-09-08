@@ -1,6 +1,5 @@
 import { action, Action } from "easy-peasy";
-import { splitBetweenTwo } from "../../../libs/markdown/Parser";
-import {makeAll, findSections, initialMarkdownValue} from "./writingLogic";
+import { makeAll, findSections, initialMarkdownValue } from "./writingLogic";
 
 export interface IWritingModel {
   all: string;
@@ -22,6 +21,7 @@ export interface IWritingModel {
 
   handleAll: () => string;
 }
+
 const WritingModel = {
   all: initialMarkdownValue.all,
   description: initialMarkdownValue.description,

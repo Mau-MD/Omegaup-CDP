@@ -9,25 +9,20 @@ import {
   Text,
   Tab,
   TabList,
-  TabPanel,
-  TabPanels,
   Tabs,
   useColorModeValue,
   useToast,
-  Kbd,
 } from "@chakra-ui/react"; // `rehype-katex` does not import the CSS for you
 import { parse } from "../../libs/markdown/Parser";
 import "../../libs/markdown/MarkdownDark.css";
 import "../../libs/markdown/MarkdownLight.css";
 import "../../libs/markdown/Markdown.css";
-import MarkdownIt from "markdown-it";
 // @ts-ignore
 import markdownMath from "markdown-it-texmath";
 // @ts-ignore
 import katex from "katex";
 import ReactMde from "react-mde";
 import "../../libs/markdown/EditorStyles/react-mde-all.css";
-import MarkdownEditor from "./MarkdownEditor";
 import { useWriting } from "../../hooks/useWriting";
 import { useStoreActions, useStoreState } from "../../redux/store";
 

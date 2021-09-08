@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { caseIdentifier, IInput, ILine } from "../redux/models/input/inputInterfaces";
+import {   ILine } from "../redux/models/input/inputInterfaces";
 import { useStoreActions, useStoreState } from "../redux/store";
 import { ICase } from "../redux/models/cases/casesInterfaces";
 import _ from "lodash";

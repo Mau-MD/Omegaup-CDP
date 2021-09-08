@@ -42,6 +42,8 @@
     "react-id-generator": "^3.0.1",
     "react-mde": "^11.5.0",
     "react-media-hook": "^0.4.9",
+    "react-player": "^2.9.0",
+    "react-responsive-carousel": "^3.2.21",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-select": "^4.3.1",

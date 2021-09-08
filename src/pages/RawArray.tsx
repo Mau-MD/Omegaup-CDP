@@ -14,7 +14,6 @@ import { FcCheckmark } from "react-icons/fc";
 import { useParams } from "react-router-dom";
 import { useInputPage } from "../hooks/useInputPage";
 import { useSelectedData } from "../hooks/useSelectedData";
-import { useStoreState } from "../redux/store";
 
 interface Params {
   lineId: string;

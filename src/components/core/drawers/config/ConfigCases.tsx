@@ -1,17 +1,14 @@
 import * as React from "react";
 import {
-  Box,
   FormControl,
   FormLabel,
   Select,
-  Spacer,
   Switch,
   VStack,
-  Button,
 } from "@chakra-ui/react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useStoreActions, useStoreState } from "../../../../redux/store";
-import { caseConfig } from "../../../../redux/models/config/configModel";
+import { caseConfig } from "../../../../redux/models/config/configInterfaces";
 
 interface PropTypes {
   save: boolean;

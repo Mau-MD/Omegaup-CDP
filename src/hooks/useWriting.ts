@@ -1,7 +1,7 @@
 import { useStoreState } from "../redux/store";
 import { useState, useEffect } from "react";
 
-// Returns the markdown state divided in different part
+// Returns the markdown state divided in different parts
 export const useWriting = () => {
   const [markdownState, setMarkdownState] = useState<string[]>([]);
 

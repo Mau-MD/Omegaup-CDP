@@ -7,6 +7,7 @@ import MainWindow from "./components/main/MainWindow";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import RawArray from "./pages/RawArray";
 import RawMatrix from "./pages/RawMatrix";
+import MainPage from "./pages/MainPage";
 export const App = () => {
   const isRehydrated = useStoreRehydrated();
 
@@ -24,10 +25,15 @@ export const App = () => {
             <Route path="/matrix/:lineId">
               <RawMatrix />
             </Route>
-            <Route exact path="/">
+            <Route path="/creator">
               <>
                 <Header />
                 <MainWindow />
+              </>
+            </Route>
+            <Route exact path="/">
+              <>
+                <MainPage />
               </>
             </Route>
           </Switch>

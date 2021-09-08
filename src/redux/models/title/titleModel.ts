@@ -5,11 +5,11 @@ export interface ITitleModel {
   setTitleName: Action<ITitleModel, string>;
 }
 
-const TitleModel = <ITitleModel>{
+const TitleModel = {
   titleName: "Nuevo Problema",
   setTitleName: action((state, payload) => {
     state.titleName = payload;
   }),
-};
+} as ITitleModel;
 
 export default TitleModel;

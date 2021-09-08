@@ -4,11 +4,10 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { BiCodeBlock as CodeIcon } from "react-icons/bi";
 import { BsPencil as EditIcon } from "react-icons/bs";
 import { IoMdCheckmarkCircleOutline as CheckIcon } from "react-icons/io";
-import SidebarWindow from "../cases/sidebar/SidebarWindow";
 import CasesWindow from "../cases/CasesWindow";
 import SolutionWindow from "../solution/SolutionWindow";
 import { useStoreActions, useStoreState } from "../../redux/store";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import WritingWindow from "../writing/WritingWindow";
 
 const MainWindow = () => {

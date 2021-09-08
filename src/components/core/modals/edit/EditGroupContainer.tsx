@@ -7,9 +7,7 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-import AddCase from "../add/AddCase";
-import AddGroup from "../add/AddGroup";
-import { IGroup } from "../../../../redux/models/cases/casesModel";
+import { IGroup } from "../../../../redux/models/cases/casesInterfaces";
 import EditGroupModal from "./EditGroup";
 
 interface PropTypes extends IGroup {
