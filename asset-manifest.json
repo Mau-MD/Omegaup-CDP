@@ -1,18 +1,25 @@
 {
   "files": {
-    "main.css": "/Omegaup-CDP/static/css/main.1244bbc2.chunk.css",
-    "main.js": "/Omegaup-CDP/static/js/main.e8f2daf2.chunk.js",
-    "main.js.map": "/Omegaup-CDP/static/js/main.e8f2daf2.chunk.js.map",
+    "main.css": "/Omegaup-CDP/static/css/main.b5481dab.chunk.css",
+    "main.js": "/Omegaup-CDP/static/js/main.33e80e7d.chunk.js",
+    "main.js.map": "/Omegaup-CDP/static/js/main.33e80e7d.chunk.js.map",
     "runtime-main.js": "/Omegaup-CDP/static/js/runtime-main.66fdfa16.js",
     "runtime-main.js.map": "/Omegaup-CDP/static/js/runtime-main.66fdfa16.js.map",
     "static/css/2.d5be1d10.chunk.css": "/Omegaup-CDP/static/css/2.d5be1d10.chunk.css",
-    "static/js/2.92aede2e.chunk.js": "/Omegaup-CDP/static/js/2.92aede2e.chunk.js",
-    "static/js/2.92aede2e.chunk.js.map": "/Omegaup-CDP/static/js/2.92aede2e.chunk.js.map",
+    "static/js/2.cb7cca59.chunk.js": "/Omegaup-CDP/static/js/2.cb7cca59.chunk.js",
+    "static/js/2.cb7cca59.chunk.js.map": "/Omegaup-CDP/static/js/2.cb7cca59.chunk.js.map",
     "index.html": "/Omegaup-CDP/index.html",
     "static/css/2.d5be1d10.chunk.css.map": "/Omegaup-CDP/static/css/2.d5be1d10.chunk.css.map",
-    "static/css/main.1244bbc2.chunk.css.map": "/Omegaup-CDP/static/css/main.1244bbc2.chunk.css.map",
-    "static/js/2.92aede2e.chunk.js.LICENSE.txt": "/Omegaup-CDP/static/js/2.92aede2e.chunk.js.LICENSE.txt",
+    "static/css/main.b5481dab.chunk.css.map": "/Omegaup-CDP/static/css/main.b5481dab.chunk.css.map",
+    "static/js/2.cb7cca59.chunk.js.LICENSE.txt": "/Omegaup-CDP/static/js/2.cb7cca59.chunk.js.LICENSE.txt",
     "static/media/katex.min.css": "/Omegaup-CDP/static/media/KaTeX_Typewriter-Regular.b6a56b14.woff",
+    "static/media/cdp.4d20e8c0.mp4": "/Omegaup-CDP/static/media/cdp.4d20e8c0.mp4",
+    "static/media/cdpdark.f51619f4.webm": "/Omegaup-CDP/static/media/cdpdark.f51619f4.webm",
+    "static/media/img00.452f1a35.png": "/Omegaup-CDP/static/media/img00.452f1a35.png",
+    "static/media/img01.bd07842f.png": "/Omegaup-CDP/static/media/img01.bd07842f.png",
+    "static/media/img02.1fc9817c.png": "/Omegaup-CDP/static/media/img02.1fc9817c.png",
+    "static/media/img04.d0a0323e.png": "/Omegaup-CDP/static/media/img04.d0a0323e.png",
+    "static/media/img05.5089dc10.png": "/Omegaup-CDP/static/media/img05.5089dc10.png",
     "static/media/logoDark.406064cb.png": "/Omegaup-CDP/static/media/logoDark.406064cb.png",
     "static/media/logoLight.d4263283.png": "/Omegaup-CDP/static/media/logoLight.d4263283.png",
     "static/media/sloth.f36a3615.png": "/Omegaup-CDP/static/media/sloth.f36a3615.png",
@@ -21,8 +28,8 @@
   "entrypoints": [
     "static/js/runtime-main.66fdfa16.js",
     "static/css/2.d5be1d10.chunk.css",
-    "static/js/2.92aede2e.chunk.js",
-    "static/css/main.1244bbc2.chunk.css",
-    "static/js/main.e8f2daf2.chunk.js"
+    "static/js/2.cb7cca59.chunk.js",
+    "static/css/main.b5481dab.chunk.css",
+    "static/js/main.33e80e7d.chunk.js"
   ]
 }
