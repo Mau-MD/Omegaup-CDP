@@ -40,6 +40,9 @@ const Navbar = () => {
           {/*<Text opacity={0.5}> DEVELOPMENT BUILD</Text>*/}
           <Spacer />
           {/* To avoid render icons in the main page*/}
+          <Box>
+            <ColorModeSwitcher />
+          </Box>
           {location.pathname !== "/" && (
             <>
               <Box>
@@ -54,9 +57,6 @@ const Navbar = () => {
                     icon={<SettingsIcon />}
                   />
                 </Tooltip>
-              </Box>
-              <Box>
-                <ColorModeSwitcher />
               </Box>
               <Box>
                 <Tooltip label={"Reporta bugs"} aria-label={"bugs"}>
