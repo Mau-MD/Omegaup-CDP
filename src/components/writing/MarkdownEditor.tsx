@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Box, Flex, useColorModeValue } from "@chakra-ui/react";
 import ReactMde from "react-mde";
-import { parse } from "../../libs/markdown/Parser";
+import { parse } from "../../libs/markdown/parser";
 import { Dispatch, RefObject, SetStateAction } from "react";
 
 interface PropTypes {

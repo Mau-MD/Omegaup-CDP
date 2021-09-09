@@ -13,16 +13,16 @@ import {
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react"; // `rehype-katex` does not import the CSS for you
-import { parse } from "../../libs/markdown/Parser";
-import "../../libs/markdown/MarkdownDark.css";
-import "../../libs/markdown/MarkdownLight.css";
-import "../../libs/markdown/Markdown.css";
+import { parse } from "../../libs/markdown/parser";
+import "../../libs/markdown/markdownStyles/MarkdownDark.css";
+import "../../libs/markdown/markdownStyles/MarkdownLight.css";
+import "../../libs/markdown/markdownStyles/Markdown.css";
 // @ts-ignore
 import markdownMath from "markdown-it-texmath";
 // @ts-ignore
 import katex from "katex";
 import ReactMde from "react-mde";
-import "../../libs/markdown/EditorStyles/react-mde-all.css";
+import "../../libs/markdown/editorStyles/react-mde-all.css";
 import { useWriting } from "../../hooks/useWriting";
 import { useStoreActions, useStoreState } from "../../redux/store";
 

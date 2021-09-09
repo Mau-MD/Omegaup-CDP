@@ -20,11 +20,11 @@ import {
   useCallback,
 } from "react";
 
-import "../../../libs/markdown/MarkdownDark.css";
-import "../../../libs/markdown/MarkdownLight.css";
-import "../../../libs/markdown/Markdown.css";
+import "../../../libs/markdown/markdownStyles/MarkdownDark.css";
+import "../../../libs/markdown/markdownStyles/MarkdownLight.css";
+import "../../../libs/markdown/markdownStyles/Markdown.css";
 import Lines from "./layout/Lines";
-import { parse } from "../../../libs/markdown/Parser";
+import { parse } from "../../../libs/markdown/parser";
 import { useStoreState } from "../../../redux/store";
 
 interface PropTypes {

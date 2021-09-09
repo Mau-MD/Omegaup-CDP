@@ -66,13 +66,7 @@ function getLines(input: string) {
   };
 }
 
-export const parse = (input: string, includeTable = true) => {
-  const parser = new MarkdownIt({
-    html: true,
-  }).use(markdownMath, { engine: katex, delimiters: "dollars" });
-  if (!includeTable) {
-    return parser.render(input.replaceAll("$$", "\n$$$$\n"));
-  }
+export const toGFM = (input: string) => {
   const { inputTable, index } = getLines(input);
   const finalTableOutput: string[] = [];
   inputTable.forEach((row) => {
@@ -86,6 +80,17 @@ export const parse = (input: string, includeTable = true) => {
   // | Entrada | Salida | Descripcion|
   // |-|-|-|
   const finalArray = [...firstPart, ...finalTableOutput, ...secondPart];
-  const finalString = finalArray.join("\n");
-  return parser.render(finalString.replaceAll("$$", "\n$$$$\n"));
+  const finalString = finalArray.join("\n").replaceAll("$$", "\n$$$$\n");
+  return finalString;
+};
+
+export const parse = (input: string, includeTable = true) => {
+  const parser = new MarkdownIt({
+    html: true,
+  }).use(markdownMath, { engine: katex, delimiters: "dollars" });
+  if (!includeTable) {
+    return parser.render(input.replaceAll("$$", "\n$$$$\n"));
+  }
+  const GFMString = toGFM(input);
+  return parser.render(GFMString);
 };

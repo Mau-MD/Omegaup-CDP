@@ -23,7 +23,7 @@ import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-min-noconflict/ext-searchbox";
 import "ace-builds/src-min-noconflict/ext-language_tools";
 
-import "../../libs/markdown/EditorStyles/react-mde-all.css";
+import "../../libs/markdown/editorStyles/react-mde-all.css";
 import "../../libs/aceStyles/darkTheme.css";
 
 import ReactMde from "react-mde";
