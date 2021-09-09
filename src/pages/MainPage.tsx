@@ -126,9 +126,15 @@ const MainPage = () => {
                       Crea un Problema
                     </Button>
                   </Link>
-                  <Button leftIcon={<BiVideo />} colorScheme={"blue"}>
-                    Ve un tutorial
-                  </Button>
+                  <a
+                    href={"https://youtu.be/sYxRvqxbhuI"}
+                    rel="noreferrer"
+                    target={"_blank"}
+                  >
+                    <Button leftIcon={<BiVideo />} colorScheme={"blue"}>
+                      Ve un tutorial
+                    </Button>
+                  </a>
                   <a
                     href={"https://github.com/Mau-MD/Omegaup-CDP"}
                     rel="noreferrer"
