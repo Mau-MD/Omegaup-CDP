@@ -1,7 +1,7 @@
 import Store from "../../redux/store";
 import JSZip from "jszip";
 import { getCaseContent } from "./downloadOut";
-import { IGroup } from "../../redux/models/cases/casesModel";
+import { IGroup } from "../../redux/models/cases/casesInterfaces";
 import { saveAs } from "file-saver";
 
 /* La estructura del zip debe de ser

@@ -1,7 +1,9 @@
-import { IInput,  ILine } from "../../redux/models/input/inputInterfaces";
+import { IInput, ILine } from "../../redux/models/input/inputInterfaces";
 import { IGroup } from "../../redux/models/cases/casesInterfaces";
 import { saveAs } from "file-saver";
+import Store from "../../redux/store";
 import JSZip from "jszip";
+import { getLangExtFromIndex } from "../other/languageUtils";
 
 interface IOptions {
   txt?: boolean;
@@ -67,6 +69,10 @@ export const downloadAllGroups = (
     downloadGroup(group, cases, problemName, options, zip);
   });
   zip.file("ids.json", JSON.stringify(ids));
+  zip.file(
+    "codigo_solucion" + getLangExtFromIndex(Store.getState().solution.language),
+    Store.getState().solution.code
+  );
   zip.generateAsync({ type: "blob" }).then((content) => {
     saveAs(
       content,

@@ -42,7 +42,12 @@ const separateFilesInGroups = async (
     const fileFullPath = fileObject.name;
     // Realmente solo queremos .outs
     // console.log(fileFullPath);
-    if (fileObject.dir || !fileFullPath.endsWith(".out")) return;
+    if (
+      fileObject.dir ||
+      !fileFullPath.endsWith(".out") ||
+      fileFullPath.endsWith("a.out")
+    )
+      return;
     console.log(fileFullPath);
     const splittedFileFullPath = fileFullPath.split("/");
     const fileGroupName = splittedFileFullPath[1];
