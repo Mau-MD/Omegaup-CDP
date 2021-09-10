@@ -7,14 +7,34 @@ const testIfEditorToggles = () => {
   getFromId("solution-md-editor").should("exist");
 };
 
-const testTab = (id, contains) => {
-  getFromId(`writing-${id}`).click();
+const testTab = (id, contains, shortcut) => {
+  if (shortcut) {
+    cy.get("body").type(`{ctrl+${shortcut}}`);
+  } else {
+    getFromId(`writing-${id}`).click();
+  }
   cy.then(() => {
     contains.forEach((contain) => {
       cy.contains(contain).should("exist");
     });
   });
   testIfEditorToggles();
+};
+
+const testTabChange = (useShortcut = false) => {
+  const testIds = ["desc", "in", "out", "example", "limits"];
+  const shouldContain = [
+    "es la descripción del problema",
+    "entrada del problema.",
+    "salida esperada.",
+    "Case #1: 3",
+    "Aquí",
+  ];
+
+  testIds.forEach((id, index) => {
+    testTab(id, [shouldContain[index]], useShortcut ? index + 2 : undefined);
+  });
+  testTab("todo", [...shouldContain], useShortcut ? 1 : undefined);
 };
 
 describe("Writing Tests", () => {
@@ -27,22 +47,14 @@ describe("Writing Tests", () => {
   });
 
   it("Inner tabs change and toggle editor", () => {
-    const testIds = ["desc", "in", "out", "example", "limits"];
-    const shouldContain = [
-      "es la descripción del problema",
-      "entrada del problema.",
-      "salida esperada.",
-      "Case #1: 3",
-      "Aquí",
-    ];
-
-    testIds.forEach((id, index) => {
-      testTab(id, [shouldContain[index]]);
-    });
-    testTab("todo", [...shouldContain]);
+    testTabChange();
   });
 
   it("Save markdown to store", () => {
     getFromId("solution-md-editor").type("test");
+  });
+
+  it("Inner tabs shortcuts", () => {
+    testTabChange(true);
   });
 });
