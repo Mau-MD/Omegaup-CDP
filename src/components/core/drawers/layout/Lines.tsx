@@ -9,7 +9,7 @@ import {
   DropResult,
 } from "react-beautiful-dnd";
 import { uuid } from "uuidv4";
-import { ILine } from "../../../../redux/models/input/inputModel";
+import { ILine } from "../../../../redux/models/input/inputInterfaces";
 import { useStoreActions, useStoreState } from "../../../../redux/store";
 import Line from "./Line";
 // import Line from "../../../cases/input/Line";
@@ -102,7 +102,11 @@ const Lines = (props: PropTypes) => {
         </Droppable>
       </DragDropContext>
       <Center>
-        <Button size={"sm"} onClick={handleAddLine}>
+        <Button
+          data-test={"add-layout-line"}
+          size={"sm"}
+          onClick={handleAddLine}
+        >
           +
         </Button>
       </Center>

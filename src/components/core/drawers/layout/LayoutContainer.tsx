@@ -72,7 +72,7 @@ const LayoutContainer = (props: PropTypes) => {
       <Drawer isOpen={isOpen} placement={placement} onClose={onClose}>
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerCloseButton />
+          <DrawerCloseButton data-test={"layout-close"} />
           <DrawerHeader>Layout</DrawerHeader>
 
           <DrawerBody>

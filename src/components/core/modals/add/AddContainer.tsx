@@ -34,7 +34,7 @@ const AddContainer = ({ isOpen, onClose }: PropTypes) => {
           <Tabs size={"sm"}>
             <TabList>
               <Tab> Caso </Tab>
-              <Tab> Grupo </Tab>
+              <Tab data-test={"add-group-tab"}> Grupo </Tab>
             </TabList>
             <TabPanels>
               <TabPanel>

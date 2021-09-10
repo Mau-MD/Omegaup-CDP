@@ -1,11 +1,6 @@
 import { getFromId, getStoreData } from "../util";
 
-const testStoreTab = (id, index) => {
-  getFromId(id).click();
-  getStoreData("tabs", "tabIndex").should("equal", index);
-};
-
-describe("Header tests", () => {
+describe("Header Tests", () => {
   beforeEach(() => {
     cy.window().then((win) => {
       win.sessionStorage.clear();
@@ -40,3 +35,8 @@ describe("Header tests", () => {
     });
   });
 });
+
+const testStoreTab = (id, index) => {
+  getFromId(id).click();
+  getStoreData("tabs", "tabIndex").should("equal", index);
+};

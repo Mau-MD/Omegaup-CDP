@@ -34,12 +34,10 @@ import OutDownload from "../../core/modals/download/OutDownload";
 import OutUpload from "../../core/modals/download/OutUpload";
 import { useStoreState } from "../../../redux/store";
 
-
 interface PropTypes {
   addRef: React.RefObject<HTMLButtonElement>; // To toggle "Add" shorcut from the main screen
 }
 const SidebarWindow = (props: PropTypes) => {
-
   const { addRef } = props;
 
   const divBorderColor = useColorModeValue("gray.200", "gray.600");
@@ -94,6 +92,7 @@ const SidebarWindow = (props: PropTypes) => {
             <Spacer />
             <Tooltip label={"Ctrl + A"}>
               <Button
+                data-test={"add-btn"}
                 ref={addRef}
                 size={"sm"}
                 colorScheme={"green"}
@@ -105,6 +104,7 @@ const SidebarWindow = (props: PropTypes) => {
             </Tooltip>
             <Menu>
               <MenuButton
+                data-test={"more-options"}
                 as={IconButton}
                 icon={<Dots />}
                 size={"sm"}
@@ -112,6 +112,7 @@ const SidebarWindow = (props: PropTypes) => {
               />
               <MenuList>
                 <MenuItem
+                  data-test={"add-multiple-cases"}
                   icon={<AddIcon />}
                   fontSize={"sm"}
                   onClick={onOpenMultiple}
@@ -120,6 +121,7 @@ const SidebarWindow = (props: PropTypes) => {
                 </MenuItem>
                 <MenuDivider />
                 <MenuItem
+                  data-test={"layout"}
                   icon={<BsReverseLayoutTextSidebarReverse />}
                   fontSize={"sm"}
                   onClick={onOpenLayout}

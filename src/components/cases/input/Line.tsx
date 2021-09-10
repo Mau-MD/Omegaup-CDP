@@ -15,7 +15,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   caseIdentifier,
   ILine,
-} from "../../../redux/models/input/inputModel";
+} from "../../../redux/models/input/inputInterfaces";
 import { useStoreActions, useStoreState } from "../../../redux/store";
 import _ from "lodash";
 import { DraggableProvided } from "react-beautiful-dnd";

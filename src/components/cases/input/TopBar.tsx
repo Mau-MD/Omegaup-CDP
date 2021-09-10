@@ -18,7 +18,7 @@ import EditCaseContainer from "../../core/modals/edit/EditCaseContainer";
 import { HiOutlineDotsVertical as Dots } from "react-icons/hi";
 import DeleteCase from "../../core/modals/delete/DeleteCase";
 import { useSelectedData } from "../../../hooks/useSelectedData";
-import { ICase } from "../../../redux/models/cases/casesModel";
+import { ICase } from "../../../redux/models/cases/casesInterfaces";
 import {
   BiDuplicate,
   BiUpload,
@@ -147,7 +147,12 @@ const TopBar = (props: PropTypes) => {
           <BsFillEyeSlashFill />
           <Switch onChange={(e) => handleHidden(e)} isChecked={hidden} />
         </HStack>
-        <Button leftIcon={<EditIcon />} size={"sm"} onClick={onOpenEdit}>
+        <Button
+          data-test={"edit-case"}
+          leftIcon={<EditIcon />}
+          size={"sm"}
+          onClick={onOpenEdit}
+        >
           Editar Caso
         </Button>
         <Button leftIcon={<DeleteIcon />} size={"sm"} onClick={onOpenRemove}>

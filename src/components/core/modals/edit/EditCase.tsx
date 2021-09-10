@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { useStoreActions, useStoreState } from "../../../../redux/store";
-import { ICase, IGroup } from "../../../../redux/models/cases/casesModel";
+import { ICase, IGroup } from "../../../../redux/models/cases/casesInterfaces";
 import RSelect from "react-select";
 import chakraColors from "../../../../libs/other/chakraColors";
 interface PropTypes extends ICase {
@@ -124,6 +124,7 @@ const EditCase = (props: PropTypes) => {
       <FormControl mt={5} isRequired>
         <FormLabel> Nombre del grupo</FormLabel>
         <RSelect
+          data-test={"group-name-edit-input"}
           defaultValue={options.find((obj) => obj.value === groupId)}
           options={options}
           value={options.find((obj) => obj.value === selectedValue)}
@@ -186,7 +187,13 @@ const EditCase = (props: PropTypes) => {
           </Checkbox>
         </FormControl>
       )}
-      <Button colorScheme="green" isFullWidth mt={10} type={"submit"}>
+      <Button
+        data-test={"edit-case-btn"}
+        colorScheme="green"
+        isFullWidth
+        mt={10}
+        type={"submit"}
+      >
         Editar Caso
       </Button>
     </form>

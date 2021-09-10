@@ -1,19 +1,11 @@
 import * as React from "react";
 import TopBar from "./TopBar";
-import {
-  Box,
-  Center,
-  Divider,
-  Image,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, Center, Divider, Image, Text, VStack } from "@chakra-ui/react";
 import Lines from "./Lines";
 import { useSelectedData } from "../../../hooks/useSelectedData";
 import sloth from "../../../assets/images/sloth.png";
 
 const InputWindow = () => {
-
   const selectedData = useSelectedData();
 
   return (
@@ -33,7 +25,7 @@ const InputWindow = () => {
           </VStack>
         </Center>
       ) : (
-        <div>
+        <div data-test={"in-window"}>
           <TopBar {...selectedData} />
           <Divider mb={4} />
           <Lines {...selectedData} />

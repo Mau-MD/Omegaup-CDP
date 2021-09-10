@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe("Main page", () => {
+describe("Main page tests", () => {
   it("Go to creator", () => {
     cy.visit("http://localhost:3000");
     /* eslint-disable cypress/no-unnecessary-waiting */

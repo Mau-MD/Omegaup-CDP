@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { useStoreActions, useStoreState } from "../../../../redux/store";
-import { ICase } from "../../../../redux/models/cases/casesModel";
+import { ICase } from "../../../../redux/models/cases/casesInterfaces";
 import { uuid } from "uuidv4";
 
 interface PropTypes {
@@ -74,7 +74,10 @@ const AddGroup = ({ onClose }: PropTypes) => {
     <form onSubmit={(e) => handleSubmit(e)}>
       <FormControl mt={3} isRequired>
         <FormLabel> Nombre del grupo</FormLabel>
-        <Input onChange={(e) => (groupName.current = e.target.value)} />
+        <Input
+          data-test={"group-name-input"}
+          onChange={(e) => (groupName.current = e.target.value)}
+        />
         <FormHelperText>En minúsculas y sin espacios</FormHelperText>
       </FormControl>
       <FormControl mt={5}>
@@ -107,7 +110,13 @@ const AddGroup = ({ onClose }: PropTypes) => {
           Puntaje automático
         </Checkbox>
       </FormControl>
-      <Button colorScheme="green" isFullWidth mt={10} type={"submit"}>
+      <Button
+        data-test={"add-group"}
+        colorScheme="green"
+        isFullWidth
+        mt={10}
+        type={"submit"}
+      >
         Agregar Problema
       </Button>
     </form>

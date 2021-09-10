@@ -2,7 +2,7 @@ import { getFromId, getStoreData } from "../util";
 
 const sampleCppCode = `#include <iostream>`;
 
-describe("solution", () => {
+describe("Solution Tab Tests", () => {
   beforeEach(() => {
     cy.window().then((win) => {
       win.sessionStorage.clear();

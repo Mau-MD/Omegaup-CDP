@@ -193,6 +193,7 @@ const Group = (props: PropTypes) => {
           showCases &&
           caseState.cases.map((element) => (
             <motion.div
+              className={name}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               style={{ display: "inline-block" }}

@@ -1,5 +1,27 @@
 import { getFromId } from "../util";
 
+describe("Writing Tab Tests", () => {
+  beforeEach(() => {
+    cy.window().then((win) => {
+      win.sessionStorage.clear();
+    });
+    cy.visit("/");
+    getFromId("writing-tab").click();
+  });
+
+  it("Inner tabs change and toggle editor", () => {
+    testTabChange();
+  });
+
+  it("Save markdown to store", () => {
+    getFromId("solution-md-editor").type("test");
+  });
+
+  it("Inner tabs shortcuts", () => {
+    testTabChange(true);
+  });
+});
+
 const testIfEditorToggles = () => {
   getFromId("writing-hide").click();
   getFromId("solution-md-editor").should("not.exist");
@@ -36,25 +58,3 @@ const testTabChange = (useShortcut = false) => {
   });
   testTab("todo", [...shouldContain], useShortcut ? 1 : undefined);
 };
-
-describe("Writing Tests", () => {
-  beforeEach(() => {
-    cy.window().then((win) => {
-      win.sessionStorage.clear();
-    });
-    cy.visit("/");
-    getFromId("writing-tab").click();
-  });
-
-  it("Inner tabs change and toggle editor", () => {
-    testTabChange();
-  });
-
-  it("Save markdown to store", () => {
-    getFromId("solution-md-editor").type("test");
-  });
-
-  it("Inner tabs shortcuts", () => {
-    testTabChange(true);
-  });
-});

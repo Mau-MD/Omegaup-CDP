@@ -2,7 +2,7 @@ import * as React from "react";
 import Line from "./Line";
 import { Box, Button, Center, Flex, VStack } from "@chakra-ui/react";
 import { useStoreActions, useStoreState } from "../../../redux/store";
-import { ICase } from "../../../redux/models/cases/casesModel";
+import { ICase } from "../../../redux/models/cases/casesInterfaces";
 import { useInputPage } from "../../../hooks/useInputPage";
 import { useCallback, useEffect, useMemo } from "react";
 import { uuid } from "uuidv4";
@@ -110,7 +110,7 @@ const Lines = (props: PropTypes) => {
         </Droppable>
       </DragDropContext>
       <Center>
-        <Button size={"sm"} onClick={addLineToStore}>
+        <Button data-test={"add-line"} size={"sm"} onClick={addLineToStore}>
           +
         </Button>
       </Center>

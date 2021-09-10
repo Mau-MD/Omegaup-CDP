@@ -18,23 +18,16 @@ import {
   NumberInput,
   NumberInputField,
   NumberInputStepper,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
   Text,
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
-import AddCase from "./AddCase";
-import AddGroup from "./AddGroup";
 import { FormEvent, useRef, useState } from "react";
 import ReactSelectDark from "../../ReactSelectDark";
 import { useStoreActions, useStoreState } from "../../../../redux/store";
 import { uuid } from "uuidv4";
 import { CheckIcon } from "@chakra-ui/icons";
-import { IGroup } from "../../../../redux/models/cases/casesModel";
+import { IGroup } from "../../../../redux/models/cases/casesInterfaces";
 
 interface PropTypes {
   isOpen: boolean;
@@ -149,7 +142,10 @@ const AddMultipleCases = (props: PropTypes) => {
             <HStack mt={3}>
               <FormControl>
                 <FormLabel> Prefijo</FormLabel>
-                <Input onChange={(e) => setPrefix(e.target.value)} />
+                <Input
+                  data-test={"prefix-input"}
+                  onChange={(e) => setPrefix(e.target.value)}
+                />
               </FormControl>
               <FormControl>
                 <FormLabel> Sufijo</FormLabel>
@@ -159,6 +155,7 @@ const AddMultipleCases = (props: PropTypes) => {
             <FormControl mt={5} isRequired>
               <FormLabel> Número de casos</FormLabel>
               <NumberInput
+                data-text={"multiple-cases-input"}
                 onChange={(e, valueAsNumber) =>
                   (caseNumberRef.current = valueAsNumber)
                 }
@@ -185,6 +182,7 @@ const AddMultipleCases = (props: PropTypes) => {
               </FormHelperText>
             </FormControl>
             <Button
+              data-test={"add-multiple-cases-btn"}
               type={"submit"}
               colorScheme={"green"}
               isFullWidth

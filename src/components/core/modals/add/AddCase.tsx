@@ -102,12 +102,16 @@ const AddCase = ({ onClose }: PropTypes) => {
     <form onSubmit={(e) => handleSubmit(e)}>
       <FormControl mt={3} isRequired>
         <FormLabel> Nombre del caso</FormLabel>
-        <Input onChange={(e) => (caseName.current = e.target.value)} />
+        <Input
+          data-test={"case-name-input"}
+          onChange={(e) => (caseName.current = e.target.value)}
+        />
         <FormHelperText>En minúsculas y sin espacios</FormHelperText>
       </FormControl>
       <FormControl mt={5} isRequired>
         <FormLabel> Nombre del grupo</FormLabel>
         <ReactSelectDark
+          data-test={"group-selector"}
           onChange={handleSelectChange}
           value={options.find((obj) => obj.value === selectedValue)}
           options={options}
@@ -147,7 +151,13 @@ const AddCase = ({ onClose }: PropTypes) => {
           </Checkbox>
         </FormControl>
       )}
-      <Button colorScheme="green" isFullWidth mt={10} type="submit">
+      <Button
+        data-test={"add-case"}
+        colorScheme="green"
+        isFullWidth
+        mt={10}
+        type="submit"
+      >
         Agregar Caso
       </Button>
     </form>
