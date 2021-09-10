@@ -1,7 +1,13 @@
 import { action, Action, computed, Computed } from "easy-peasy";
 import _ from "lodash";
 import { uuid } from "uuidv4";
-import {caseIdentifier, IArrayData, IInput, ILine, IMatrixData} from "./inputInterfaces";
+import {
+  caseIdentifier,
+  IArrayData,
+  IInput,
+  ILine,
+  IMatrixData,
+} from "./inputInterfaces";
 
 export interface IInputModel {
   data: IInput[];
@@ -59,7 +65,7 @@ export interface IInputModel {
   removeLayoutLine: Action<IInputModel, string>;
 }
 
-const InputModel = {
+const InputModel = <IInputModel>{
   data: [],
   layout: [],
   hidden: false,
@@ -234,6 +240,6 @@ const InputModel = {
       inputPage.id.groupId = newGroupId;
     }
   }),
-} as IInputModel;
+};
 
 export default InputModel;

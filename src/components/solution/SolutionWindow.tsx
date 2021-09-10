@@ -149,6 +149,7 @@ const SolutionWindow = () => {
                 <HStack>
                   <Text fontSize={"smaller"}> Lenguaje</Text>
                   <Select
+                    data-test={"language-select"}
                     size={"sm"}
                     fontSize={"13px"}
                     h={"21.5px"}
@@ -202,7 +203,7 @@ const SolutionWindow = () => {
           </Box>
         )}
         {showSolution && text !== undefined && (
-          <Box ml={5} w={"100%"}>
+          <Box ml={5} w={"100%"} data-test={"solution-input"}>
             <Text>Redacción</Text>
             <Box className={editorStyle}>
               <ReactMde
@@ -233,6 +234,7 @@ const SolutionWindow = () => {
       )}
       <Box pos={"fixed"} zIndex={5} left={10} bottom={5}>
         <Button
+          data-test={"show-code"}
           ref={showCodeRef}
           size={"sm"}
           colorScheme={"twitter"}
@@ -249,6 +251,7 @@ const SolutionWindow = () => {
           </HStack>
         </Button>
         <Button
+          data-test={"show-solution"}
           ref={showSolutionRef}
           mr={4}
           colorScheme={"blue"}
@@ -269,6 +272,7 @@ const SolutionWindow = () => {
       </Box>
       <Box pos={"fixed"} right={10} bottom={5}>
         <Button
+          data-test={"solution-save"}
           ref={saveRef}
           size={"sm"}
           colorScheme={"green"}

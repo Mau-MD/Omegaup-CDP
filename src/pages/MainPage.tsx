@@ -7,7 +7,6 @@ import {
   Button,
   Center,
   HStack,
-  Image,
   Spacer,
   Text,
   VStack,

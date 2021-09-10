@@ -56,6 +56,7 @@ const Header = () => {
       <Box mt={"5"}>
         <HStack>
           <Editable
+            data-test={"editable-preview"}
             defaultValue={titleText}
             fontSize={"xl"}
             fontWeight={"bold"}
@@ -66,7 +67,7 @@ const Header = () => {
             width={isEditTitleActive ? "50%" : undefined}
           >
             <EditablePreview />
-            <EditableInput />
+            <EditableInput data-test={"editable-input"} />
           </Editable>
           <span>
             <AiFillEdit />

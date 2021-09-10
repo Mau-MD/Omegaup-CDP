@@ -1,8 +1,8 @@
 import { action, Action, Computed, computed, thunk, Thunk } from "easy-peasy";
 import { empty } from "uuidv4";
-import {caseIdentifier} from "../input/inputModel"
-import {ICase, IGroup, Index} from "./casesInterfaces";
-import {calculatePoints} from "./casesLogic";
+import { caseIdentifier } from "../input/inputInterfaces";
+import { ICase, IGroup, Index } from "./casesInterfaces";
+import { calculatePoints } from "./casesLogic";
 
 export interface ICasesModel {
   data: IGroup[];

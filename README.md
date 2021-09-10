@@ -81,5 +81,16 @@ Descarga de los archivos `.in` con instrucciones detalladas para poder obtener e
 * Soporte validadores 
 * Soporte problemas interactivos 
 
+## Desarrollo 
 
+Asegúrate de tener la última versión de Node.js y React. 
+
+* `yarn` -> Instala los modulos necesarios (solo es necesario realizarlo una vez)
+* `yarn start` -> Ejecuta el ambiente de desarrollo de React
+* `yarn build` -> Genera archivos listos para producción
+* `yarn deploy` -> Crea una versión lista para producción y lo sube a Github Pages. (No usar)
+* `yarn cypress` -> Ejecuta los tests
+
+### Testing
+Los tests se encuentran dentro de `cypress/integration`. Para ejecutarlos utiliza `yarn cypress`. Antes de subir un Pull Request asegúrate que el código pase todos los tests, si vas a agregar un nuevo módulo, crea los tests necesarios para garantizar su funcionamiento
 

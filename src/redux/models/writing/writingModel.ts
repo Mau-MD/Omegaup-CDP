@@ -92,6 +92,6 @@ const WritingModel = {
   setError: action((state, payload) => {
     state.error = payload;
   }),
-} as IWritingModel;
+} as zzIWritingModel;
 
 export default WritingModel;

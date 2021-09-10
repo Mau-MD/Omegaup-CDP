@@ -32,6 +32,13 @@ interface IGlobalModel {
 }
 
 const GlobalStore = createStore(persist(globalModel));
+
+// @ts-ignore
+if (window.Cypress) {
+  // @ts-ignore
+  window.store = GlobalStore;
+}
+
 export default GlobalStore;
 
 const typedHooks = createTypedHooks<IGlobalModel>();
