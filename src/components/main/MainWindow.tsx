@@ -59,7 +59,7 @@ const MainWindow = () => {
           }}
         >
           <TabList>
-            <Tab>
+            <Tab data-test={"solution-tab"}>
               <HStack>
                 <CodeIcon />
                 <p>Código Solución</p>
@@ -68,7 +68,7 @@ const MainWindow = () => {
                 </span>
               </HStack>
             </Tab>
-            <Tab>
+            <Tab data-test={"writing-tab"}>
               <HStack>
                 <EditIcon />
                 <p>Redacción</p>
@@ -77,7 +77,7 @@ const MainWindow = () => {
                 </span>
               </HStack>
             </Tab>
-            <Tab>
+            <Tab data-test={"cases-tab"}>
               <HStack>
                 <CheckIcon />
                 <p>Casos de Prueba</p>

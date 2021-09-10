@@ -144,7 +144,7 @@ const WritingWindow = () => {
           }}
         >
           <TabList>
-            <Tab>
+            <Tab data-test={"writing-todo"}>
               <HStack>
                 <Text>Todo</Text>
                 <Text fontSize={"xs"} opacity={0.5}>
@@ -152,7 +152,7 @@ const WritingWindow = () => {
                 </Text>
               </HStack>
             </Tab>
-            <Tab isDisabled={saveError}>
+            <Tab isDisabled={saveError} data-test={"writing-desc"}>
               <HStack>
                 <Text>Descripción</Text>
                 <Text fontSize={"xs"} opacity={0.5}>
@@ -160,7 +160,7 @@ const WritingWindow = () => {
                 </Text>
               </HStack>
             </Tab>
-            <Tab isDisabled={saveError}>
+            <Tab isDisabled={saveError} data-test={"writing-in"}>
               <HStack>
                 <Text>Entrada</Text>
                 <Text fontSize={"xs"} opacity={0.5}>
@@ -168,7 +168,7 @@ const WritingWindow = () => {
                 </Text>
               </HStack>
             </Tab>
-            <Tab isDisabled={saveError}>
+            <Tab isDisabled={saveError} data-test={"writing-out"}>
               <HStack>
                 <Text>Salida</Text>
                 <Text fontSize={"xs"} opacity={0.5}>
@@ -176,7 +176,7 @@ const WritingWindow = () => {
                 </Text>
               </HStack>
             </Tab>
-            <Tab isDisabled={saveError}>
+            <Tab isDisabled={saveError} data-test={"writing-example"}>
               <HStack>
                 <Text>Ejemplo</Text>
                 <Text fontSize={"xs"} opacity={0.5}>
@@ -184,7 +184,7 @@ const WritingWindow = () => {
                 </Text>
               </HStack>
             </Tab>
-            <Tab isDisabled={saveError}>
+            <Tab isDisabled={saveError} data-test={"writing-limits"}>
               <HStack>
                 <Text>Límites</Text>
                 <Text fontSize={"xs"} opacity={0.5}>
@@ -196,7 +196,7 @@ const WritingWindow = () => {
         </Tabs>
         <Flex mt={5}>
           {showEditor && (
-            <Box className={style}>
+            <Box data-test={"solution-md-editor"} className={style}>
               <ReactMde value={markdown} onChange={setMarkdown} />{" "}
             </Box>
           )}
@@ -210,6 +210,7 @@ const WritingWindow = () => {
       </Flex>
       <Box pos={"fixed"} left={10} bottom={5}>
         <Button
+          data-test={"writing-hide"}
           ref={hideRef}
           mr={4}
           size={"sm"}

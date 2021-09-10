@@ -1,3 +1,10 @@
+import { getFromId, getStoreData } from "../util";
+
+const testStoreTab = (id, index) => {
+  getFromId(id).click();
+  getStoreData("tabs", "tabIndex").should("equal", index);
+};
+
 describe("Header tests", () => {
   beforeEach(() => {
     cy.window().then((win) => {
@@ -8,15 +15,18 @@ describe("Header tests", () => {
 
   it("Edit title and save it to store", () => {
     // Edit title
-    cy.get("[data-test=editable-preview]").type(" ");
-    cy.get("[data-test=editable-input]").clear().type("Test").blur();
-
+    getFromId("editable-preview").type(" ");
+    getFromId("editable-input").clear().type("Test").blur();
     // Check in store
-    cy.window()
-      .its("store")
-      .invoke("getState")
-      .its("title")
-      .its("titleName")
-      .should("equal", "Test");
+    getStoreData("title", "titleName").should("equal", "Test");
+  });
+
+  it("Test tab changes", () => {
+    const tabs = ["writing", "cases", "solution"];
+    const shouldHaveIndex = [1, 2, 0];
+
+    tabs.forEach((tab, index) =>
+      testStoreTab(`${tab}-tab`, shouldHaveIndex[index])
+    );
   });
 });
