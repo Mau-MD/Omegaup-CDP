@@ -1,5 +1,6 @@
 ## omegaUp Creador de Problemas `ALPHA`
 
+
 <p align="center">
   <img width="300px" src="https://user-images.githubusercontent.com/74751751/128225375-1b0e339d-f43d-4275-9aab-c60f330db667.png">
 </p>
@@ -13,6 +14,7 @@
 LayoutContainer principal
 </p>
 
+`Este proyecto actualmente está siendo migrado a Vue.js y se está implementando oficialmente dentro de omegaUp`
 ---
 ### ¿Qué es?
 

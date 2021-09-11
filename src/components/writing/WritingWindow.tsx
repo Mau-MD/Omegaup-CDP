@@ -113,19 +113,33 @@ const WritingWindow = () => {
     tabIndexRef.current = index;
     setLocalTab(index);
   }
-  function generateMarkdown() {
+  function generateMarkdown(showToast = true) {
     setStoreMarkdown({
       markdown,
       index: tabIndexRef.current,
     });
-    toast({
-      title: "markdown generado!",
-      status: "success",
-      variant: "left-accent",
-      duration: 2000,
-      isClosable: true,
-    });
+    if (showToast) {
+      toast({
+        title: "Markdown generado!",
+        status: "success",
+        variant: "left-accent",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
     // if (divRef.current != null) divRef.current.innerHTML = parse(markdown);
+  }
+
+  function handleToggleEditor() {
+    if (tabIndex !== 1) return;
+    generateMarkdown(false);
+    setShowEditor(!showEditor);
+  }
+
+  function handleToggleAll() {
+    if (tabIndex !== 1) return;
+    generateMarkdown(false);
+    setShowAll(!showAll);
   }
 
   return (
@@ -138,6 +152,7 @@ const WritingWindow = () => {
           index={localTab}
           onChange={(index) => {
             console.log("index", index);
+            generateMarkdown(false);
             setLocalTab(index);
             setMarkdown(markdownElements[index]);
             tabIndexRef.current = index;
@@ -215,9 +230,7 @@ const WritingWindow = () => {
           mr={4}
           size={"sm"}
           colorScheme={"twitter"}
-          onClick={() => {
-            tabIndex === 1 && setShowEditor(!showEditor);
-          }}
+          onClick={() => handleToggleEditor()}
         >
           <HStack>
             <Text> {showEditor ? "Ocultar Editor" : "Mostrar Editor"}</Text>
@@ -230,9 +243,7 @@ const WritingWindow = () => {
           colorScheme={"blue"}
           size={"sm"}
           ref={showAllRef}
-          onClick={() => {
-            tabIndex === 1 && setShowAll(!showAll);
-          }}
+          onClick={() => handleToggleAll()}
           disabled={tabIndexRef.current === 0}
         >
           <HStack>
