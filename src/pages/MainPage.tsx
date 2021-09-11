@@ -126,12 +126,14 @@ const MainPage = () => {
                     </Button>
                   </Link>
                   <a
-                    href={"https://youtu.be/sYxRvqxbhuI"}
+                    href={
+                      "https://youtube.com/playlist?list=PL43fZBs80z1OdkZqSZte3vXA-8VKyh_ZZ"
+                    }
                     rel="noreferrer"
                     target={"_blank"}
                   >
                     <Button leftIcon={<BiVideo />} colorScheme={"blue"}>
-                      Ve un tutorial
+                      Ve los tutoriales
                     </Button>
                   </a>
                   <a
