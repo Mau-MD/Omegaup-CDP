@@ -60,7 +60,7 @@ const cpp = `#include <iostream>
 using namespace std;
 
 int main() {
-  const string GRUPO = "sin_grupo/" // sin_grupo/, easy/, ...
+  const string GRUPO = "sin_grupo/"; // sin_grupo/, easy/, ...
   const string CASO = "1"; 
   
   ifstream in(GRUPO + CASO + ".in");
@@ -164,8 +164,9 @@ const OutDownload = (props: PropTypes) => {
                   </Select>
                 </FormControl>
                 <Text mt={5}>
-                  Agrega esto a <Code>codigo_solucion</Code>. Por cada grupo,
-                  cambia <Code>GRUPO</Code> por el{" "}
+                  Descarga el archivo y agrega el siguiente código al archivo{" "}
+                  <Code>codigo_solucion</Code>. Por cada grupo, cambia{" "}
+                  <Code>GRUPO</Code> por el{" "}
                   <strong> nombre de la carpeta</strong> del grupo. Por cada
                   caso, cambia <Code>CASO</Code> por el nombre del archivo{" "}
                   <Code>.in</Code>, ejecuta el programa y repite.
@@ -182,9 +183,8 @@ const OutDownload = (props: PropTypes) => {
                   />
                 </Box>
                 <Text my={5}>
-                  Despues, comprime la carpeta que descargaste y regresa a{" "}
-                  <Code> OmegaupCDP </Code> y sube tus <Code>.out</Code>{" "}
-                  generados dentro de <Code>Subir .out's</Code>
+                  Despues, regresa a <Code> OmegaupCDP </Code> y ve a
+                  <Code>Subir salida</Code> y sigue las instrucciones
                 </Text>
                 <Alert status="error" mt={2}>
                   <AlertIcon />
